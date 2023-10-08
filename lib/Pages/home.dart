@@ -1,8 +1,12 @@
 import 'dart:ui';
-import 'package:flutter/cupertino.dart';
 import 'package:calendar_view/calendar_view.dart';
 import 'package:flutter/material.dart';
 import 'package:friendship/Class/evento.dart';
+import 'package:friendship/Pages/listfriends.dart';
+import 'package:friendship/Pages/perfil.dart';
+import 'package:friendship/Pages//create-event.dart';
+import 'package:friendship/Pages/searching.dart';
+import 'package:friendship/Widgets/dayview.dart';
 class Home extends StatefulWidget{
   const Home({super.key});
 
@@ -13,11 +17,12 @@ class Home extends StatefulWidget{
 DateTime get _now => DateTime.now();
 
 class HomeState extends State<Home>{
-
+  int actualPage = 0;
 
   @override
   Widget build(BuildContext context) {
 
+    var  controller= EventController();
     final event = CalendarEventData(
       title: "Event 1",
       date: DateTime(_now.year, _now.month, _now.day),
@@ -25,10 +30,24 @@ class HomeState extends State<Home>{
       description: "First Example",
       startTime: DateTime(_now.year, _now.month,  _now.day, _now.hour, _now.minute),
       endTime: DateTime(_now.year, _now.month,  _now.day, _now.hour+3, _now.minute),
+
     );
 
+    List<Widget> pages = [
+      Day(controller: controller,event: event),
+      Perfil(),
+      createEvent(),
+      FriendList(),
+      Search()
+
+
+
+    ];
+
+
+
     return CalendarControllerProvider(
-      controller: EventController()..add(event),
+      controller: controller ,
       child: MaterialApp(
           title: "friend.ship",
           theme:ThemeData(primarySwatch: Colors.indigo),
@@ -41,11 +60,29 @@ class HomeState extends State<Home>{
           ),
           home: Scaffold(
             appBar: AppBar(title: const Text("friend.ship")),
-            body: DayView() )
+            body: pages[actualPage],
+            bottomNavigationBar: BottomNavigationBar(
+              fixedColor: Colors.black,
+              backgroundColor: Colors.indigo,
+              unselectedItemColor: Colors.grey,
+              onTap: (index){
+                setState(() {
+                  actualPage = index;
+                });
+              },
+              currentIndex: actualPage,
+                items: const [
+              BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
+              BottomNavigationBarItem(icon: Icon(Icons.workspaces_sharp), label: "Friend List"),
+              BottomNavigationBarItem(icon: Icon(Icons.add), label: "AddEvent"),
+              BottomNavigationBarItem(icon: Icon(Icons.qr_code), label: "QR"),
+              BottomNavigationBarItem(icon: Icon(Icons.account_circle), label: "Account"),
+            ]) )
       ),
     );
   }
 }
+
 
 /*List<CalendarEventData<Evento>> _events = [
   CalendarEventData(
