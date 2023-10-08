@@ -18,6 +18,7 @@ class HomeState extends State<Home>{
   @override
   Widget build(BuildContext context) {
 
+    var controller = EventController();
     final event = CalendarEventData(
       title: "Event 1",
       date: DateTime(_now.year, _now.month, _now.day),
@@ -25,10 +26,11 @@ class HomeState extends State<Home>{
       description: "First Example",
       startTime: DateTime(_now.year, _now.month,  _now.day, _now.hour, _now.minute),
       endTime: DateTime(_now.year, _now.month,  _now.day, _now.hour+3, _now.minute),
+
     );
 
     return CalendarControllerProvider(
-      controller: EventController()..add(event),
+      controller: controller ,
       child: MaterialApp(
           title: "friend.ship",
           theme:ThemeData(primarySwatch: Colors.indigo),
@@ -41,7 +43,7 @@ class HomeState extends State<Home>{
           ),
           home: Scaffold(
             appBar: AppBar(title: const Text("friend.ship")),
-            body: DayView() )
+            body: DayView(controller:controller ,onDateLongPress: (date)=>{controller.add(event)},) )
       ),
     );
   }
