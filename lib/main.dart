@@ -1,9 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:friendship/Pages/home.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await Supabase.initialize(
+    url: 'https://supabase.com/dashboard/project/peaoifidogwgoxzrpjft',
+    anonKey: 'm82ynZa8j05bgATO',
+  );
   runApp(const MyApp());
 }
+//Para instanciar supabase -> final supabase = Supabase.instance.client;
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
