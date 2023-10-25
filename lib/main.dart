@@ -5,10 +5,6 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  await Supabase.initialize(
-    url: 'https://supabase.com/dashboard/project/peaoifidogwgoxzrpjft',
-    anonKey: 'm82ynZa8j05bgATO',
-  );
   runApp(const MyApp());
 }
 //Para instanciar supabase -> final supabase = Supabase.instance.client;

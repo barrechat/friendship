@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:calendar_view/calendar_view.dart';
 import 'package:flutter/material.dart';
+import 'package:friendship/Class/consultas.dart';
 import 'package:friendship/Class/evento.dart';
 import 'package:friendship/Pages/listfriends.dart';
 import 'package:friendship/Pages/perfil.dart';
@@ -35,7 +36,7 @@ class HomeState extends State<Home>{
 
     List<Widget> pages = [
       Day(controller: controller,event: event),
-      Perfil(),
+      LoginPage(),
       createEvent(),
       FriendList(),
       Search()
