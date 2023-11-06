@@ -35,10 +35,10 @@ class HomeState extends State<Home>{
 
     List<Widget> pages = [
       Day(controller: controller,event: event),
-      Perfil(),
-      createEvent(),
       FriendList(),
-      Search()
+      createEvent(),
+      Search(),
+      Perfil(),
 
 
 
@@ -75,7 +75,7 @@ class HomeState extends State<Home>{
               BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
               BottomNavigationBarItem(icon: Icon(Icons.workspaces_sharp), label: "Friend List"),
               BottomNavigationBarItem(icon: Icon(Icons.add), label: "AddEvent"),
-              BottomNavigationBarItem(icon: Icon(Icons.qr_code), label: "QR"),
+              BottomNavigationBarItem(icon: Icon(Icons.search), label: "Search"),
               BottomNavigationBarItem(icon: Icon(Icons.account_circle), label: "Account"),
             ]) )
       ),
