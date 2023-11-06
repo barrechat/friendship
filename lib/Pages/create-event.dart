@@ -13,6 +13,7 @@ class _createEventState extends State<createEvent> {
   List<String> listaDeAmigos = <String>["A","B","C","D","E","F","G"];
   List<String> listaTipoEvento = <String>["A","B","C","D","E","F","G"];
   late DateTime fechaEscogida;
+  late DateTime fechaEscogida_final;
   String nombreDelEvento = '';
   String descripcionDelEvento = '';
   TimeOfDay? horaInicial;
@@ -46,19 +47,40 @@ class _createEventState extends State<createEvent> {
                       style: TextStyle(fontSize: 20.0)
                   ),
                   SizedBox(height: 20.0),
-                  ElevatedButton(
-                    onPressed: () async {
-                      final DateTime? escogida = await showDatePicker(
-                          context: context,
-                          initialDate: DateTime.now(), firstDate: DateTime.now(),
-                          lastDate: DateTime.now().add(Duration(days: 365)),
-                          );
-                      if(escogida != null){
-                        fechaEscogida = escogida;
-                      }
-                    },
-                    child: const Text('Escoger fecha'),
+                  Row(
+                      children:[
+                        SizedBox(width: 65.0),
+
+                        ElevatedButton(
+                          onPressed: () async {
+                            final DateTime? escogida = await showDatePicker(
+                              context: context,
+                              initialDate: DateTime.now(), firstDate: DateTime.now(),
+                              lastDate: DateTime.now().add(Duration(days: 365)),
+                            );
+                            if(escogida != null){
+                              fechaEscogida = escogida;
+                            }
+                          },
+                          child: const Text('Frcha inicial'),
+                        ),
+                        SizedBox(width: 40.0),
+                        ElevatedButton(
+                          onPressed: () async {
+                            final DateTime? escogida = await showDatePicker(
+                              context: context,
+                              initialDate: DateTime.now(), firstDate: DateTime.now(),
+                              lastDate: DateTime.now().add(Duration(days: 365)),
+                            );
+                            if(escogida != null){
+                              fechaEscogida_final = escogida;
+                            }
+                          },
+                          child: const Text('Fecha final'),
+                        ),
+                      ]
                   ),
+
                   Row(
                       children:[
                         SizedBox(width: 20.0),
@@ -118,7 +140,6 @@ class _createEventState extends State<createEvent> {
                       }
                   ),
                   SizedBox(height: 20.0),
-                  DateTimePicker(onDateTimeSelected: fecha),
                   ElevatedButton(
                     onPressed: () {},
                     child: const Text('Añadir Evento'),
