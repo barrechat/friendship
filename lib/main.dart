@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
           return MaterialPageRoute(builder: (context) => Confirmacion());
         }
       },
-      home: CompEnlace(),
+      home: LoginPage(),
     );
   }
 }

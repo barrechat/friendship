@@ -33,6 +33,15 @@ class HomeState extends State<Home>{
       endTime: DateTime(_now.year, _now.month,  _now.day, _now.hour+3, _now.minute),
 
     );
+    final event2 = CalendarEventData(
+      title: "Event 2",
+      date: DateTime(_now.year, _now.month, _now.day),
+      event: "Event 2",
+      description: "Second Example",
+      startTime: DateTime(_now.year, _now.month,  _now.day, _now.hour, _now.minute),
+      endTime: DateTime(_now.year, _now.month,  _now.day, _now.hour+3, _now.minute),
+
+    );
 
     List<Widget> pages = [
       Day(controller: controller,event: event),
@@ -61,7 +70,7 @@ class HomeState extends State<Home>{
           ),
           home: Scaffold(
             appBar: AppBar(title: const Text("friend.ship")),
-            body: pages[actualPage],
+            body: DayView(controller:controller ,onDateLongPress: (date)=>{controller.add(event),controller.add(event2)}),
             bottomNavigationBar: BottomNavigationBar(
               fixedColor: Colors.black,
               backgroundColor: Colors.indigo,
