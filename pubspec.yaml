@@ -38,6 +38,9 @@ dependencies:
   calendar_view: ^1.0.4
   supabase_flutter: ^1.6.2
   flutter_login: ^4.2.1
+  uni_links: ^0.5.1
+  fluttercontactpicker: ^4.7.0
+  qr_flutter: ^4.1.0
 
 dev_dependencies:
   flutter_test:
