@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:friendship/Pages/splash.dart';
 import 'package:friendship/Class/compartir_enlace.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:friendship/Pages/login_page.dart';
@@ -6,12 +9,18 @@ import 'package:friendship/Class/pantalla_confirmacion.dart';
 import 'package:uni_links/uni_links.dart';
 
 
-void main() async {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
-
+  await Supabase.initialize(
+    url: 'https://peaoifidogwgoxzrpjft.supabase.co',
+    anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBlYW9pZmlkb2d3Z294enJwamZ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTY2MDExNDcsImV4cCI6MjAxMjE3NzE0N30.xPOHo3wz93O9S0kWU9gbGofVWlFOZuA7JB9UMAMoBbA',
+    authFlowType: AuthFlowType.pkce,
+  );
   runApp(MyApp(navigatorKey));
 }
+
+final supabase = Supabase.instance.client;
 
 class MyApp extends StatelessWidget {
   final GlobalKey<NavigatorState> navigatorKey;
@@ -33,7 +42,7 @@ class MyApp extends StatelessWidget {
           return MaterialPageRoute(builder: (context) => Confirmacion());
         }
       },
-      home: LoginPage(),
+      home: LoginPage(supabase: supabase),
     );
   }
 }

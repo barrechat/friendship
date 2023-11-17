@@ -44,11 +44,11 @@
 	<key>CFBundleURLTypes</key>
     <array>
         <dict>
-            <key>CFBundleURLName</key>
-            <string></string>
+            <key>CFBundleTypeRole</key>
+            <string>Editor</string>
             <key>CFBundleURLSchemes</key>
             <array>
-                <string>miapp</string>
+                <string>io.supabase.flutterquickstart</string>
             </array>
         </dict>
     </array>
