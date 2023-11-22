@@ -13,6 +13,7 @@ class Confirmacion extends StatefulWidget {
 class ConfirmacionState extends State<Confirmacion> {
 
   var amigo = UserData.username;
+  var usuarioActual = UserData.usuarioLogueado;
 
   final supabase = SupabaseClient(
     'https://peaoifidogwgoxzrpjft.supabase.co',
@@ -25,7 +26,7 @@ class ConfirmacionState extends State<Confirmacion> {
     var listaAmigos = await supabase
         .from('usuarios')
         .select('lista_amigos')
-        .eq('username','Abeldel');
+        .eq('username',usuarioActual);
 
     if (listaAmigos.isNotEmpty) {
       var primeraLista = listaAmigos[0];
@@ -45,7 +46,7 @@ class ConfirmacionState extends State<Confirmacion> {
         await supabase
             .from('usuarios')
             .update({ 'lista_amigos': amigos })
-            .match({ 'username': 'Abeldel' });
+            .match({ 'username': usuarioActual });
       }
     }
 

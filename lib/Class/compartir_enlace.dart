@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:fluttercontactpicker/fluttercontactpicker.dart';
 import 'dart:io';
-import 'package:friendship/Class/pantalla_confirmacion.dart';
 import 'package:friendship/Class/usernameAuxiliar.dart';
-import 'package:uni_links/uni_links.dart';
+import 'package:friendship/Pages/login_page.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class CompEnlace extends StatefulWidget {
   @override
@@ -14,15 +14,15 @@ class CompEnlace extends StatefulWidget {
 class CompEnlaceState extends State<CompEnlace> {
   var telefono = '';
 
-  @override
-  void initState() {
-    super.initState();
-    initUniLinks();
-  }
+  final supabase = SupabaseClient(
+    'https://peaoifidogwgoxzrpjft.supabase.co',
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBlYW9pZmlkb2d3Z294enJwamZ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTY2MDExNDcsImV4cCI6MjAxMjE3NzE0N30.xPOHo3wz93O9S0kWU9gbGofVWlFOZuA7JB9UMAMoBbA',
+  );
+
 
   void launchWhatsApp({required String phone}) async {
     String url() {
-      String nombreUsuario = 'Aritz'; //Aqui se sustituye por el nombre del usuario logueado
+      String nombreUsuario = UserData.usuarioLogueado!;
       String numeroConPais = '+34'+ phone.toString();
       final Uri message = Uri.parse('https://aplicacionpin.000webhostapp.com/redireccion.html?username='+nombreUsuario);
 
@@ -47,7 +47,6 @@ class CompEnlaceState extends State<CompEnlace> {
     return cadena.replaceAll(' ', ''); // Reemplaza los espacios en blanco por una cadena vacía.
   }
 
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -56,51 +55,38 @@ class CompEnlaceState extends State<CompEnlace> {
       body: Center(
         child: Padding(
           padding: EdgeInsets.all(20.0),
-            child: ElevatedButton(
-              onPressed: () async {
-                final granted = await FlutterContactPicker.requestPermission();
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ElevatedButton(
+                onPressed: () async {
+                  print(UserData.usuarioLogueado);
+                  final granted = await FlutterContactPicker.requestPermission();
 
-                final PhoneContact contact = await FlutterContactPicker.pickPhoneContact();
-                telefono = contact!.phoneNumber!.number.toString();
+                  final PhoneContact contact = await FlutterContactPicker.pickPhoneContact();
+                  telefono = contact!.phoneNumber!.number.toString();
 
-                telefono = quitarEspaciosEnBlanco(telefono);
+                  telefono = quitarEspaciosEnBlanco(telefono);
 
-                launchWhatsApp(phone: telefono);
-              },
-              child: Text('Compartir con contacto'),
-            ),
+                  launchWhatsApp(phone: telefono);
+                },
+                child: Text('Compartir con contacto'),
+              ),
+              SizedBox(height: 16), // Espacio entre los botones
+              ElevatedButton(
+                onPressed: () {
+                  supabase.auth.signOut();
+                  Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(builder: (context) => LoginPage(supabase: supabase)),
+                  );
+                },
+                child: Text('Cerrar sesión'),
+              ),
+            ],
+          ),
         ),
       ),
     );
-  }
-
-  void initUniLinks() async {
-    // Maneja los enlaces profundos cuando la aplicación se inicia
-    final initialLink = await getInitialLink();
-    if (initialLink != null) {
-      handleDeepLink(initialLink); // Convierte la cadena a un objeto Uri
-    }
-
-    // Escucha enlaces profundos en tiempo real
-    linkStream.listen((String? link) {
-      handleDeepLink(link); // Pasa la cadena directamente
-    });
-  }
-
-  void handleDeepLink(String? link) {
-    print('handleDeepLink: $link');
-    if (link != null) {
-      final uri = Uri.parse(link);
-      if (link.contains('miapp://pantalla_confirmacion')) {
-        final username = uri.queryParameters['username'];
-        if (username != null) {
-          UserData.username = username;
-          Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => Confirmacion(),
-          ));
-        }
-      }
-    }
   }
 
 }

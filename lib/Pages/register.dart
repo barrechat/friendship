@@ -52,6 +52,14 @@ class _RegisterState extends State<Register> {
     try {
       await widget.supabase.auth.signUp(password: passwordController.text, email: usernameController.text);
       if (mounted) {
+        await supabase.from('usuarios').upsert([
+          {
+            'telefono': int.parse(phoneController.text),
+            'username': aliasController.text,
+            'contraseña': passwordController.text,
+            'email': usernameController.text,
+          },
+        ]);
         usernameController.clear();
         passwordController.clear();
 
@@ -101,7 +109,7 @@ class _RegisterState extends State<Register> {
                   //Numero de telefono textfield
                   MyTextField(
                     controller: phoneController,
-                    hintText: '+34 666 666 666',
+                    hintText: 'Phone number ej. 666 666 666',
                     obscureText: false,
                   ),
                   //username textfield

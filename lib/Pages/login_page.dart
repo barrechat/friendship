@@ -8,6 +8,7 @@ import 'package:friendship/Pages/register.dart';
 import 'package:friendship/components/my_textfield.dart';
 import 'perfil.dart';
 import '../components/cuadrado.dart';
+import 'package:friendship/Class/usernameAuxiliar.dart';
 
 class LoginPage extends StatefulWidget {
   LoginPage({super.key, required this.supabase});
@@ -35,11 +36,13 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   void initState() {
-    widget.supabase.auth.onAuthStateChange.listen((data) {
+    widget.supabase.auth.onAuthStateChange.listen((data) async {
       if (_isRedirecting) return;
       final session = data.session;
       if (session != null) {
         _isRedirecting = true;
+        UserData.emailActual= data.session!.user.email;
+        print(UserData.emailActual);
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (context) => Home()),
         );
@@ -52,6 +55,8 @@ class _LoginPageState extends State<LoginPage> {
     try {
       await widget.supabase.auth.signInWithPassword(email: usernameController.text, password: passwordController.text);
       if (mounted) {
+        UserData.emailActual=usernameController.text;
+        print(UserData.emailActual);
         usernameController.clear();
         passwordController.clear();
 

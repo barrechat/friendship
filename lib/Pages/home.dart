@@ -1,13 +1,18 @@
 import 'dart:ui';
 import 'package:calendar_view/calendar_view.dart';
 import 'package:flutter/material.dart';
-import 'package:friendship/Class/consultas.dart';
 import 'package:friendship/Class/evento.dart';
 import 'package:friendship/Pages/listfriends.dart';
 import 'package:friendship/Pages/perfil.dart';
 import 'package:friendship/Pages//create-event.dart';
+import 'package:friendship/Class//compartir_enlace.dart';
 import 'package:friendship/Pages/searching.dart';
 import 'package:friendship/Widgets/dayview.dart';
+import 'package:uni_links/uni_links.dart';
+import 'package:friendship/Class/pantalla_confirmacion.dart';
+import 'package:friendship/Class/usernameAuxiliar.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+
 class Home extends StatefulWidget{
   const Home({super.key});
 
@@ -19,6 +24,11 @@ DateTime get _now => DateTime.now();
 
 class HomeState extends State<Home>{
   int actualPage = 0;
+
+  final supabase = SupabaseClient(
+    'https://peaoifidogwgoxzrpjft.supabase.co',
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBlYW9pZmlkb2d3Z294enJwamZ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTY2MDExNDcsImV4cCI6MjAxMjE3NzE0N30.xPOHo3wz93O9S0kWU9gbGofVWlFOZuA7JB9UMAMoBbA',
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -45,9 +55,9 @@ class HomeState extends State<Home>{
 
     List<Widget> pages = [
       Day(controller: controller,event: event),
-      LoginPage(),
+      CompEnlace(),
       createEvent(),
-      FriendList(),
+      CompEnlace(),
       Search()
 
 
@@ -70,7 +80,7 @@ class HomeState extends State<Home>{
           ),
           home: Scaffold(
             appBar: AppBar(title: const Text("friend.ship")),
-            body: DayView(controller:controller ,onDateLongPress: (date)=>{controller.add(event),controller.add(event2)}),
+            body: pages[actualPage],
             bottomNavigationBar: BottomNavigationBar(
               fixedColor: Colors.black,
               backgroundColor: Colors.indigo,
@@ -91,6 +101,64 @@ class HomeState extends State<Home>{
       ),
     );
   }
+
+  //Links profundos
+
+  @override
+  void initState() {
+    super.initState();
+    initUniLinks();
+    actualizarUsuario();
+  }
+
+  void actualizarUsuario() async {
+    final response = await supabase
+        .from('usuarios')
+        .select('username')
+        .eq('email', UserData.emailActual);
+
+    if (response.isNotEmpty) {
+      // Obtener el nombre de usuario
+      var responseData = response[0]['username'];
+
+      if (responseData != null) {
+        UserData.usuarioLogueado = responseData;
+      } else {
+        print('El campo "username" no está presente en la respuesta de Supabase.');
+      }
+    } else {
+      print('No se encontraron datos para el usuario en la base de datos.');
+    }
+  }
+
+  void initUniLinks() async {
+    // Maneja los enlaces profundos cuando la aplicación se inicia
+    final initialLink = await getInitialLink();
+    if (initialLink != null) {
+      handleDeepLink(initialLink); // Convierte la cadena a un objeto Uri
+    }
+
+    // Escucha enlaces profundos en tiempo real
+    linkStream.listen((String? link) {
+      handleDeepLink(link); // Pasa la cadena directamente
+    });
+  }
+
+  void handleDeepLink(String? link) {
+    if (link != null) {
+      final uri = Uri.parse(link);
+      if (link.contains('miapp://pantalla_confirmacion')) {
+        final username = uri.queryParameters['username'];
+        if (username != null) {
+          UserData.username = username;
+          Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => Confirmacion(),
+          ));
+        }
+      }
+    }
+  }
+
 }
 
 

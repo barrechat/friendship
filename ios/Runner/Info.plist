@@ -48,6 +48,7 @@
             <string>Editor</string>
             <key>CFBundleURLSchemes</key>
             <array>
+                <string>miapp</string>
                 <string>io.supabase.flutterquickstart</string>
             </array>
         </dict>

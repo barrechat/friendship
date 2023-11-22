@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:friendship/Class/consultas.dart';
+import 'package:friendship/Class/compartir_enlace.dart';
 import '../main.dart';
 import 'perfil.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -38,7 +38,7 @@ class _SplashPageState extends State<SplashPage> {
     }
     else {
       Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => LoginPage()),
+        MaterialPageRoute(builder: (context) => CompEnlace()),
       );
     }
   }
