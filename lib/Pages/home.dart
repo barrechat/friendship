@@ -13,16 +13,16 @@ import 'package:friendship/Class/pantalla_confirmacion.dart';
 import 'package:friendship/Class/usernameAuxiliar.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-class Home extends StatefulWidget{
+class Home extends StatefulWidget {
   const Home({super.key});
 
   @override
   HomeState createState() => HomeState();
-
 }
+
 DateTime get _now => DateTime.now();
 
-class HomeState extends State<Home>{
+class HomeState extends State<Home> {
   int actualPage = 0;
 
   final supabase = SupabaseClient(
@@ -32,45 +32,41 @@ class HomeState extends State<Home>{
 
   @override
   Widget build(BuildContext context) {
-
-    var  controller= EventController();
+    var controller = EventController();
     final event = CalendarEventData(
       title: "Event 1",
       date: DateTime(_now.year, _now.month, _now.day),
       event: "Event 1",
       description: "First Example",
-      startTime: DateTime(_now.year, _now.month,  _now.day, _now.hour, _now.minute),
-      endTime: DateTime(_now.year, _now.month,  _now.day, _now.hour+3, _now.minute),
-
+      startTime:
+          DateTime(_now.year, _now.month, _now.day, _now.hour, _now.minute),
+      endTime:
+          DateTime(_now.year, _now.month, _now.day, _now.hour + 3, _now.minute),
     );
     final event2 = CalendarEventData(
       title: "Event 2",
       date: DateTime(_now.year, _now.month, _now.day),
       event: "Event 2",
       description: "Second Example",
-      startTime: DateTime(_now.year, _now.month,  _now.day, _now.hour, _now.minute),
-      endTime: DateTime(_now.year, _now.month,  _now.day, _now.hour+3, _now.minute),
-
+      startTime:
+          DateTime(_now.year, _now.month, _now.day, _now.hour, _now.minute),
+      endTime:
+          DateTime(_now.year, _now.month, _now.day, _now.hour + 3, _now.minute),
     );
 
     List<Widget> pages = [
-      Day(controller: controller,event: event),
+      Day(controller: controller, event: event),
       CompEnlace(),
       createEvent(),
       CompEnlace(),
       Search()
-
-
-
     ];
 
-
-
     return CalendarControllerProvider(
-      controller: controller ,
+      controller: controller,
       child: MaterialApp(
           title: "friend.ship",
-          theme:ThemeData(primarySwatch: Colors.indigo),
+          theme: ThemeData(primarySwatch: Colors.indigo),
           scrollBehavior: ScrollBehavior().copyWith(
             dragDevices: {
               PointerDeviceKind.trackpad,
@@ -79,26 +75,31 @@ class HomeState extends State<Home>{
             },
           ),
           home: Scaffold(
-            appBar: AppBar(title: const Text("friend.ship")),
-            body: pages[actualPage],
-            bottomNavigationBar: BottomNavigationBar(
-              fixedColor: Colors.black,
-              backgroundColor: Colors.indigo,
-              unselectedItemColor: Colors.grey,
-              onTap: (index){
-                setState(() {
-                  actualPage = index;
-                });
-              },
-              currentIndex: actualPage,
-                items: const [
-              BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-              BottomNavigationBarItem(icon: Icon(Icons.workspaces_sharp), label: "Friend List"),
-              BottomNavigationBarItem(icon: Icon(Icons.add), label: "AddEvent"),
-              BottomNavigationBarItem(icon: Icon(Icons.qr_code), label: "QR"),
-              BottomNavigationBarItem(icon: Icon(Icons.account_circle), label: "Account"),
-            ]) )
-      ),
+              appBar: AppBar(title: const Text("friend.ship")),
+              body: pages[actualPage],
+              bottomNavigationBar: BottomNavigationBar(
+                  fixedColor: Colors.black,
+                  backgroundColor: Colors.indigo,
+                  unselectedItemColor: Colors.grey,
+                  onTap: (index) {
+                    setState(() {
+                      actualPage = index;
+                    });
+                  },
+                  currentIndex: actualPage,
+                  items: const [
+                    BottomNavigationBarItem(
+                        icon: Icon(Icons.home), label: "Home"),
+                    BottomNavigationBarItem(
+                        icon: Icon(Icons.workspaces_sharp),
+                        label: "Friend List"),
+                    BottomNavigationBarItem(
+                        icon: Icon(Icons.add), label: "AddEvent"),
+                    BottomNavigationBarItem(
+                        icon: Icon(Icons.qr_code), label: "QR"),
+                    BottomNavigationBarItem(
+                        icon: Icon(Icons.account_circle), label: "Account"),
+                  ]))),
     );
   }
 
@@ -124,7 +125,8 @@ class HomeState extends State<Home>{
       if (responseData != null) {
         UserData.usuarioLogueado = responseData;
       } else {
-        print('El campo "username" no está presente en la respuesta de Supabase.');
+        print(
+            'El campo "username" no está presente en la respuesta de Supabase.');
       }
     } else {
       print('No se encontraron datos para el usuario en la base de datos.');
@@ -158,7 +160,6 @@ class HomeState extends State<Home>{
       }
     }
   }
-
 }
 
 
