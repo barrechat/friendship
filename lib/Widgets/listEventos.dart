@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:friendship/Class/evento.dart';
 import 'package:friendship/Widgets/eventoWidget.dart';
 
-class ListEventos extends StatelessWidget {
+class EventosWidget extends StatelessWidget {
   final List<Evento> eventos;
 
-  const ListEventos({super.key, required this.eventos});
+  const EventosWidget({super.key, required this.eventos});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: 150,
       child: ListView.builder(
           scrollDirection: Axis.horizontal,

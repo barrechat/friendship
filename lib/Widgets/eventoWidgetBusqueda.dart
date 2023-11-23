@@ -2,19 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:friendship/Class/evento.dart';
 import 'package:friendship/Widgets/filtro.dart';
 
-class EventoWidget extends StatelessWidget {
+class EventoBusquedaWidget extends StatelessWidget {
   final Evento evento;
 
-  const EventoWidget({super.key, required this.evento});
+  const EventoBusquedaWidget({super.key, required this.evento});
 
   @override
   Widget build(BuildContext context) {
-    const double width = 245;
+    const double width = 200;
     return GestureDetector(
         onLongPress: () {},
         child: Container(
           width: width,
-          height: (width / 1.618),
+          height: (width),
           child: Card(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -28,7 +28,7 @@ class EventoWidget extends StatelessWidget {
                   subtitle: Text(
                     evento.descripcion,
                     overflow: TextOverflow.ellipsis,
-                    maxLines: 2,
+                    maxLines: 4,
                     softWrap: true,
                   ),
                 ),
@@ -47,7 +47,7 @@ class EventoWidget extends StatelessWidget {
                         child: IconButton(
                           style: const ButtonStyle(
                             backgroundColor:
-                                MaterialStatePropertyAll(Colors.black12),
+                            MaterialStatePropertyAll(Colors.black12),
                           ),
                           onPressed: () => {},
                           icon: const Center(child: Icon(Icons.share_rounded)),
