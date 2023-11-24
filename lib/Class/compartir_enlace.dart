@@ -21,7 +21,10 @@ class CompEnlaceState extends State<CompEnlace> {
 
 
   void launchWhatsApp({required String phone}) async {
-    String url() {
+    String nombreUsuario = UserData.usuarioLogueado!;
+    String numeroSinPais = phone;
+    String numeroConPais = '+34'+ phone.toString();
+    /*String url() {
       String nombreUsuario = UserData.usuarioLogueado!;
       String numeroConPais = '+34'+ phone.toString();
       final Uri message = Uri.parse('https://aplicacionpin.000webhostapp.com/redireccion.html?username='+nombreUsuario);
@@ -33,12 +36,18 @@ class CompEnlaceState extends State<CompEnlace> {
       }
     }
 
-    final Uri whatsappUrl = Uri.parse(url().toString());
+    final Uri whatsappUrl = Uri.parse(url().toString());*/
+    final Uri whatsappUrl = Uri(
+      scheme: 'https',
+      host: 'wa.me',
+      path: numeroSinPais,
+      queryParameters: {'text': 'https://aplicacionpin.000webhostapp.com/redireccion.html?username='+nombreUsuario},
+    );
 
     if (await canLaunchUrl(whatsappUrl)) {
       await launchUrl(whatsappUrl);
     } else {
-      throw 'Could not launch ${url()}';
+      throw 'Could not launch';
     }
 
   }
