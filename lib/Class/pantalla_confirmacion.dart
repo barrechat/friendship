@@ -12,9 +12,6 @@ class Confirmacion extends StatefulWidget {
 
 class ConfirmacionState extends State<Confirmacion> {
 
-  var amigo = UserData.username;
-  var usuarioActual = UserData.usuarioLogueado;
-
   final supabase = SupabaseClient(
     'https://peaoifidogwgoxzrpjft.supabase.co',
     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBlYW9pZmlkb2d3Z294enJwamZ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTY2MDExNDcsImV4cCI6MjAxMjE3NzE0N30.xPOHo3wz93O9S0kWU9gbGofVWlFOZuA7JB9UMAMoBbA',
@@ -22,7 +19,13 @@ class ConfirmacionState extends State<Confirmacion> {
 
   Future<void> addAmigo({required BuildContext context}) async {
 
-    //Parte de la lista de amigos del usuario que te manda la solicitud
+    var amigo = UserData.username;
+    var usuarioActual = UserData.usuarioLogueado;
+
+    print(usuarioActual);
+    print(amigo);
+
+    //Parte de la lista de amigos del usuario actual
     var listaAmigos = await supabase
         .from('usuarios')
         .select('lista_amigos')
@@ -50,34 +53,33 @@ class ConfirmacionState extends State<Confirmacion> {
       }
     }
 
-    /* //Parte de la lista de amigos del usuario
+     //Parte de la lista de amigos del usuario que manda la solicitud
     var listaAmigos2 = await supabase
         .from('usuarios')
         .select('lista_amigos')
-        .eq('username', amigo);
+        .eq('username',amigo);
 
     if (listaAmigos2.isNotEmpty) {
-      var primeraLista2 = listaAmigos2[0];
-      if (primeraLista2 != null) {
-        var amigos2 = primeraLista2['lista_amigos'];
+      var primeraLista = listaAmigos2[0];
+      if (primeraLista != null) {
+        var amigos = primeraLista['lista_amigos'];
 
-        if (amigos2 == null) {
-          amigos2 = [];
+        if (amigos == null) {
+          amigos = [];
         }
 
-        if (!amigos2.contains('Abeldel')) { //Cambiar Abeldel por el usuario logueado
-          amigos2.add(amigo);
+        if (!amigos.contains(usuarioActual)) {
+          amigos.add(usuarioActual);
         } else {
           _showPopup(context);
         }
 
         await supabase
             .from('usuarios')
-            .update({ 'lista_amigos': amigos2 })
+            .update({ 'lista_amigos': amigos })
             .match({ 'username': amigo });
       }
-    }*/
-    UserData.username ='';
+    }
   }
 
   @override
@@ -92,6 +94,7 @@ class ConfirmacionState extends State<Confirmacion> {
           child: ElevatedButton(
             onPressed: () async {
               await addAmigo(context:context);
+              Navigator.of(context).pop();
             },
             child: Text('Aceptar'),
           ),
@@ -110,6 +113,7 @@ class ConfirmacionState extends State<Confirmacion> {
           actions: [
             TextButton(
               onPressed: () {
+                Navigator.of(context).pop();
                 Navigator.of(context).pop();
               },
               child: Text('Cerrar'),
