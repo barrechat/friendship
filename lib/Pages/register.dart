@@ -180,16 +180,6 @@ class _RegisterState extends State<Register> {
                       ],
                     ),
                   ),
-                  //Google + apple sign up
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      //google
-                      Cuadrado(imagePath: "assets/google.png"),
-                      //apple
-                      Cuadrado(imagePath: "assets/apple.png"),
-                    ],
-                  ),
                 ],
               ),
             ),

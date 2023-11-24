@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:friendship/components/my_textfield.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:fluttercontactpicker/fluttercontactpicker.dart';
 import 'dart:io';
@@ -23,20 +24,7 @@ class CompEnlaceState extends State<CompEnlace> {
   void launchWhatsApp({required String phone}) async {
     String nombreUsuario = UserData.usuarioLogueado!;
     String numeroSinPais = phone;
-    String numeroConPais = '+34'+ phone.toString();
-    /*String url() {
-      String nombreUsuario = UserData.usuarioLogueado!;
-      String numeroConPais = '+34'+ phone.toString();
-      final Uri message = Uri.parse('https://aplicacionpin.000webhostapp.com/redireccion.html?username='+nombreUsuario);
 
-      if (Platform.isAndroid) {
-        return "whatsapp://send?phone=$numeroConPais&text=$message";
-      } else {
-        return "whatsapp://send?phone=$numeroConPais&text=$message";
-      }
-    }
-
-    final Uri whatsappUrl = Uri.parse(url().toString());*/
     final Uri whatsappUrl = Uri(
       scheme: 'https',
       host: 'wa.me',
@@ -83,11 +71,17 @@ class CompEnlaceState extends State<CompEnlace> {
               ),
               SizedBox(height: 16), // Espacio entre los botones
               ElevatedButton(
-                onPressed: () {
-                  supabase.auth.signOut();
-                  Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(builder: (context) => LoginPage(supabase: supabase)),
-                  );
+                onPressed: () async {
+                  try {
+                    await supabase.auth.signOut();
+                    Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(builder: (context) => LoginPage(supabase: supabase)),
+                    );
+                  } on AuthException catch (error) {
+                    context.showErrorSnackBar(message: error.message);
+                  } catch (error) {
+                    context.showErrorSnackBar(message: 'Unexpected error occurred');
+                  }
                 },
                 child: Text('Cerrar sesión'),
               ),
