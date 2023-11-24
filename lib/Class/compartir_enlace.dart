@@ -15,7 +15,7 @@ class CompEnlaceState extends State<CompEnlace> {
   var telefono = '';
 
   final supabase = SupabaseClient(
-    'https://peaoifidogwgoxzrpjft.supabase.co',
+     'https://peaoifidogwgoxzrpjft.supabase.co',
     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBlYW9pZmlkb2d3Z294enJwamZ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTY2MDExNDcsImV4cCI6MjAxMjE3NzE0N30.xPOHo3wz93O9S0kWU9gbGofVWlFOZuA7JB9UMAMoBbA',
   );
 
