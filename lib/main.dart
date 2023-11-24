@@ -8,6 +8,13 @@ import 'package:friendship/Pages/login_page.dart';
 import 'package:friendship/Class/pantalla_confirmacion.dart';
 import 'package:uni_links/uni_links.dart';
 
+import 'Class/evento.dart';
+import 'Class/filtro.dart';
+import 'Class/type.dart';
+import 'Widgets/eventoWidget.dart';
+import 'Widgets/eventoBusqueda.dart';
+import 'Widgets/listEventos.dart';
+import 'Widgets/listEventosPendientes.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -29,6 +36,9 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List<Filtro> filtros = [Filtro(1, "fiesta"), Filtro(2, "alcohol")];
+    Evento evento = Evento(1,"evento", Type(1,"fiesta"),"descripcion descripcion descripcion descripcion","25€", filtros );
+    List<Evento> eventos = [evento,evento,evento,evento,evento,evento,evento,evento,evento];
     return MaterialApp(
       title: 'Flutter Demo',
       navigatorKey: navigatorKey, // Usar el navigatorKey proporcionado
