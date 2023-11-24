@@ -57,9 +57,8 @@ class HomeState extends State<Home> {
 
     List<Widget> pages = [
       Day(controller: controller, event: event),
-      Perfil(),
-      createEvent(),
       CompEnlace(),
+      createEvent(),
       Perfil(),
       Search()
     ];
