@@ -60,6 +60,7 @@ class HomeState extends State<Home> {
       Perfil(),
       createEvent(),
       CompEnlace(),
+      Perfil(),
       Search()
     ];
 
