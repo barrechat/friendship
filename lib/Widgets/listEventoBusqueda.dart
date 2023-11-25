@@ -4,10 +4,10 @@ import 'package:friendship/Widgets/eventoWidget.dart';
 
 import 'eventoWidgetBusqueda.dart';
 
-class EventosBusquedaWidget extends StatelessWidget {
+class ListEventosBusqueda extends StatelessWidget {
   final List<Evento> eventos;
 
-  const EventosBusquedaWidget({Key? key, required this.eventos}) : super(key: key);
+  const ListEventosBusqueda({Key? key, required this.eventos}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
