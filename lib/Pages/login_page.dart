@@ -112,18 +112,6 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   const SizedBox(height: 20,),
                   //forgot password?
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Text(
-                          'Has olvidado tu contraseña?',
-                          style: TextStyle(color: Colors.grey[600]),
-                        ),
-                      ],
-                    ),
-                  ),
                   const SizedBox(height: 25,),
                   //sign in button
                   GestureDetector(
@@ -178,16 +166,6 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                       ],
                     ),
-                  ),
-                  //Google + apple sign in
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      //google
-                      Cuadrado(imagePath: "assets/google.png"),
-                      //apple
-                      Cuadrado(imagePath: "assets/apple.png"),
-                    ],
                   ),
                   //Nuevo usuario? Hazte una cuenta en 2 minutos
                   Row(

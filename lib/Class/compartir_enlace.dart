@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:friendship/components/my_textfield.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:fluttercontactpicker/fluttercontactpicker.dart';
 import 'dart:io';
@@ -15,30 +16,26 @@ class CompEnlaceState extends State<CompEnlace> {
   var telefono = '';
 
   final supabase = SupabaseClient(
-    'https://peaoifidogwgoxzrpjft.supabase.co',
+     'https://peaoifidogwgoxzrpjft.supabase.co',
     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBlYW9pZmlkb2d3Z294enJwamZ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTY2MDExNDcsImV4cCI6MjAxMjE3NzE0N30.xPOHo3wz93O9S0kWU9gbGofVWlFOZuA7JB9UMAMoBbA',
   );
 
 
   void launchWhatsApp({required String phone}) async {
-    String url() {
-      String nombreUsuario = UserData.usuarioLogueado!;
-      String numeroConPais = '+34'+ phone.toString();
-      final Uri message = Uri.parse('https://aplicacionpin.000webhostapp.com/redireccion.html?username='+nombreUsuario);
+    String nombreUsuario = UserData.usuarioLogueado!;
+    String numeroSinPais = phone;
 
-      if (Platform.isAndroid) {
-        return "whatsapp://send?phone=$numeroConPais&text=$message";
-      } else {
-        return "whatsapp://send?phone=$numeroConPais&text=$message";
-      }
-    }
-
-    final Uri whatsappUrl = Uri.parse(url().toString());
+    final Uri whatsappUrl = Uri(
+      scheme: 'https',
+      host: 'wa.me',
+      path: numeroSinPais,
+      queryParameters: {'text': 'https://aplicacionpin.000webhostapp.com/redireccion.html?username='+nombreUsuario},
+    );
 
     if (await canLaunchUrl(whatsappUrl)) {
       await launchUrl(whatsappUrl);
     } else {
-      throw 'Could not launch ${url()}';
+      throw 'Could not launch';
     }
 
   }
@@ -74,11 +71,17 @@ class CompEnlaceState extends State<CompEnlace> {
               ),
               SizedBox(height: 16), // Espacio entre los botones
               ElevatedButton(
-                onPressed: () {
-                  supabase.auth.signOut();
-                  Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(builder: (context) => LoginPage(supabase: supabase)),
-                  );
+                onPressed: () async {
+                  try {
+                    await supabase.auth.signOut();
+                    Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(builder: (context) => LoginPage(supabase: supabase)),
+                    );
+                  } on AuthException catch (error) {
+                    context.showErrorSnackBar(message: error.message);
+                  } catch (error) {
+                    context.showErrorSnackBar(message: 'Unexpected error occurred');
+                  }
                 },
                 child: Text('Cerrar sesión'),
               ),

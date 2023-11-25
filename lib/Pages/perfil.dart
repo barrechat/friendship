@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:friendship/Pages/splash.dart';
 import 'package:friendship/Widgets/qr.dart';
@@ -13,67 +15,37 @@ class Perfil extends StatefulWidget {
 }
 
 class _PerfilState extends State<Perfil> {
-  bool extended = false;
-  double size = 50;
+  final supabase = SupabaseClient('https://peaoifidogwgoxzrpjft.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBlYW9pZmlkb2d3Z294enJwamZ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTY2MDExNDcsImV4cCI6MjAxMjE3NzE0N30.xPOHo3wz93O9S0kWU9gbGofVWlFOZuA7JB9UMAMoBbA');
+
+  Future<String?> downloadFile() async {
+    String fileName = 'caca.jpg';
+    final response = await supabase.storage
+        .from('avatares')
+        .download(fileName);
+  }
+
   @override
   Widget build(BuildContext context) {
-    return  Center(
-      child: Column(
-        children: [
-          GestureDetector(
-              onTap: () {
-                setState(() {
-                  extended = !extended;
-                  size = extended ? 200.0 : 50.0;
-                });
-              },
-            child: AnimatedContainer(
-              duration: Duration(milliseconds: 300),
-              curve: Curves.easeInOut,
-              width: extended ? 200.0 : 100.0, // Cambia el ancho al hacer clic
-              height: extended ? 200.0 : 100.0, // Cambia la altura al hacer clic
-                child:  Center(
-                  child: QRImage(size)
-                ),
-            ),
-          ),
-          GestureDetector(
-            onTap: () async {
-              final navigator = Navigator.of(context);
-
-              try {
-                await supabase.auth.signOut();
-                Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(builder: (context) => SplashPage(supabase: supabase)),
-                );
-              } on AuthException catch (error) {
-                context.showErrorSnackBar(message: error.message);
-              } catch (error) {
-                context.showErrorSnackBar(message: 'Unexpected error occurred');
-              }
-            },
-            child: Container(
-              padding: const EdgeInsets.all(25),
-              margin: const EdgeInsets.symmetric(horizontal: 40.0),
-              decoration: BoxDecoration(
-                color: Colors.black,
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: Center(
-                child: Text(
-                  "Log Out",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16,
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ],
+    return Center(
+      child: FutureBuilder<String?>(
+        future: downloadFile(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return CircularProgressIndicator();
+          } else if (snapshot.hasError) {
+            return Text('Error al descargar la imagen');
+          } else if (snapshot.hasData) {
+            return Image.file(
+              File(snapshot.data!),
+              width: 200,
+              height: 200,
+              fit: BoxFit.cover,
+            );
+          } else {
+            return Text('No se pudo obtener la imagen');
+          }
+        },
       ),
-
     );
   }
 }

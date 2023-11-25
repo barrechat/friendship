@@ -11,6 +11,7 @@ import 'package:friendship/Widgets/dayview.dart';
 import 'package:uni_links/uni_links.dart';
 import 'package:friendship/Class/pantalla_confirmacion.dart';
 import 'package:friendship/Class/usernameAuxiliar.dart';
+import 'package:friendship/Pages/perfil.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class Home extends StatefulWidget {
@@ -58,7 +59,7 @@ class HomeState extends State<Home> {
       Day(controller: controller, event: event),
       CompEnlace(),
       createEvent(),
-      CompEnlace(),
+      Perfil(),
       Search()
     ];
 

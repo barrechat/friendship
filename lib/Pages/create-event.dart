@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:friendship/Widgets/dateTimePicker.dart';
 
 class createEvent extends StatefulWidget {
@@ -11,7 +12,7 @@ class createEvent extends StatefulWidget {
 
 class _createEventState extends State<createEvent> {
   List<String> listaDeAmigos = <String>["A","B","C","D","E","F","G"];
-  List<String> listaTipoEvento = <String>["A","B","C","D","E","F","G"];
+  List<String> listaTipoEvento = <String>["Chill","Tardeo","Concierto"];
   late DateTime fechaEscogida;
   late DateTime fechaEscogida_final;
   String nombreDelEvento = '';
@@ -19,6 +20,7 @@ class _createEventState extends State<createEvent> {
   TimeOfDay? horaInicial;
   TimeOfDay? horaFinal;
   String? Amigo;
+  final supabase = Supabase.instance.client;
 
   @override
   Widget build(BuildContext context) {
@@ -141,7 +143,11 @@ class _createEventState extends State<createEvent> {
                   ),
                   SizedBox(height: 20.0),
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      /*supabase
+                          .from('eventos')
+                          .insert({'id':1, 'nombre':'Abel', 'tipo':'evento','descripcion':,'usuario':'Abeldel','fechaInicio':, 'horaInicio': ,'horafin':,'fechafin':});
+                    */},
                     child: const Text('Añadir Evento'),
                   )
 
