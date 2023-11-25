@@ -22,7 +22,7 @@ class CompEnlaceState extends State<CompEnlace> {
 
 
   void launchWhatsApp({required String phone}) async {
-    String nombreUsuario = UserData.usuarioLogueado!;
+    String nombreUsuario = UserData.usuarioLog!.username;
     String numeroSinPais = phone;
 
     final Uri whatsappUrl = Uri(
@@ -57,7 +57,6 @@ class CompEnlaceState extends State<CompEnlace> {
             children: [
               ElevatedButton(
                 onPressed: () async {
-                  print(UserData.usuarioLogueado);
                   final granted = await FlutterContactPicker.requestPermission();
 
                   final PhoneContact contact = await FlutterContactPicker.pickPhoneContact();
