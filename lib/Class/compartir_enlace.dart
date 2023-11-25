@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:friendship/components/my_textfield.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:fluttercontactpicker/fluttercontactpicker.dart';
 import 'dart:io';
@@ -45,6 +47,7 @@ class CompEnlaceState extends State<CompEnlace> {
   }
 
   Widget build(BuildContext context) {
+    String geo = "";
     return Scaffold(
       appBar: AppBar(
         title: Text('Compartir con contacto'),

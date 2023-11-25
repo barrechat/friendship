@@ -1,4 +1,7 @@
+import 'dart:ui';
+
 import 'package:friendship/Class/usernameAuxiliar.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'evento.dart';
 import 'package:friendship/Class/filtro.dart';
@@ -12,14 +15,63 @@ class Consultas{
 
   Future<List<Evento>> BuscarEventos({required String nombreEvento}) async
   {
-    final username = UserData.username;
     var response = await  supabase.from('eventos')
       .select('*')
       .eq("tipo", "publico")
       .gte("fechainicio", DateTime.now())
       .ilike("nombre", '$nombreEvento%');
     List<Evento> eventos = [];
-    //print(DateTime.now().);
+    for (var item in response) {
+      print(item);
+      List<Filtro> filtros = [Filtro(1, item["filtro"]), Filtro(2, item["filtro2"])];
+      Type tipo = Type(1, item["tipo"]);
+      eventos.add(Evento(item["id"], item["nombre"], tipo , item["descripcion"], "0", filtros));
+  }
+    return eventos;
+
+  }
+  Future<List<Evento>> EventosAmigos() async
+  {
+    List<Evento> eventos = [];
+    final username =UserData.usuarioLog?.username;
+    var response = await  supabase.from('usuarios')
+        .select('*')
+        .eq("username", username);
+
+    for (var amigo in response[0]["lista_amigos"]) {
+      var rowAmigo = await  supabase.from('eventos')
+          .select('*')
+          .gte("fechainicio", DateTime.now())
+          .eq("usuario", amigo)
+          .eq("tipo", "publico");
+      for(var evento in rowAmigo){
+        print(rowAmigo);
+        List<Filtro> filtros = [Filtro(1, evento["filtro"]), Filtro(2, evento["filtro2"])];
+        Type tipo = Type(1, evento["tipo"]);
+        eventos.add(Evento(evento["id"], evento["nombre"], tipo , evento["descripcion"], "0", filtros));
+      }
+    }
+    return eventos;
+
+  }
+
+  Future<List<Evento>> EventosRecomendados({required String nombreEvento}) async
+  {
+    var status = await Permission.location.request();
+    var response = null;
+    if (status.isGranted) {
+      response = await  supabase.from('eventos')
+          .select('*')
+          .eq("tipo", "publico")
+          .gte("fechainicio", DateTime.now())
+
+      ;
+    }
+    response = await  supabase.from('eventos')
+        .select('*')
+        .eq("tipo", "publico")
+        .gte("fechainicio", DateTime.now());
+    List<Evento> eventos = [];
     for (var item in response) {
       print(item);
       List<Filtro> filtros = [Filtro(1, item["filtro"]), Filtro(2, item["filtro2"])];
@@ -29,5 +81,35 @@ class Consultas{
     return eventos;
 
   }
+  Future<List<Evento>> EventosFiltro({required String filtro1, required String filtro2}) async
+  {
+    var response = await  supabase.from('eventos')
+        .select('*')
+        .eq("tipo", "publico")
+        .gte("fechainicio", DateTime.now());
+    List<Evento> eventos = [];
+    for (var item in response) {
+      print(item);
+      List<Filtro> filtros = [Filtro(1, item["filtro"]), Filtro(2, item["filtro2"])];
+      Type tipo = Type(1, item["tipo"]);
+      eventos.add(Evento(item["id"], item["nombre"], tipo , item["descripcion"], "0", filtros));
+    }
+    return eventos;
 
+  }
+  Future<List<Evento>> EventosPropios({required String nombreEvento}) async
+  {
+    var response = await  supabase.from('eventos')
+        .select('*')
+        .eq("usuario", UserData.usuarioLog?.username);
+    List<Evento> eventos = [];
+    for (var item in response) {
+      print(item);
+      List<Filtro> filtros = [Filtro(1, item["filtro"]), Filtro(2, item["filtro2"])];
+      Type tipo = Type(1, item["tipo"]);
+      eventos.add(Evento(item["id"], item["nombre"], tipo , item["descripcion"], "0", filtros));
+    }
+    return eventos;
+
+  }
 }
