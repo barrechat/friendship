@@ -110,28 +110,8 @@ class HomeState extends State<Home> {
   void initState() {
     super.initState();
     initUniLinks();
-    actualizarUsuario();
-  }
-
-  void actualizarUsuario() async {
-    final response = await supabase
-        .from('usuarios')
-        .select('username')
-        .eq('email', UserData.emailActual);
-
-    if (response.isNotEmpty) {
-      // Obtener el nombre de usuario
-      var responseData = response[0]['username'];
-
-      if (responseData != null) {
-        UserData.usuarioLogueado = responseData;
-      } else {
-        print(
-            'El campo "username" no está presente en la respuesta de Supabase.');
-      }
-    } else {
-      print('No se encontraron datos para el usuario en la base de datos.');
-    }
+    UserData userData = UserData();
+    userData.construirUsuarioPorEmail(UserData.emailActual);
   }
 
   void initUniLinks() async {

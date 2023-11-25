@@ -20,7 +20,7 @@ class ConfirmacionState extends State<Confirmacion> {
   Future<void> addAmigo({required BuildContext context}) async {
 
     var amigo = UserData.username;
-    var usuarioActual = UserData.usuarioLogueado;
+    var usuarioActual = UserData.usuarioLog!.username;
 
     print(usuarioActual);
     print(amigo);
