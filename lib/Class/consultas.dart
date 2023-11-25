@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:friendship/Class/usernameAuxiliar.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'evento.dart';
 import 'package:friendship/Class/filtro.dart';
@@ -56,7 +57,17 @@ class Consultas{
 
   Future<List<Evento>> EventosRecomendados({required String nombreEvento}) async
   {
-    var response = await  supabase.from('eventos')
+    var status = await Permission.location.request();
+    var response = null;
+    if (status.isGranted) {
+      response = await  supabase.from('eventos')
+          .select('*')
+          .eq("tipo", "publico")
+          .gte("fechainicio", DateTime.now())
+
+      ;
+    }
+    response = await  supabase.from('eventos')
         .select('*')
         .eq("tipo", "publico")
         .gte("fechainicio", DateTime.now());
@@ -76,6 +87,21 @@ class Consultas{
         .select('*')
         .eq("tipo", "publico")
         .gte("fechainicio", DateTime.now());
+    List<Evento> eventos = [];
+    for (var item in response) {
+      print(item);
+      List<Filtro> filtros = [Filtro(1, item["filtro"]), Filtro(2, item["filtro2"])];
+      Type tipo = Type(1, item["tipo"]);
+      eventos.add(Evento(item["id"], item["nombre"], tipo , item["descripcion"], "0", filtros));
+    }
+    return eventos;
+
+  }
+  Future<List<Evento>> EventosPropios({required String nombreEvento}) async
+  {
+    var response = await  supabase.from('eventos')
+        .select('*')
+        .eq("usuario", UserData.usuarioLog?.username);
     List<Evento> eventos = [];
     for (var item in response) {
       print(item);
