@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:friendship/Class/consultas.dart';
 import 'package:friendship/Class/evento.dart';
 import 'package:friendship/Class/filtro.dart';
 import 'package:friendship/Widgets/listEventoBusqueda.dart';
@@ -12,11 +13,20 @@ class SearchResultsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<Filtro> filtros = [Filtro(1,"fiesta"), Filtro(2,"juerga")];
-    Evento evento = Evento(1, "name", Type(1,"fiesta"), "descripcion", "precio", filtros);
-    List<Evento> eventos = [evento,evento,evento,evento,evento,evento,evento];
-    return Center(
-        child: ListEventosBusqueda(eventos: eventos)
+    return FutureBuilder<List<Evento>>(
+      future: Consultas().BuscarEventos(nombreEvento: searchTerm),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return CircularProgressIndicator();
+        } else if (snapshot.hasError) {
+          return Text('Error: ${snapshot.error}');
+        } else {
+          List<Evento> eventos = snapshot.data ?? [];
+          return Center(
+            child: ListEventosBusqueda(eventos: eventos),
+          );
+        }
+      },
     );
   }
 }

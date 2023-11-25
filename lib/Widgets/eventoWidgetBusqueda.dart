@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:friendship/Class/evento.dart';
-import 'package:friendship/Widgets/filtro.dart';
+import 'package:friendship/Widgets/filtroWidget.dart';
 
 class EventoBusquedaWidget extends StatelessWidget {
   final Evento evento;
