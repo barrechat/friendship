@@ -9,7 +9,7 @@ class QRImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String nombreUsuario = UserData.usuarioLogueado!;
+    String nombreUsuario = UserData.usuarioLog!.username;
     String link = 'https://aplicacionpin.000webhostapp.com/redireccion.html?username='+nombreUsuario;
     if(size<200){
       return Icon(Icons.qr_code, size: size,);
