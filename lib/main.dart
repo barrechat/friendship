@@ -12,7 +12,7 @@ import 'Class/evento.dart';
 import 'Class/filtro.dart';
 import 'Class/type.dart';
 import 'Widgets/eventoWidget.dart';
-import 'Widgets/eventoBusqueda.dart';
+import 'Widgets/eventoWidgetBusqueda.dart';
 import 'Widgets/listEventos.dart';
 import 'Widgets/listEventosPendientes.dart';
 

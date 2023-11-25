@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:friendship/Pages/recomendacion.dart';
 import 'package:friendship/Pages/searchresult.dart';
 
 class Search extends StatefulWidget {
@@ -12,7 +13,7 @@ class _SearchState extends State<Search> {
   TextEditingController _searchController = TextEditingController();
   String busqueda ="";
 
-  Widget resultado = Center();
+  Widget resultado = Center(child: RecomendacionPage(),);
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -46,7 +47,7 @@ class _SearchState extends State<Search> {
     else{
       setState(() {
         busqueda ="";
-        resultado = Center();
+        resultado = Center(child: RecomendacionPage(),);
       });
     }
   }
