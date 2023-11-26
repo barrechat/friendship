@@ -45,7 +45,7 @@ class _LoginPageState extends State<LoginPage> {
     if(cerrarSesion){
       cerrarSesion=false;
       supabase.auth.signOut();
-      sleep(Duration(seconds: 3));
+      sleep(Duration(seconds: 1));
     }
     widget.supabase.auth.onAuthStateChange.listen((data) async {
       if (_isRedirecting) return;
