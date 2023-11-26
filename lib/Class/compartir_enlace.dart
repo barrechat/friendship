@@ -7,6 +7,7 @@ import 'package:fluttercontactpicker/fluttercontactpicker.dart';
 import 'dart:io';
 import 'package:friendship/Class/usernameAuxiliar.dart';
 import 'package:friendship/Pages/login_page.dart';
+import 'package:friendship/Pages/trofeos.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class CompEnlace extends StatefulWidget {
@@ -21,7 +22,6 @@ class CompEnlaceState extends State<CompEnlace> {
      'https://peaoifidogwgoxzrpjft.supabase.co',
     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBlYW9pZmlkb2d3Z294enJwamZ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTY2MDExNDcsImV4cCI6MjAxMjE3NzE0N30.xPOHo3wz93O9S0kWU9gbGofVWlFOZuA7JB9UMAMoBbA',
   );
-
 
   void launchWhatsApp({required String phone}) async {
     String nombreUsuario = UserData.usuarioLog!.username;
@@ -71,13 +71,24 @@ class CompEnlaceState extends State<CompEnlace> {
                 },
                 child: Text('Compartir con contacto'),
               ),
+              SizedBox(height: 16),
+              ElevatedButton(
+                onPressed: () async {
+                  Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(builder: (context) => Trofeos()),
+                  );
+                },
+                child: Text('Trofeos'),
+              ),
               SizedBox(height: 16), // Espacio entre los botones
               ElevatedButton(
                 onPressed: () async {
                   try {
+                    LoginPage loginPageInstance = new LoginPage(supabase: supabase);
+                    loginPageInstance.setCerrarSesion();
                     await supabase.auth.signOut();
                     Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(builder: (context) => LoginPage(supabase: supabase)),
+                      MaterialPageRoute(builder: (context) => loginPageInstance),
                     );
                   } on AuthException catch (error) {
                     context.showErrorSnackBar(message: error.message);

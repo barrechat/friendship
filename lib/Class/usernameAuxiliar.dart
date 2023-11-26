@@ -11,9 +11,18 @@ class UserData {
     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBlYW9pZmlkb2d3Z294enJwamZ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTY2MDExNDcsImV4cCI6MjAxMjE3NzE0N30.xPOHo3wz93O9S0kWU9gbGofVWlFOZuA7JB9UMAMoBbA',
   );
 
+  Future<void> actualizarContadorEventos() async {
+    usuarioLog!.eventosCreados++;
+    await supabase
+        .from('usuarios')
+        .update({ 'num_eventos': usuarioLog!.eventosCreados})
+        .match({ 'username': usuarioLog!.username });
+  }
+
   void construirUsuarioPorEmail(String? email) async {
     var usernameAux = '';
     var telefonoAux = 0;
+    var eventosAux = 0;
     final usernameResponse = await supabase
         .from('usuarios')
         .select('username')
@@ -31,6 +40,16 @@ class UserData {
     if (phoneResponse.isNotEmpty) {
       telefonoAux = phoneResponse[0]['telefono'];
     }
-    usuarioLog = new usuario.User(usernameAux, email!, telefonoAux);
+
+    final eventosResponse = await supabase
+        .from('usuarios')
+        .select('num_eventos')
+        .eq('email', email);
+
+    if (eventosResponse.isNotEmpty) {
+      eventosAux = eventosResponse[0]['num_eventos'];
+    }
+
+    usuarioLog = new usuario.User(usernameAux, email!, telefonoAux, eventosAux);
     }
   }

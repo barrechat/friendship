@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:friendship/Pages/login_page.dart';
 import 'package:friendship/main.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -79,6 +80,18 @@ class _RegisterState extends State<Register> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[310],
+      appBar: AppBar(
+        title: Text("Registro"),
+        centerTitle: true,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.of(context).pushReplacement(
+              MaterialPageRoute(builder: (context) => LoginPage(supabase: supabase)),
+            );
+          },
+        ),
+      ),
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(

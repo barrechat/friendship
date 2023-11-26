@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -16,10 +17,15 @@ class LoginPage extends StatefulWidget {
 
   @override
   State<LoginPage> createState() => _LoginPageState();
+
+  void setCerrarSesion() {
+    _LoginPageState.cerrarSesion = true;
+  }
 }
 
 class _LoginPageState extends State<LoginPage> {
   bool _isRedirecting = false;
+  static bool cerrarSesion = false;
 
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
@@ -36,6 +42,11 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   void initState() {
+    if(cerrarSesion){
+      cerrarSesion=false;
+      supabase.auth.signOut();
+      sleep(Duration(seconds: 3));
+    }
     widget.supabase.auth.onAuthStateChange.listen((data) async {
       if (_isRedirecting) return;
       final session = data.session;
