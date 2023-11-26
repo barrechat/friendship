@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'dart:ui';
 
 import 'package:friendship/Class/usernameAuxiliar.dart';
@@ -55,29 +56,22 @@ class Consultas{
 
   }
 
-  Future<List<Evento>> EventosRecomendados({required String nombreEvento}) async
+  Future<List<Evento>> EventosRecomendados() async
   {
-    var status = await Permission.location.request();
-    var response = null;
-    if (status.isGranted) {
-      response = await  supabase.from('eventos')
-          .select('*')
-          .eq("tipo", "publico")
-          .gte("fechainicio", DateTime.now())
-
-      ;
-    }
-    response = await  supabase.from('eventos')
+    List<Evento> eventos = [];
+    var response = await  supabase.from('eventos')
         .select('*')
         .eq("tipo", "publico")
-        .gte("fechainicio", DateTime.now());
-    List<Evento> eventos = [];
+        .gte("fechainicio", DateTime.now())
+    ;
+
     for (var item in response) {
-      print(item);
+      print("recomendados" + item.toString());
       List<Filtro> filtros = [Filtro(1, item["filtro"]), Filtro(2, item["filtro2"])];
       Type tipo = Type(1, item["tipo"]);
       eventos.add(Evento(item["id"], item["nombre"], tipo , item["descripcion"], "0", filtros));
     }
+
     return eventos;
 
   }
@@ -89,15 +83,36 @@ class Consultas{
         .gte("fechainicio", DateTime.now());
     List<Evento> eventos = [];
     for (var item in response) {
-      print(item);
-      List<Filtro> filtros = [Filtro(1, item["filtro"]), Filtro(2, item["filtro2"])];
-      Type tipo = Type(1, item["tipo"]);
-      eventos.add(Evento(item["id"], item["nombre"], tipo , item["descripcion"], "0", filtros));
+      if(item["filtro1"] == filtro1 || item["filtro2"] == filtro1 || item["filtro1"] == filtro2 || item["filtro2"] == filtro2){
+        print("filtro" + item.toString());
+        List<Filtro> filtros = [Filtro(1, item["filtro"]), Filtro(2, item["filtro2"])];
+        Type tipo = Type(1, item["tipo"]);
+        eventos.add(Evento(item["id"], item["nombre"], tipo , item["descripcion"], "0", filtros));
+      }
     }
     return eventos;
 
   }
-  Future<List<Evento>> EventosPropios({required String nombreEvento}) async
+  Future<List<Evento>> EventosFiltro1({required String filtro1}) async
+  {
+    var response = await  supabase.from('eventos')
+        .select('*')
+        .eq("tipo", "publico")
+        .gte("fechainicio", DateTime.now());
+    List<Evento> eventos = [];
+    for (var item in response) {
+      if(item["filtro1"] == filtro1 || item["filtro2"] == filtro1){
+        print("filtro" + item.toString());
+        List<Filtro> filtros = [Filtro(1, item["filtro"]), Filtro(2, item["filtro2"])];
+        Type tipo = Type(1, item["tipo"]);
+        eventos.add(Evento(item["id"], item["nombre"], tipo , item["descripcion"], "0", filtros));
+      }
+    }
+    eventos.shuffle();
+    return eventos;
+
+  }
+  Future<List<Evento>> EventosPropios() async
   {
     var response = await  supabase.from('eventos')
         .select('*')
@@ -111,5 +126,19 @@ class Consultas{
     }
     return eventos;
 
+  }
+
+  Future<List<Evento>> Recomendaciones() async
+  {
+    List<Evento> eventosRecomendados = await EventosRecomendados();
+    List<Evento> eventosAmigos = await EventosAmigos();
+
+    // Combinar las listas
+    List<Evento> result = [...eventosRecomendados, ...eventosAmigos];
+
+    // Eliminar elementos duplicados
+    List<Evento> eventosSinDuplicados = Set.of(result).toList();
+
+    return eventosSinDuplicados;
   }
 }
