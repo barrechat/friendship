@@ -94,11 +94,21 @@ class _PerfilState extends State<Perfil> {
                 ),
                 ListTile(
                   title: Text('Cerrar sesión'),
-                  onTap: () {
-                    // Acción para cerrar sesión
-                    // ...
-                    Navigator.pop(context); // Cierra el diálogo
-                  },
+                  onTap: () async {
+                      try {
+                        LoginPage loginPageInstance = new LoginPage(supabase: supabase);
+                        loginPageInstance.setCerrarSesion();
+                        await supabase.auth.signOut();
+                        Navigator.of(context).pushReplacement(
+                          MaterialPageRoute(builder: (context) => loginPageInstance),
+                        );
+                      } on AuthException catch (error) {
+                        context.showErrorSnackBar(message: error.message);
+                      } catch (error) {
+                        context.showErrorSnackBar(message: 'Unexpected error occurred');
+                      }
+                    }, // Cierra el diálogo
+                  // },
                 ),
               ],
             ),

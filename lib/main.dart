@@ -50,7 +50,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<Filtro> filtros = [Filtro(1, "fiesta"), Filtro(2, "alcohol")];
-    Evento evento = Evento(1,"evento", Type(1,"fiesta"),"descripcion descripcion descripcion descripcion","25€", filtros );
+    Evento evento = Evento(1,"evento", Type(1,"fiesta"),"descripcion descripcion descripcion descripcion","25€", filtros, "DateTime.now()", "DateTime.now()" );
     List<Evento> eventos = [evento,evento,evento,evento,evento,evento,evento,evento,evento];
     return MaterialApp(
       title: 'Flutter Demo',
