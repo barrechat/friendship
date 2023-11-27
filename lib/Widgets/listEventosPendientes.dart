@@ -11,6 +11,7 @@ class EventosPendientesWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: 242,
+
       child: ListView.builder(
 
           itemCount: eventos.length,

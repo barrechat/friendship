@@ -2,6 +2,7 @@ import 'dart:ui';
 import 'package:calendar_view/calendar_view.dart';
 import 'package:flutter/material.dart';
 import 'package:friendship/Class/evento.dart';
+import 'package:friendship/Pages/inicio.dart';
 import 'package:friendship/Pages/listfriends.dart';
 import 'package:friendship/Pages/perfil.dart';
 import 'package:friendship/Pages//create-event.dart';
@@ -59,7 +60,7 @@ class HomeState extends State<Home> {
       Day(controller: controller, event: event),
       CompEnlace(),
       createEvent(),
-      Perfil(),
+      inicio(),
       Search()
     ];
 

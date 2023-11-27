@@ -66,7 +66,6 @@ class Consultas{
     ;
 
     for (var item in response) {
-      print("recomendados" + item.toString());
       List<Filtro> filtros = [Filtro(1, item["filtro"]), Filtro(2, item["filtro2"])];
       Type tipo = Type(1, item["tipo"]);
       eventos.add(Evento(item["id"], item["nombre"], tipo , item["descripcion"], "0", filtros));
@@ -84,7 +83,6 @@ class Consultas{
     List<Evento> eventos = [];
     for (var item in response) {
       if(item["filtro1"] == filtro1 || item["filtro2"] == filtro1 || item["filtro1"] == filtro2 || item["filtro2"] == filtro2){
-        print("filtro" + item.toString());
         List<Filtro> filtros = [Filtro(1, item["filtro"]), Filtro(2, item["filtro2"])];
         Type tipo = Type(1, item["tipo"]);
         eventos.add(Evento(item["id"], item["nombre"], tipo , item["descripcion"], "0", filtros));
@@ -112,6 +110,9 @@ class Consultas{
     return eventos;
 
   }
+  Future<List<Filtro>> FiltrosDisponibles() async{
+    return [Filtro(1, "musica"),Filtro(2, "fiesta"),Filtro(3, "gastronomia"),Filtro(4, "aventura"),];
+  }
   Future<List<Evento>> EventosPropios() async
   {
     var response = await  supabase.from('eventos')
@@ -119,7 +120,13 @@ class Consultas{
         .eq("usuario", UserData.usuarioLog?.username);
     List<Evento> eventos = [];
     for (var item in response) {
-      print(item);
+      List<Filtro> filtros = [Filtro(1, item["filtro"]), Filtro(2, item["filtro2"])];
+      Type tipo = Type(1, item["tipo"]);
+      eventos.add(Evento(item["id"], item["nombre"], tipo , item["descripcion"], "0", filtros));
+    }
+    response = await  supabase.from('eventos')
+        .select('*').contains("amigos", [UserData.usuarioLog?.username]);
+    for (var item in response) {
       List<Filtro> filtros = [Filtro(1, item["filtro"]), Filtro(2, item["filtro2"])];
       Type tipo = Type(1, item["tipo"]);
       eventos.add(Evento(item["id"], item["nombre"], tipo , item["descripcion"], "0", filtros));
