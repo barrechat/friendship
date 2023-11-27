@@ -8,6 +8,8 @@ class Evento {
   late String descripcion;
   late String precio;
   late List<Filtro> filtros;
+  late String fechaHoraInicio;
+  late String fechaHoraFin;
   Evento(this.id, this.name, this.type, this.descripcion, this.precio,
-      this.filtros);
+      this.filtros, this.fechaHoraInicio, this.fechaHoraFin);
 }

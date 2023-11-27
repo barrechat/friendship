@@ -26,7 +26,7 @@ class Consultas{
       print(item);
       List<Filtro> filtros = [Filtro(1, item["filtro"]), Filtro(2, item["filtro2"])];
       Type tipo = Type(1, item["tipo"]);
-      eventos.add(Evento(item["id"], item["nombre"], tipo , item["descripcion"], "0", filtros));
+      eventos.add(Evento(item["id"], item["nombre"], tipo , item["descripcion"], "0", filtros, item["fechainicio"]+" "+ item["horainicio"],item["fechafin"]+" "+ item["horafin"] ));
   }
     return eventos;
 
@@ -49,7 +49,7 @@ class Consultas{
         print(rowAmigo);
         List<Filtro> filtros = [Filtro(1, evento["filtro"]), Filtro(2, evento["filtro2"])];
         Type tipo = Type(1, evento["tipo"]);
-        eventos.add(Evento(evento["id"], evento["nombre"], tipo , evento["descripcion"], "0", filtros));
+        eventos.add(Evento(evento["id"], evento["nombre"], tipo , evento["descripcion"], "0", filtros, evento["fechainicio"]+" "+ evento["horainicio"],evento["fechafin"]+" "+ evento["horafin"] ));
       }
     }
     return eventos;
@@ -68,7 +68,7 @@ class Consultas{
     for (var item in response) {
       List<Filtro> filtros = [Filtro(1, item["filtro"]), Filtro(2, item["filtro2"])];
       Type tipo = Type(1, item["tipo"]);
-      eventos.add(Evento(item["id"], item["nombre"], tipo , item["descripcion"], "0", filtros));
+      eventos.add(Evento(item["id"], item["nombre"], tipo , item["descripcion"], "0", filtros, item["fechainicio"]+" "+ item["horainicio"],item["fechafin"]+" "+ item["horafin"] ));
     }
 
     return eventos;
@@ -85,7 +85,7 @@ class Consultas{
       if(item["filtro1"] == filtro1 || item["filtro2"] == filtro1 || item["filtro1"] == filtro2 || item["filtro2"] == filtro2){
         List<Filtro> filtros = [Filtro(1, item["filtro"]), Filtro(2, item["filtro2"])];
         Type tipo = Type(1, item["tipo"]);
-        eventos.add(Evento(item["id"], item["nombre"], tipo , item["descripcion"], "0", filtros));
+        eventos.add(Evento(item["id"], item["nombre"], tipo , item["descripcion"], "0", filtros, item["fechainicio"]+" "+ item["horainicio"],item["fechafin"]+" "+ item["horafin"] ));
       }
     }
     return eventos;
@@ -102,7 +102,7 @@ class Consultas{
       if(item["filtro1"] == filtro1 || item["filtro2"] == filtro1){
         List<Filtro> filtros = [Filtro(1, item["filtro"]), Filtro(2, item["filtro2"])];
         Type tipo = Type(1, item["tipo"]);
-        eventos.add(Evento(item["id"], item["nombre"], tipo , item["descripcion"], "0", filtros));
+        eventos.add(Evento(item["id"], item["nombre"], tipo , item["descripcion"], "0", filtros, item["fechainicio"]+" "+ item["horainicio"],item["fechafin"]+" "+ item["horafin"] ));
       }
     }
     eventos.shuffle();
@@ -116,21 +116,21 @@ class Consultas{
   {
     var response = await  supabase.from('eventos')
         .select('*')
-        .eq("usuario", UserData.usuarioLog?.username).order("fechainicio").order("horainicio");
+        .eq("usuario", "abel");
     List<Evento> eventos = [];
     for (var item in response) {
       List<Filtro> filtros = [Filtro(1, item["filtro"]), Filtro(2, item["filtro2"])];
       Type tipo = Type(1, item["tipo"]);
-      eventos.add(Evento(item["id"], item["nombre"], tipo , item["descripcion"], "0", filtros));
-      print("${eventos[0]} eventos");
+      eventos.add(Evento(item["id"], item["nombre"], tipo , item["descripcion"], "0", filtros, item["fechainicio"]+" "+ item["horainicio"],item["fechafin"]+" "+ item["horafin"] ));
+      print(eventos[0].name + eventos[0].fechaHoraFin+"llamada");
     }
     response = await  supabase.from('eventos')
-        .select('*').contains("amigos", [UserData.usuarioLog?.username]).order("fechainicio").order("horainicio");
+        .select('*').contains("amigos", [UserData.usuarioLog?.username]);
     for (var item in response) {
       List<Filtro> filtros = [Filtro(1, item["filtro"]), Filtro(2, item["filtro2"])];
       Type tipo = Type(1, item["tipo"]);
-      eventos.add(Evento(item["id"], item["nombre"], tipo , item["descripcion"], "0", filtros));
-      print("${eventos[0]} eventos");
+      eventos.add(Evento(item["id"], item["nombre"], tipo , item["descripcion"], "0", filtros, item["fechainicio"]+" "+ item["horainicio"],item["fechafin"]+" "+ item["horafin"] ));
+      print(eventos[0].name + eventos[0].fechaHoraFin+"llamada");
     }
     return eventos;
 

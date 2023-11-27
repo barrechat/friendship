@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:calendar_view/calendar_view.dart';
 import 'package:flutter/material.dart';
 
@@ -12,37 +14,48 @@ class Day extends StatefulWidget {
 }
 
 class _DayViewState extends State<Day> {
-  late List<CalendarEventData> eventos;
+   List<CalendarEventData> eventos = [];
    EventController controller = EventController();
 
   @override
   Widget build(BuildContext context) {
 
 
-
+    obtenerEventos();
     return DayView(
       controller: controller,
     );
   }
-  Future<void> obtenerEventos() async {
-    List<Evento> eventosObtenidos = await Consultas().EventosPropios();
+   Future<void> obtenerEventos() async {
+     List<Evento> eventosObtenidos = await Consultas().EventosPropios();
+     List<CalendarEventData> nuevosEventos = [];
 
-    List<CalendarEventData> eventosData = eventosObtenidos.map((evento) {
-      if(!eventos.contains(evento)){}
-      return CalendarEventData(
-        title: evento.name,
-        date: DateTime.now(), // Usa la fecha del evento
-        event: evento.name,
-        description: evento.descripcion,
-        startTime: DateTime.now(), // Usa la hora de inicio del evento
-        endTime: DateTime.now().add(Duration(hours: 3)), // Usa la hora de finalización del evento
-      );
-    }).toList();
-    setState(() {
-      eventos = eventosData;
-      controller.addAll(eventos);
-    });
-  }
+     for (var evento in eventosObtenidos) {
+       if (!eventos.contains(evento)) {
+
+         String formattedDateStringIni = evento.fechaHoraInicio.substring(0, 10) + ' ' + evento.fechaHoraInicio.substring(10);
+         String formattedDateStringFin = evento.fechaHoraFin.substring(0, 10) + ' ' + evento.fechaHoraFin.substring(10);
+         print(formattedDateStringIni);
+         print(formattedDateStringFin);
+         DateTime dateTimeInicio = DateTime.parse(evento.fechaHoraInicio);
+         DateTime dateTimeFin = DateTime.parse(evento.fechaHoraFin);
+         var nuevoEvento = CalendarEventData(
+           title: evento.name,
+           date: dateTimeInicio, // Usa la fecha del evento
+           event: evento.name,
+           description: evento.descripcion,
+           startTime: dateTimeInicio, // Usa la hora de inicio del evento
+           endTime: dateTimeFin, // Usa la hora de finalización del evento
+         );
+         nuevosEventos.add(nuevoEvento);
+       }
+     }
+
+     setState(() {
+       eventos.addAll(nuevosEventos);
+       controller.addAll(nuevosEventos);
+     });
+   }
 
 
 }
