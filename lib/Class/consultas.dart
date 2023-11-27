@@ -117,12 +117,13 @@ class Consultas{
   {
     var response = await  supabase.from('eventos')
         .select('*')
-        .eq("usuario", UserData.usuarioLog?.username);
+        .eq("usuario", "abel");
     List<Evento> eventos = [];
     for (var item in response) {
       List<Filtro> filtros = [Filtro(1, item["filtro"]), Filtro(2, item["filtro2"])];
       Type tipo = Type(1, item["tipo"]);
       eventos.add(Evento(item["id"], item["nombre"], tipo , item["descripcion"], "0", filtros));
+      print("${eventos[0]} eventos");
     }
     response = await  supabase.from('eventos')
         .select('*').contains("amigos", [UserData.usuarioLog?.username]);
@@ -130,6 +131,7 @@ class Consultas{
       List<Filtro> filtros = [Filtro(1, item["filtro"]), Filtro(2, item["filtro2"])];
       Type tipo = Type(1, item["tipo"]);
       eventos.add(Evento(item["id"], item["nombre"], tipo , item["descripcion"], "0", filtros));
+      print("${eventos[0]} eventos");
     }
     return eventos;
 

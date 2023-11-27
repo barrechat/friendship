@@ -12,6 +12,8 @@ import 'package:friendship/Widgets/dayview.dart';
 import 'package:uni_links/uni_links.dart';
 import 'package:friendship/Class/pantalla_confirmacion.dart';
 import 'package:friendship/Class/usernameAuxiliar.dart';
+import 'package:friendship/Class/consultas.dart';
+
 import 'package:friendship/Pages/perfil.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -26,38 +28,32 @@ DateTime get _now => DateTime.now();
 
 class HomeState extends State<Home> {
   int actualPage = 0;
+  List<Evento> eventos = []; // Lista para almacenar los eventos de la base de datos
+
 
   final supabase = SupabaseClient(
     'https://peaoifidogwgoxzrpjft.supabase.co',
     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBlYW9pZmlkb2d3Z294enJwamZ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTY2MDExNDcsImV4cCI6MjAxMjE3NzE0N30.xPOHo3wz93O9S0kWU9gbGofVWlFOZuA7JB9UMAMoBbA',
   );
 
+
   @override
   Widget build(BuildContext context) {
     var controller = EventController();
-    final event = CalendarEventData(
-      title: "Event 1",
-      date: DateTime(_now.year, _now.month, _now.day),
-      event: "Event 1",
-      description: "First Example",
-      startTime:
-          DateTime(_now.year, _now.month, _now.day, _now.hour, _now.minute),
-      endTime:
-          DateTime(_now.year, _now.month, _now.day, _now.hour + 3, _now.minute),
-    );
-    final event2 = CalendarEventData(
-      title: "Event 2",
-      date: DateTime(_now.year, _now.month, _now.day),
-      event: "Event 2",
-      description: "Second Example",
-      startTime:
-          DateTime(_now.year, _now.month, _now.day, _now.hour, _now.minute),
-      endTime:
-          DateTime(_now.year, _now.month, _now.day, _now.hour + 3, _now.minute),
-    );
+
+    List<CalendarEventData> eventosData = eventos.map((evento) {
+      return CalendarEventData(
+        title: evento.name,
+        date: DateTime.now(), // Usa la fecha del evento
+        event: evento.name,
+        description: evento.descripcion,
+        startTime: DateTime.now(), // Usa la hora de inicio del evento
+        endTime: DateTime.now().add(Duration(hours: 3)), // Usa la hora de finalización del evento
+      );
+    }).toList();
 
     List<Widget> pages = [
-      Day(controller: controller, event: event),
+      Day(controller: controller, event: eventosData[0]),
       CompEnlace(),
       createEvent(),
       inicio(),
@@ -113,6 +109,7 @@ class HomeState extends State<Home> {
     initUniLinks();
     UserData userData = UserData();
     userData.construirUsuarioPorEmail(UserData.emailActual);
+    obtenerEventos();
   }
 
   void initUniLinks() async {
@@ -142,7 +139,15 @@ class HomeState extends State<Home> {
       }
     }
   }
+
+  Future<void> obtenerEventos() async {
+    List<Evento> eventosObtenidos = await Consultas().EventosPropios();
+    setState(() {
+      eventos = eventosObtenidos;
+    });
+  }
 }
+
 
 
 /*List<CalendarEventData<Evento>> _events = [

@@ -18,10 +18,11 @@ class _PerfilState extends State<Perfil> {
   final supabase = SupabaseClient('https://peaoifidogwgoxzrpjft.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBlYW9pZmlkb2d3Z294enJwamZ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTY2MDExNDcsImV4cCI6MjAxMjE3NzE0N30.xPOHo3wz93O9S0kWU9gbGofVWlFOZuA7JB9UMAMoBbA');
 
   Future<String?> downloadFile() async {
-    String fileName = 'caca.jpg';
-    final response = await supabase.storage
+
+    final response = await supabase
+        .storage
         .from('avatares')
-        .download(fileName);
+        .download('https://peaoifidogwgoxzrpjft.supabase.co/storage/v1/object/public/avatares/avatares/pngegg.png');
   }
 
   @override
@@ -33,7 +34,7 @@ class _PerfilState extends State<Perfil> {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return CircularProgressIndicator();
           } else if (snapshot.hasError) {
-            return Text('Error al descargar la imagen');
+            return Text('Error al descargar la imagen' + snapshot.error.toString());
           } else if (snapshot.hasData) {
             return Image.file(
               File(snapshot.data!),
