@@ -15,10 +15,6 @@ class _DayViewState extends State<Day> {
   Widget build(BuildContext context) {
     return DayView(
       controller: widget.controller,
-      onDateLongPress: (ca) {
-        // Ejemplo: Añadir el primer evento al presionar la fecha
-        widget.controller.addAll(widget.events);
-      },
     );
   }
 }

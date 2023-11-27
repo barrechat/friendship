@@ -2,7 +2,7 @@ import 'dart:ui';
 import 'package:calendar_view/calendar_view.dart';
 import 'package:flutter/material.dart';
 import 'package:friendship/Class/evento.dart';
-import 'package:friendship/Pages/inicio.dart';
+import 'package:friendship/Pages/planes.dart';
 import 'package:friendship/Pages/listfriends.dart';
 import 'package:friendship/Pages/perfil.dart';
 import 'package:friendship/Pages//create-event.dart';
@@ -51,12 +51,13 @@ class HomeState extends State<Home> {
         endTime: DateTime.now().add(Duration(hours: 3)), // Usa la hora de finalización del evento
       );
     }).toList();
-
+    controller.addAll(eventosData);
     List<Widget> pages = [
       Day(controller: controller, events: eventosData),
+      Planes(),
       CompEnlace(),
       createEvent(),
-      inicio(),
+      Planes(),
       Search()
     ];
 
@@ -89,12 +90,14 @@ class HomeState extends State<Home> {
                     BottomNavigationBarItem(
                         icon: Icon(Icons.home), label: "Home"),
                     BottomNavigationBarItem(
+                        icon: Icon(Icons.airplane_ticket), label: "Planes"),
+                    BottomNavigationBarItem(
                         icon: Icon(Icons.workspaces_sharp),
                         label: "Friend List"),
                     BottomNavigationBarItem(
                         icon: Icon(Icons.add), label: "AddEvent"),
                     BottomNavigationBarItem(
-                        icon: Icon(Icons.qr_code), label: "QR"),
+                        icon: Icon(Icons.search), label: "search"),
                     BottomNavigationBarItem(
                         icon: Icon(Icons.account_circle), label: "Account"),
                   ]))),

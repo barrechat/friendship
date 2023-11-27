@@ -7,14 +7,14 @@ import '../Widgets/listEventoBusqueda.dart';
 import '../Widgets/listEventos.dart';
 import '../Widgets/listEventosPendientes.dart';
 
-class inicio extends StatefulWidget {
-  const inicio({super.key});
+class Planes extends StatefulWidget {
+  const Planes({super.key});
 
   @override
-  State<inicio> createState() => inicioState();
+  State<Planes> createState() => PlanesState();
 }
 
-class inicioState extends State<inicio> {
+class PlanesState extends State<Planes> {
   @override
   Widget build(BuildContext context) {
     return Column(
