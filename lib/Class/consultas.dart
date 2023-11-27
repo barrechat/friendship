@@ -116,7 +116,7 @@ class Consultas{
   {
     var response = await  supabase.from('eventos')
         .select('*')
-        .eq("usuario", UserData.usuarioLog?.username);
+        .eq("usuario", UserData.usuarioLog?.username).order("fechainicio").order("horainicio");
     List<Evento> eventos = [];
     for (var item in response) {
       List<Filtro> filtros = [Filtro(1, item["filtro"]), Filtro(2, item["filtro2"])];
@@ -125,7 +125,7 @@ class Consultas{
       print("${eventos[0]} eventos");
     }
     response = await  supabase.from('eventos')
-        .select('*').contains("amigos", [UserData.usuarioLog?.username]);
+        .select('*').contains("amigos", [UserData.usuarioLog?.username]).order("fechainicio").order("horainicio");
     for (var item in response) {
       List<Filtro> filtros = [Filtro(1, item["filtro"]), Filtro(2, item["filtro2"])];
       Type tipo = Type(1, item["tipo"]);

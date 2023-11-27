@@ -25,13 +25,17 @@ class CompEnlaceState extends State<CompEnlace> {
 
   void launchWhatsApp({required String phone}) async {
     String nombreUsuario = UserData.usuarioLog!.username;
-    String numeroSinPais = phone;
+    String numeroSinPlus = phone.replaceAll('+', '');
+    print(nombreUsuario);
+    print(numeroSinPlus);
 
     final Uri whatsappUrl = Uri(
       scheme: 'https',
       host: 'wa.me',
-      path: numeroSinPais,
-      queryParameters: {'text': 'https://aplicacionpin.000webhostapp.com/redireccion.html?username='+nombreUsuario},
+      path: numeroSinPlus,
+      queryParameters: {
+        'text': 'https://aplicacionpin.000webhostapp.com/redireccion.html?username=$nombreUsuario',
+      },
     );
 
     if (await canLaunchUrl(whatsappUrl)) {

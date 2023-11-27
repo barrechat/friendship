@@ -31,7 +31,9 @@ class PlanesState extends State<Planes> {
           future: Consultas().Recomendaciones(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return CircularProgressIndicator();
+              return Column(
+
+                  children:[SizedBox(height: 58,),CircularProgressIndicator(),SizedBox(height: 55,)]);
             } else if (snapshot.hasError) {
               return Text('Error: ${snapshot.error}');
             } else {
@@ -54,7 +56,7 @@ class PlanesState extends State<Planes> {
           future: Consultas().EventosPropios(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return CircularProgressIndicator();
+              return Center(child:CircularProgressIndicator());
             } else if (snapshot.hasError) {
               return Text('Error: ${snapshot.error}');
             } else {
