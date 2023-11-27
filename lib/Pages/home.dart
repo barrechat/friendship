@@ -57,8 +57,8 @@ class HomeState extends State<Home> {
       Planes(),
       CompEnlace(),
       createEvent(),
-      Planes(),
-      Search()
+      Search(),
+      Perfil()
     ];
 
     return CalendarControllerProvider(
