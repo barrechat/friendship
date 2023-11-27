@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:ui';
 import 'package:calendar_view/calendar_view.dart';
 import 'package:flutter/material.dart';
@@ -41,19 +42,9 @@ class HomeState extends State<Home> {
   Widget build(BuildContext context) {
     var controller = EventController();
 
-    List<CalendarEventData> eventosData = eventos.map((evento) {
-      return CalendarEventData(
-        title: evento.name,
-        date: DateTime.now(), // Usa la fecha del evento
-        event: evento.name,
-        description: evento.descripcion,
-        startTime: DateTime.now(), // Usa la hora de inicio del evento
-        endTime: DateTime.now().add(Duration(hours: 3)), // Usa la hora de finalización del evento
-      );
-    }).toList();
-    controller.addAll(eventosData);
+
     List<Widget> pages = [
-      Day(controller: controller, events: eventosData),
+      Day(),
       Planes(),
       CompEnlace(),
       createEvent(),
@@ -110,8 +101,8 @@ class HomeState extends State<Home> {
   void initState() {
     super.initState();
     initUniLinks();
-    UserData userData = UserData();
-    userData.construirUsuarioPorEmail(UserData.emailActual);
+    sleep(Duration(milliseconds: 1000));
+
     obtenerEventos();
   }
 
@@ -144,6 +135,7 @@ class HomeState extends State<Home> {
   }
 
   Future<void> obtenerEventos() async {
+    print(UserData.usuarioLog?.username);
     List<Evento> eventosObtenidos = await Consultas().EventosPropios();
     setState(() {
       eventos = eventosObtenidos;

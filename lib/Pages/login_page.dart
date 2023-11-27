@@ -53,7 +53,10 @@ class _LoginPageState extends State<LoginPage> {
       if (session != null) {
         _isRedirecting = true;
         UserData.emailActual= data.session!.user.email;
-        print(UserData.emailActual);
+
+        UserData userData = UserData();
+        userData.construirUsuarioPorEmail(UserData.emailActual);
+
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (context) => Home()),
         );
@@ -67,9 +70,11 @@ class _LoginPageState extends State<LoginPage> {
       await widget.supabase.auth.signInWithPassword(email: usernameController.text, password: passwordController.text);
       if (mounted) {
         UserData.emailActual=usernameController.text;
-        print(UserData.emailActual);
+        UserData userData = UserData();
+        userData.construirUsuarioPorEmail(UserData.emailActual);
         usernameController.clear();
         passwordController.clear();
+
 
         _isRedirecting = true;
         Navigator.of(context).pushReplacement(

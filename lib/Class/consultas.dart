@@ -100,7 +100,6 @@ class Consultas{
     List<Evento> eventos = [];
     for (var item in response) {
       if(item["filtro1"] == filtro1 || item["filtro2"] == filtro1){
-        print("filtro" + item.toString());
         List<Filtro> filtros = [Filtro(1, item["filtro"]), Filtro(2, item["filtro2"])];
         Type tipo = Type(1, item["tipo"]);
         eventos.add(Evento(item["id"], item["nombre"], tipo , item["descripcion"], "0", filtros));
