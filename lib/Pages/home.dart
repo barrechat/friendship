@@ -53,7 +53,7 @@ class HomeState extends State<Home> {
     }).toList();
 
     List<Widget> pages = [
-      Day(controller: controller, event: eventosData[0]),
+      Day(controller: controller, events: eventosData),
       CompEnlace(),
       createEvent(),
       inicio(),

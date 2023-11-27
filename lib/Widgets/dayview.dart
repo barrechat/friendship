@@ -3,18 +3,22 @@ import 'package:flutter/material.dart';
 
 class Day extends StatefulWidget {
   final EventController controller;
-  final CalendarEventData event;
-  const Day({super.key , required this.controller, required this.event});
+  final List<CalendarEventData> events; // Cambio a una lista de eventos
+  const Day({Key? key, required this.controller, required this.events});
 
   @override
-  State<Day> createState() => _DayviewState();
+  State<Day> createState() => _DayViewState();
 }
 
-class _DayviewState extends State<Day> {
-
+class _DayViewState extends State<Day> {
   @override
   Widget build(BuildContext context) {
-
-    return DayView(controller: widget.controller ,onDateLongPress: (date)=>{widget.controller.add(widget.event)});
+    return DayView(
+      controller: widget.controller,
+      onDateLongPress: (ca) {
+        // Ejemplo: Añadir el primer evento al presionar la fecha
+        widget.controller.addAll(widget.events);
+      },
+    );
   }
 }
