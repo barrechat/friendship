@@ -22,8 +22,8 @@ class ConfirmacionState extends State<Confirmacion> {
     var amigo = UserData.username;
     var usuarioActual = UserData.usuarioLog!.username;
 
-    print(usuarioActual);
-    print(amigo);
+    //print(usuarioActual);
+    //print(amigo);
 
     //Parte de la lista de amigos del usuario actual
     var listaAmigos = await supabase

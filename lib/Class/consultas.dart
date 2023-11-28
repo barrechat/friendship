@@ -23,7 +23,7 @@ class Consultas{
       .ilike("nombre", '$nombreEvento%');
     List<Evento> eventos = [];
     for (var item in response) {
-      print(item);
+      //print(item);
       List<Filtro> filtros = [Filtro(1, item["filtro"]), Filtro(2, item["filtro2"])];
       Type tipo = Type(1, item["tipo"]);
       eventos.add(Evento(item["id"], item["nombre"], tipo , item["descripcion"], "0", filtros, item["fechainicio"]+" "+ item["horainicio"],item["fechafin"]+" "+ item["horafin"] ));
@@ -46,7 +46,7 @@ class Consultas{
           .eq("usuario", amigo)
           .eq("tipo", "publico");
       for(var evento in rowAmigo){
-        print(rowAmigo);
+        //print(rowAmigo);
         List<Filtro> filtros = [Filtro(1, evento["filtro"]), Filtro(2, evento["filtro2"])];
         Type tipo = Type(1, evento["tipo"]);
         eventos.add(Evento(evento["id"], evento["nombre"], tipo , evento["descripcion"], "0", filtros, evento["fechainicio"]+" "+ evento["horainicio"],evento["fechafin"]+" "+ evento["horafin"] ));
@@ -122,7 +122,7 @@ class Consultas{
       List<Filtro> filtros = [Filtro(1, item["filtro"]), Filtro(2, item["filtro2"])];
       Type tipo = Type(1, item["tipo"]);
       eventos.add(Evento(item["id"], item["nombre"], tipo , item["descripcion"], "0", filtros, item["fechainicio"]+" "+ item["horainicio"],item["fechafin"]+" "+ item["horafin"] ));
-      print(eventos[0].name + eventos[0].fechaHoraFin+"llamada");
+      //print(eventos[0].name + eventos[0].fechaHoraFin+"llamada");
     }
     response = await  supabase.from('eventos')
         .select('*').contains("amigos", [UserData.usuarioLog?.username]);
@@ -130,7 +130,7 @@ class Consultas{
       List<Filtro> filtros = [Filtro(1, item["filtro"]), Filtro(2, item["filtro2"])];
       Type tipo = Type(1, item["tipo"]);
       eventos.add(Evento(item["id"], item["nombre"], tipo , item["descripcion"], "0", filtros, item["fechainicio"]+" "+ item["horainicio"],item["fechafin"]+" "+ item["horafin"] ));
-      print(eventos[0].name + eventos[0].fechaHoraFin+"llamada");
+      //print(eventos[0].name + eventos[0].fechaHoraFin+"llamada");
     }
     return eventos;
 

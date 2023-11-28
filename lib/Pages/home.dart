@@ -135,7 +135,7 @@ class HomeState extends State<Home> {
   }
 
   Future<void> obtenerEventos() async {
-    print(UserData.usuarioLog?.username);
+    //print(UserData.usuarioLog?.username);
     List<Evento> eventosObtenidos = await Consultas().EventosPropios();
     setState(() {
       eventos = eventosObtenidos;

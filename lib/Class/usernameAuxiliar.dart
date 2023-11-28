@@ -51,6 +51,6 @@ class UserData {
     }
 
     usuarioLog = new usuario.User(usernameAux, email!, telefonoAux, eventosAux);
-    print(usuarioLog!.username + "evento");
+    //print(usuarioLog!.username + "evento");
     }
   }

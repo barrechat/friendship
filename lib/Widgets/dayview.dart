@@ -35,8 +35,8 @@ class _DayViewState extends State<Day> {
 
          String formattedDateStringIni = evento.fechaHoraInicio.substring(0, 10) + ' ' + evento.fechaHoraInicio.substring(10);
          String formattedDateStringFin = evento.fechaHoraFin.substring(0, 10) + ' ' + evento.fechaHoraFin.substring(10);
-         print(formattedDateStringIni);
-         print(formattedDateStringFin);
+         //print(formattedDateStringIni);
+         //print(formattedDateStringFin);
          DateTime dateTimeInicio = DateTime.parse(evento.fechaHoraInicio);
          DateTime dateTimeFin = DateTime.parse(evento.fechaHoraFin);
          var nuevoEvento = CalendarEventData(

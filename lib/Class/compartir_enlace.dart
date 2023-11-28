@@ -26,8 +26,8 @@ class CompEnlaceState extends State<CompEnlace> {
   void launchWhatsApp({required String phone}) async {
     String nombreUsuario = UserData.usuarioLog!.username;
     String numeroSinPlus = phone.replaceAll('+', '');
-    print(nombreUsuario);
-    print(numeroSinPlus);
+    //print(nombreUsuario);
+    //print(numeroSinPlus);
 
     final Uri whatsappUrl = Uri(
       scheme: 'https',
