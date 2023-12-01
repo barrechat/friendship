@@ -14,7 +14,7 @@ import 'package:uni_links/uni_links.dart';
 import 'package:friendship/Class/pantalla_confirmacion.dart';
 import 'package:friendship/Class/usernameAuxiliar.dart';
 import 'package:friendship/Class/consultas.dart';
-
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:friendship/Pages/perfil.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -42,6 +42,8 @@ class HomeState extends State<Home> {
   Widget build(BuildContext context) {
     var controller = EventController();
 
+
+    ScreenUtil.init(context, minTextAdapt: true, splitScreenMode: true,);
 
     List<Widget> pages = [
       Day(),

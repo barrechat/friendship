@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:friendship/Class/consultas.dart';
 import 'package:friendship/Class/evento.dart';
 import 'package:friendship/Class/filtro.dart';
@@ -19,10 +20,10 @@ class RecomendacionPage extends StatelessWidget {
     return Column(
 
       children: [
-        const SizedBox(
-          height: 50,
+        SizedBox(
+          height: ScreenUtil().setHeight(34),
           child: Text("De tus amigos",  style: TextStyle(
-            fontSize: 25,
+            fontSize: ScreenUtil().setSp(20),
             fontWeight: FontWeight.bold,
           ),
           ),
@@ -43,10 +44,10 @@ class RecomendacionPage extends StatelessWidget {
         }
       },
     ),
-        const SizedBox(
-          height: 50,
+        SizedBox(
+          height: ScreenUtil().setHeight(34),
           child: Text("Segun tus preferencias",  style: TextStyle(
-            fontSize: 25,
+            fontSize: ScreenUtil().setSp(20),
             fontWeight: FontWeight.bold,
           ),
           ),
@@ -67,10 +68,10 @@ class RecomendacionPage extends StatelessWidget {
             }
           },
         ),
-        const SizedBox(
-          height: 50,
+        SizedBox(
+          height: ScreenUtil().setHeight(34),
           child: Text("Recomendados",  style: TextStyle(
-            fontSize: 25,
+            fontSize: ScreenUtil().setSp(20),
             fontWeight: FontWeight.bold,
           ),
           ),

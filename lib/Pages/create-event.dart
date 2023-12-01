@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:friendship/Widgets/dateTimePicker.dart';
 
@@ -26,32 +27,32 @@ class _createEventState extends State<createEvent> {
   Widget build(BuildContext context) {
     return Column(
                 children: [
-                  SizedBox(height: 20.0),
+                  SizedBox(height: ScreenUtil().setHeight(10)),
                     Text("Nombre del evento",
-                          style: TextStyle(fontSize: 20.0)
+                          style: TextStyle(fontSize:  ScreenUtil().setSp(18))
                           ),
                   TextFormField(
                     onChanged: (text){
                       nombreDelEvento = text;
                     },
                   ),
-                  SizedBox(height: 20.0),
+                  SizedBox(height: ScreenUtil().setHeight(10)),
                   Text("Descripción del evento",
-                      style: TextStyle(fontSize: 20.0)
+                      style: TextStyle(fontSize:  ScreenUtil().setSp(18))
                   ),
                   TextFormField(
                     onChanged: (text){
                       descripcionDelEvento = text;
                     },
                   ),
-                  SizedBox(height: 20.0),
+                  SizedBox(height: ScreenUtil().setHeight(10)),
                   Text("Fecha y hora del evento",
-                      style: TextStyle(fontSize: 20.0)
+                      style: TextStyle(fontSize:  ScreenUtil().setSp(18))
                   ),
-                  SizedBox(height: 20.0),
+                  SizedBox(height: ScreenUtil().setHeight(10)),
                   Row(
                       children:[
-                        SizedBox(width: 65.0),
+                        SizedBox(width: ScreenUtil().setWidth(50)),
 
                         ElevatedButton(
                           onPressed: () async {
@@ -64,9 +65,9 @@ class _createEventState extends State<createEvent> {
                               fechaEscogida = escogida;
                             }
                           },
-                          child: const Text('Frcha inicial'),
+                          child: const Text('Fecha inicial'),
                         ),
-                        SizedBox(width: 40.0),
+                        SizedBox(width: ScreenUtil().setWidth(40)),
                         ElevatedButton(
                           onPressed: () async {
                             final DateTime? escogida = await showDatePicker(
@@ -85,7 +86,7 @@ class _createEventState extends State<createEvent> {
 
                   Row(
                       children:[
-                        SizedBox(width: 20.0),
+                        SizedBox(width: ScreenUtil().setWidth(5)),
 
                         ElevatedButton(
                           onPressed: () async{
@@ -96,7 +97,7 @@ class _createEventState extends State<createEvent> {
                           },
                           child: const Text('Escoger hora inicial')
                         ),
-                        SizedBox(width: 40.0),
+                        SizedBox(width: ScreenUtil().setWidth(40)),
                         ElevatedButton(
                           onPressed: () async{
                             horaFinal = await showTimePicker(
@@ -108,11 +109,11 @@ class _createEventState extends State<createEvent> {
                         ),
                       ]
                   ),
-                  SizedBox(height: 20.0),
+                  SizedBox(height: ScreenUtil().setHeight(10)),
                   Text("Seleccionar amigos",
-                      style: TextStyle(fontSize: 20.0)
+                      style: TextStyle(fontSize:  ScreenUtil().setSp(18))
                   ),
-                  SizedBox(height: 20.0),
+                  SizedBox(height: ScreenUtil().setHeight(10)),
                   DropdownButtonFormField(
                       items: listaDeAmigos.map((e){
                         /// Ahora creamos "e" y contiene cada uno de los items de la lista.
@@ -125,11 +126,11 @@ class _createEventState extends State<createEvent> {
                         Amigo = text;
                       }
                   ),
-                  SizedBox(height: 20.0),
+                  SizedBox(height: ScreenUtil().setHeight(10)),
                   Text("Seleccionar tipo de evento",
-                      style: TextStyle(fontSize: 20.0)
+                      style: TextStyle(fontSize:  ScreenUtil().setSp(18))
                   ),
-                  SizedBox(height: 20.0),
+                  SizedBox(height: ScreenUtil().setHeight(10)),
                   DropdownButtonFormField(
                       items: listaTipoEvento.map((e){
                         return DropdownMenuItem(
@@ -141,7 +142,7 @@ class _createEventState extends State<createEvent> {
                         Amigo = text;
                       }
                   ),
-                  SizedBox(height: 20.0),
+                  SizedBox(height: ScreenUtil().setHeight(10)),
                   ElevatedButton(
                     onPressed: () {
                       /*supabase
