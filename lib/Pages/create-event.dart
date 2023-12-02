@@ -1,7 +1,11 @@
+import 'dart:math';
+
+import 'package:calendar_view/calendar_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:friendship/Widgets/dateTimePicker.dart';
+import 'package:friendship/Class/usernameAuxiliar.dart';
 
 class createEvent extends StatefulWidget {
   const createEvent({super.key});
@@ -11,12 +15,12 @@ class createEvent extends StatefulWidget {
 }
 
 class _createEventState extends State<createEvent> {
-  List<String> listaDeAmigos = <String>["A","B","C","D","E","F","G"];
-  List<String> listaTipoEvento = <String>["Chill","Tardeo","Concierto"];
-  late DateTime fechaEscogida;
-  late DateTime fechaEscogida_final;
-  String nombreDelEvento = '';
-  String descripcionDelEvento = '';
+  List<String> listaDeAmigos = <String>["Aritz","Alex"];
+  List<String> listaTipoEvento = <String>["Publico", "Privado"];
+  late DateTime fechaEscogida = DateTime.now();
+  late DateTime fechaEscogida_final= DateTime.now().add(Duration(hours: 2));
+  String nombreDelEvento = 'aaaa';
+  String descripcionDelEvento = 'cccccc';
   TimeOfDay? horaInicial;
   TimeOfDay? horaFinal;
   String? Amigo;
@@ -64,7 +68,7 @@ class _createEventState extends State<createEvent> {
                               fechaEscogida = escogida;
                             }
                           },
-                          child: const Text('Frcha inicial'),
+                          child: const Text('Fecha inicial'),
                         ),
                         SizedBox(width: 40.0),
                         ElevatedButton(
@@ -144,10 +148,10 @@ class _createEventState extends State<createEvent> {
                   SizedBox(height: 20.0),
                   ElevatedButton(
                     onPressed: () {
-                      /*supabase
+                      supabase
                           .from('eventos')
-                          .insert({'id':1, 'nombre':'Abel', 'tipo':'evento','descripcion':,'usuario':'Abeldel','fechaInicio':, 'horaInicio': ,'horafin':,'fechafin':});
-                    */},
+                          .insert({'id':Random().nextInt(100) + 100, 'nombre':nombreDelEvento, 'tipo':'publico','descripcion': descripcionDelEvento,'usuario':UserData.usuarioLog?.username ?? 'Abel','fechaInicio':fechaEscogida.withoutTime, 'horaInicio': horaInicial,'horafin':horaFinal,'fechafin':fechaEscogida_final.withoutTime, 'amigos':[""], 'filtro1':"fiesta", 'filtro2':"aventura"});
+                    },
                     child: const Text('Añadir Evento'),
                   )
 
