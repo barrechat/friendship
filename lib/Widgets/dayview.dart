@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:calendar_view/calendar_view.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import '../Class/consultas.dart';
 import '../Class/evento.dart';
@@ -16,14 +17,22 @@ class Day extends StatefulWidget {
 class _DayViewState extends State<Day> {
    List<CalendarEventData> eventos = [];
    EventController controller = EventController();
-
   @override
   Widget build(BuildContext context) {
-
+    String myDateStringBuilder(DateTime date, {DateTime? secondaryDate}) {
+      if (secondaryDate != null) {
+        // Personalización basada en la fecha secundaria si está presente
+        return '${DateFormat('dd de MMMM').format(date)}, Fecha secundaria: ${DateFormat('d MMM y').format(secondaryDate)}';
+      } else {
+        // Personalización solo con la fecha primaria si no hay fecha secundaria
+        return '${DateFormat('EEEE, dd of MMMM').format(date)}';
+      }
+    }
 
     obtenerEventos();
     return DayView(
       controller: controller,
+      dateStringBuilder: myDateStringBuilder,
     );
   }
    Future<void> obtenerEventos() async {
