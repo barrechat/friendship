@@ -10,7 +10,7 @@ class Evento {
   late List<Filtro> filtros;
   late String fechaHoraInicio;
   late String fechaHoraFin;
-  late String userName;
+  late String lugar;
   Evento(this.id, this.name, this.type, this.descripcion, this.precio,
-      this.filtros, this.fechaHoraInicio, this.fechaHoraFin, this.userName);
+      this.filtros, this.fechaHoraInicio, this.fechaHoraFin, this.lugar);
 }
