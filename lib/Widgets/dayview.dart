@@ -29,6 +29,10 @@ class _DayViewState extends State<Day> {
    Future<void> obtenerEventos() async {
      List<Evento> eventosObtenidos = await Consultas().EventosPropios();
      List<CalendarEventData> nuevosEventos = [];
+     Color colorCalendario;
+     Color colorYo = Color(0xFF5094F9);
+
+     Color colorAmigo = Color(0xFF20BD8E);
 
      for (var evento in eventosObtenidos) {
        if (!eventos.contains(evento)) {
@@ -39,6 +43,15 @@ class _DayViewState extends State<Day> {
          //print(formattedDateStringFin);
          DateTime dateTimeInicio = DateTime.parse(evento.fechaHoraInicio);
          DateTime dateTimeFin = DateTime.parse(evento.fechaHoraFin);
+         if (evento.userName == UserData.usuarioLog?.username) {
+           // Asigna una decoración específica para este filtro
+           colorCalendario = colorYo;
+         }else {
+           // Asigna una decoración predeterminada o por defecto
+           colorCalendario = colorAmigo;
+         }
+
+
          var nuevoEvento = CalendarEventData(
            title: evento.name,
            date: dateTimeInicio, // Usa la fecha del evento
@@ -46,6 +59,7 @@ class _DayViewState extends State<Day> {
            description: evento.descripcion,
            startTime: dateTimeInicio, // Usa la hora de inicio del evento
            endTime: dateTimeFin, // Usa la hora de finalización del evento
+           color: colorCalendario,
          );
          nuevosEventos.add(nuevoEvento);
        }
