@@ -17,17 +17,17 @@ class Consultas{
   Future<List<Evento>> BuscarEventos({required String nombreEvento}) async
   {
     var response = await  supabase.from('eventos')
-      .select('*')
-      .eq("tipo", "publico")
-      .gte("fechainicio", DateTime.now())
-      .ilike("nombre", '$nombreEvento%');
+        .select('*')
+        .eq("tipo", "publico")
+        .gte("fechainicio", DateTime.now())
+        .ilike("nombre", '$nombreEvento%');
     List<Evento> eventos = [];
     for (var item in response) {
       //print(item);
       List<Filtro> filtros = [Filtro(1, item["filtro"]), Filtro(2, item["filtro2"])];
       Type tipo = Type(1, item["tipo"]);
       eventos.add(Evento(item["id"], item["nombre"], tipo , item["descripcion"], "0", filtros, item["fechainicio"]+" "+ item["horainicio"],item["fechafin"]+" "+ item["horafin"] ));
-  }
+    }
     return eventos;
 
   }
@@ -116,7 +116,7 @@ class Consultas{
   {
     var response = await  supabase.from('eventos')
         .select('*')
-        .eq("usuario", "abel");
+        .eq("usuario", UserData.usuarioLog?.username);
     List<Evento> eventos = [];
     for (var item in response) {
       List<Filtro> filtros = [Filtro(1, item["filtro"]), Filtro(2, item["filtro2"])];
