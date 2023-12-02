@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:friendship/Class/consultas.dart';
 import 'package:friendship/Class/evento.dart';
 import 'package:friendship/Class/filtro.dart';
