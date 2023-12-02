@@ -14,7 +14,7 @@ import 'package:uni_links/uni_links.dart';
 import 'package:friendship/Class/pantalla_confirmacion.dart';
 import 'package:friendship/Class/usernameAuxiliar.dart';
 import 'package:friendship/Class/consultas.dart';
-
+import 'package:responsive_framework/responsive_framework.dart';
 import 'package:friendship/Pages/perfil.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -55,6 +55,15 @@ class HomeState extends State<Home> {
     return CalendarControllerProvider(
       controller: controller,
       child: MaterialApp(
+          builder: (context, widget) => ResponsiveWrapper.builder(
+            ClampingScrollWrapper.builder(context, widget!),
+            breakpoints: const [
+              ResponsiveBreakpoint.resize(350, name: MOBILE),
+              ResponsiveBreakpoint.autoScale(600, name: TABLET),
+              ResponsiveBreakpoint.resize(800, name: DESKTOP),
+              ResponsiveBreakpoint.autoScale(1700, name: 'XL'),
+            ],
+          ),
           title: "friend.ship",
           theme: ThemeData(primarySwatch: Colors.indigo),
           scrollBehavior: ScrollBehavior().copyWith(
