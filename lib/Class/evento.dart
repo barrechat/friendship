@@ -11,6 +11,7 @@ class Evento {
   late String fechaHoraInicio;
   late String fechaHoraFin;
   late String lugar;
+  late String userName;
   Evento(this.id, this.name, this.type, this.descripcion, this.precio,
-      this.filtros, this.fechaHoraInicio, this.fechaHoraFin, this.lugar);
+      this.filtros, this.fechaHoraInicio, this.fechaHoraFin, this.lugar, this.userName);
 }

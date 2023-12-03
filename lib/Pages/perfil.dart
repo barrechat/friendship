@@ -245,21 +245,21 @@ class _PerfilState extends State<Perfil> {
             mainAxisSize: MainAxisSize.min,
             children: [
               ListTile(
-                title: Text('Opción 1'),
+                title: Text('Hombre'),
                 onTap: () {
                   cambiarAvatar('https://peaoifidogwgoxzrpjft.supabase.co/storage/v1/object/public/avatares/avatar.png');
                   Navigator.pop(context);
                 },
               ),
               ListTile(
-                title: Text('Opción 2'),
+                title: Text('Mujer'),
                 onTap: () {
                   cambiarAvatar('https://peaoifidogwgoxzrpjft.supabase.co/storage/v1/object/public/avatares/avatarmujer.png?t=2023-11-28T10%3A25%3A42.756Z');
                   Navigator.pop(context);
                 },
               ),
               ListTile(
-                title: Text('Opción 3'),
+                title: Text('Helicóptero'),
                 onTap: () {
                   cambiarAvatar('https://peaoifidogwgoxzrpjft.supabase.co/storage/v1/object/public/avatares/helicoptero.png?t=2023-11-28T10%3A26%3A04.315Z');
                   Navigator.pop(context);
