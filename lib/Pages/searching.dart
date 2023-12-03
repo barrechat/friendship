@@ -20,22 +20,45 @@ class _SearchState extends State<Search> {
       children: [
         Padding(
           padding: const EdgeInsets.all(8.0),
-          child: TextField(
-            controller: _searchController,
-            onSubmitted: onSearchSubmitted,
-            decoration: InputDecoration(
-              labelText: 'Search',
-              hintText: 'Enter search term',
-              prefixIcon: Icon(Icons.search),
+          child: Container(
+            decoration: BoxDecoration(
+              border: Border.all(color: Color(0xFF530577)), // Color y ancho del borde
+              borderRadius: BorderRadius.circular(50), // Radio de borde
+            ),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: TextField(
+                      controller: _searchController,
+                      onSubmitted: onSearchSubmitted,
+                      decoration: InputDecoration(
+                        border: InputBorder.none, // Sin borde para el TextField
+                        labelText: 'Buscar plan',
+                        hintText: 'Nombre del plan',
+                      ),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: Icon(
+                    Icons.search,
+                    color: Color(0xFF530577),
+                  ),
+                ),
+              ],
             ),
           ),
         ),
         Expanded(
-        child: resultado)
-
+          child: resultado,
+        ),
       ],
     );
   }
+
 
   void onSearchSubmitted(String text) {
     if (text.isNotEmpty) {

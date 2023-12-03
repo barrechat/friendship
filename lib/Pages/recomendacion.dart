@@ -35,6 +35,7 @@ class RecomendacionPage extends StatelessWidget {
                     child: Text("De tus amigos",  style: TextStyle(
                       fontSize: 25,
                       fontWeight: FontWeight.bold,
+                      fontFamily: 'Google Sans',
                     ),
                     ),
                   ),
@@ -59,6 +60,7 @@ class RecomendacionPage extends StatelessWidget {
                     child: Text("Segun tus preferencias",  style: TextStyle(
                       fontSize: 25,
                       fontWeight: FontWeight.bold,
+                      fontFamily: 'Google Sans',
                     ),
                     ),
                   ),
@@ -83,6 +85,7 @@ class RecomendacionPage extends StatelessWidget {
                     child: Text("Recomendados",  style: TextStyle(
                       fontSize: 25,
                       fontWeight: FontWeight.bold,
+                      fontFamily: 'Google Sans',
                     ),
                     ),
                   ),

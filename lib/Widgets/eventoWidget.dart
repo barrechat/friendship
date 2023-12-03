@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:friendship/Class/evento.dart';
 import 'package:friendship/Widgets/filtroWidget.dart';
@@ -7,15 +9,30 @@ class EventoWidget extends StatelessWidget {
 
   const EventoWidget({super.key, required this.evento});
 
+
+
   @override
   Widget build(BuildContext context) {
     const double width = 245;
+    final Random random = Random();
+    final List<Color> colores = [
+      Color(0xFFD287F6),
+      Color(0xFF84CEEB),
+      Color(0xFFFFB347),
+      Color(0xFF20BD8E),
+    ];
+
+    Color getColor() {
+      return colores[random.nextInt(colores.length)];
+    }
+    Color colorSeleccionado = getColor();
     return GestureDetector(
         onLongPress: () {},
         child: Container(
           width: width,
           height: (width / 1.618),
           child: Card(
+            color: colorSeleccionado,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               mainAxisSize: MainAxisSize.min,
@@ -32,28 +49,31 @@ class EventoWidget extends StatelessWidget {
                     softWrap: true,
                   ),
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: <Widget>[
-                    Row(children: <Widget>[
-                      FiltroWidget(filtro: evento.filtros[0]),
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      FiltroWidget(filtro: evento.filtros[1])
-                    ]),
-                    Container(
-                        padding: const EdgeInsets.only(left: 30),
-                        child: IconButton(
-                          style: const ButtonStyle(
-                            backgroundColor:
-                                MaterialStatePropertyAll(Colors.black12),
-                          ),
-                          onPressed: () => {},
-                          icon: const Center(child: Icon(Icons.share_rounded)),
-                        )),
-                  ],
-                ),
+                Container(
+                  color: colorSeleccionado,
+                  child : Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: <Widget>[
+                      Row(children: <Widget>[
+                        FiltroWidget(filtro: evento.filtros[0]),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        FiltroWidget(filtro: evento.filtros[1])
+                      ]),
+                      Container(
+                          padding: const EdgeInsets.only(left: 30),
+                          child: IconButton(
+                            style: const ButtonStyle(
+                              backgroundColor:
+                              MaterialStatePropertyAll(Colors.black12),
+                            ),
+                            onPressed: () => {},
+                            icon: const Center(child: Icon(Icons.share_rounded)),
+                          )),
+                    ],
+                  ),
+                )
               ],
             ),
           ),
