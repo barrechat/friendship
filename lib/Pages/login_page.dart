@@ -115,6 +115,7 @@ class _LoginPageState extends State<LoginPage> {
                   const SizedBox(height: 30,),
                   //username textfield
                   MyTextField(
+                      key: Key("username"),
                       controller: usernameController,
                       hintText: 'username@correo.es',
                       obscureText: false,
@@ -122,6 +123,7 @@ class _LoginPageState extends State<LoginPage> {
                   const SizedBox(height: 20,),
                   //password textfield
                   MyTextField(
+                      key: Key("password"),
                       controller: passwordController,
                       hintText: '********',
                       obscureText: true,
@@ -145,6 +147,7 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       child: Center(
                         child: Text(
+                          key: Key("signin-btn"),
                           "Sign In",
                           style: TextStyle(
                             color: Colors.white,
@@ -192,6 +195,7 @@ class _LoginPageState extends State<LoginPage> {
                       GestureDetector(
                         onTap: (){Navigator.push(context, MaterialPageRoute(builder: (context) =>  Register(supabase: widget.supabase)));},
                         child: const Text(
+                          key: Key("register"),
                           'Hazte una cuenta en 2 minutos!',
                           style: TextStyle(
                             color: Colors.blue,

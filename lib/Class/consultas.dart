@@ -116,7 +116,7 @@ class Consultas{
   {
     var response = await  supabase.from('eventos')
         .select('*')
-        .eq("usuario", "abel");
+        .eq("usuario", "alex");
     List<Evento> eventos = [];
     for (var item in response) {
       List<Filtro> filtros = [Filtro(1, item["filtro"]), Filtro(2, item["filtro2"])];
