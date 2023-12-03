@@ -74,6 +74,7 @@ class Consultas{
     var response2 = await  supabase.from('eventos')
         .select('*')
         .eq("lugar", "Valencia")
+        .neq("usuario", UserData.usuarioLog?.username)
     ;
     for (var item in response2) {
       List<Filtro> filtros2 = [Filtro(1, item["filtro"]), Filtro(2, item["filtro2"])];
