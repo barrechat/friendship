@@ -83,9 +83,11 @@ class EventoWidget extends StatelessWidget {
                             onPressed: () => {},
                             icon: const Center(child: Icon(Icons.share_rounded)),
                           )),
+
                     ],
                   ),
-                )
+                ),
+                SizedBox(height: 15,)
               ],
             ),
           ),
