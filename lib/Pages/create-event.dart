@@ -8,6 +8,7 @@ import 'package:responsive_framework/responsive_wrapper.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:friendship/Widgets/dateTimePicker.dart';
 import 'package:friendship/Class/usernameAuxiliar.dart';
+import 'package:friendship/Pages/home.dart';
 
 class createEvent extends StatefulWidget {
   const createEvent({super.key});
@@ -18,7 +19,7 @@ class createEvent extends StatefulWidget {
 
 class _createEventState extends State<createEvent> {
   List<String> listaTipoEvento = <String>["Publico", "Privado"];
-  List<String> listaFiltros = <String>["","Musica", "Fiesta", "Gastronomia", "Aventura"];
+  List<String> listaFiltros = <String>["Musica", "Fiesta", "Gastronomia", "Aventura"];
   List<String> listaLugar = <String>["Valencia", "Alicante","Castellón"];
   late DateTime fechaEscogida = DateTime.now();
   late DateTime fechaEscogida_final= DateTime.now().add(Duration(hours: 2));
@@ -29,8 +30,23 @@ class _createEventState extends State<createEvent> {
   String? tipoEvento = '';
   String? lugar = '';
   String? filtro = '';
+  String? filtro2 = '';
   final supabase = Supabase.instance.client;
   int numeroAleatorio = 0;
+
+  List<IconData> selectedIcons = [];
+
+  void toggleIconSelection(IconData icon) {
+    setState(() {
+      if (selectedIcons.contains(icon)) {
+        selectedIcons.remove(icon);
+      } else {
+        if (selectedIcons.length < 2) {
+          selectedIcons.add(icon);
+        }
+      }
+    });
+  }
 
   void _showPopup(BuildContext context,String titulo, String texto) {
     showDialog(
@@ -43,6 +59,11 @@ class _createEventState extends State<createEvent> {
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
+                if(titulo == 'Evento añadido'){
+                  Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(builder: (context) => Home()),
+                  );
+                }
               },
               child: Text('Cerrar'),
             ),
@@ -198,44 +219,46 @@ class _createEventState extends State<createEvent> {
                   }
               ),
               SizedBox(height: 10.0),
-              Text("Seleccionar filtro",
+              Text("Seleccionar filtros",
                   style: TextStyle(fontSize: 20.0)
               ),
-              DropdownButtonFormField(
-                  items: listaFiltros.map((e){
-                    return DropdownMenuItem(
-                        child: Text(e),
-                        value: e
-                    );
-                  }).toList(),
-                  onChanged: (text){
-                    filtro = text;
-                  }
+              Center(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    buildSelectableIcon(Icons.music_note, selectedIcons.contains(Icons.music_note)),
+                    buildSelectableIcon(
+                        Icons.celebration, selectedIcons.contains(Icons.celebration)),
+                    buildSelectableIcon(Icons.fastfood,
+                        selectedIcons.contains(Icons.fastfood)),
+                    buildSelectableIcon(Icons.surfing,
+                        selectedIcons.contains(Icons.surfing)),
+                  ],
+                ),
               ),
-              SizedBox(height: 20.0),
+              SizedBox(height: 5.0),
               ElevatedButton(
                 onPressed: () async {
                   try {
                     if(nombreDelEvento == '' || tipoEvento == '' || descripcionDelEvento == '' ||
                         horaInicial?.format(context) == null || horaFinal?.format(context) == null ||
                         lugar == ''){
-                      _showPopup(context, 'Error', 'Ningún campo excepto los filtros puede estar vacío');
+                      _showPopup(context, 'Error', 'Ningún campo puede estar vacío');
                     } else if(horaInicial != null && horaFinal != null){
                       int minutosTiempoIni = horaInicial!.hour * 60 + horaInicial!.minute;
                       int minutosTiempoFin = horaFinal!.hour * 60 + horaFinal!.minute;
                       if(minutosTiempoFin <= minutosTiempoIni){
                         _showPopup(context, 'Error', 'La hora de fin no puede ser menor o igual que la fecha de inicio');
+                      } else if (selectedIcons.length < 2){
+                        _showPopup(context, 'Error', 'Tienes que seleccionar 2 filtros');
                       } else {
                         String fechaFormateada = DateFormat('yyyy-MM-dd').format(fechaEscogida);
                         String fechaFormateadaFinal = DateFormat('yyyy-MM-dd').format(fechaEscogida_final);
                         String horaFormateada = "${horaInicial?.format(context)}:00";
                         String horaFinalFormateada = "${horaFinal?.format(context)}:00";
-                        if(filtro == ''){
-                          filtro = null;
-                        } else {
-                          filtro = filtro?.toLowerCase();
-                        }
-                        final response = await supabase
+                        filtro = asignarFiltro(1);
+                        filtro2 = asignarFiltro(2);
+                        await supabase
                             .from('eventos')
                             .insert({
                           'id': numeroAleatorio,
@@ -249,6 +272,7 @@ class _createEventState extends State<createEvent> {
                           'horafin': horaFinalFormateada,
                           'fechafin': fechaFormateadaFinal,
                           'filtro': filtro,
+                          'filtro2': filtro2,
                           'amigos': null
                         });
                         _showPopup(context, 'Evento añadido', 'El evento se ha añadido con éxito');
@@ -262,6 +286,39 @@ class _createEventState extends State<createEvent> {
               )
             ],
           ),
+        ),
+      ),
+    );
+  }
+
+  String asignarFiltro(int filtro){
+    if(selectedIcons[filtro-1] == Icons.music_note){
+      return 'musica';
+    } else if(selectedIcons[filtro-1] == Icons.celebration){
+      return 'fiesta';
+    } else if(selectedIcons[filtro-1] == Icons.fastfood){
+      return 'gastronomia';
+    } else {
+      return 'aventura';
+    }
+  }
+
+  Widget buildSelectableIcon(IconData icon, bool isSelected) {
+    return GestureDetector(
+      onTap: () {
+        toggleIconSelection(icon);
+      },
+      child: Container(
+        margin: EdgeInsets.all(10),
+        padding: EdgeInsets.all(10),
+        decoration: BoxDecoration(
+          color: isSelected ? Colors.blue : Colors.transparent,
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: Icon(
+          icon,
+          size: 30,
+          color: isSelected ? Colors.white : Colors.black,
         ),
       ),
     );
