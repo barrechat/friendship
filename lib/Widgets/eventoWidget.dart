@@ -13,6 +13,18 @@ class EventoWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Color makeColorLighter(Color color) {
+      int r = color.red + ((255 - color.red) ~/ 1.5).round();
+      int g = color.green + ((255 - color.green) ~/ 1.5).round();
+      int b = color.blue + ((255 - color.blue) ~/ 1.5).round();
+
+      r = r > 255 ? 255 : r;
+      g = g > 255 ? 255 : g;
+      b = b > 255 ? 255 : b;
+
+      return Color.fromARGB(color.alpha, r, g, b);
+    }
+
     const double width = 245;
     final Random random = Random();
     final List<Color> colores = [
@@ -50,7 +62,7 @@ class EventoWidget extends StatelessWidget {
                   ),
                 ),
                 Container(
-                  color: colorSeleccionado,
+                  color: makeColorLighter(colorSeleccionado),
                   child : Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: <Widget>[
@@ -77,6 +89,7 @@ class EventoWidget extends StatelessWidget {
               ],
             ),
           ),
-        ));
+        )
+    );
   }
 }

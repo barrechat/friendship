@@ -29,14 +29,19 @@ class RecomendacionPage extends StatelessWidget {
       child: Material(
         child: SingleChildScrollView(
             child:Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const SizedBox(
                     height: 50,
-                    child: Text("De tus amigos",  style: TextStyle(
-                      fontSize: 25,
-                      fontWeight: FontWeight.bold,
-                      fontFamily: 'Google Sans',
-                    ),
+                    child: Padding(
+                        padding: const EdgeInsets.only(left: 20),
+                        child: Text("De tus amigos",
+                          style: TextStyle(
+                            fontSize: 25,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'Google Sans',
+                          ),
+                        ),
                     ),
                   ),
                   FutureBuilder<List<Evento>>(
@@ -57,15 +62,18 @@ class RecomendacionPage extends StatelessWidget {
                   ),
                   const SizedBox(
                     height: 50,
-                    child: Text("Segun tus preferencias",  style: TextStyle(
-                      fontSize: 25,
-                      fontWeight: FontWeight.bold,
-                      fontFamily: 'Google Sans',
-                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 20),
+                      child: Text("Segun tus preferencias",
+                        style: TextStyle(
+                          fontSize: 25,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'Google Sans',
+                        ),
+                      ),
                     ),
                   ),
                   FutureBuilder<List<Evento>>(
-
                     future: Consultas().EventosFiltro1(filtro1: "fiesta"),
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
@@ -82,11 +90,15 @@ class RecomendacionPage extends StatelessWidget {
                   ),
                   const SizedBox(
                     height: 50,
-                    child: Text("Recomendados",  style: TextStyle(
-                      fontSize: 25,
-                      fontWeight: FontWeight.bold,
-                      fontFamily: 'Google Sans',
-                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 20),
+                      child: Text("Recomendados",
+                        style: TextStyle(
+                          fontSize: 25,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'Google Sans',
+                        ),
+                      ),
                     ),
                   ),
                   FutureBuilder<List<Evento>>(
