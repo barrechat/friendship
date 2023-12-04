@@ -177,10 +177,14 @@ class Consultas{
     return numeroAleatorio;
   }
 
+  Future<int> obtenerIdGrupo(String nombre) async {
+    var response = await supabase.from("grupos_amigos").select("*").eq("nombre", nombre);
+    return response[0]["id"];
+  }
   Future<int> addGrupoAmigos(String nombre, user.User creador) async {
     int id = await generarNumeroAleatorioUnico("grupos_amigos");
 
-    supabase.from("grupo_amigos").insert({
+    supabase.from("grupos_amigos").insert({
       "id":id,
       "nombre": nombre,
       "participantes":"[${creador.username}]"

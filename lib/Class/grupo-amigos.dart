@@ -10,18 +10,28 @@ class GrupoAmigos {
 
   GrupoAmigos(this.name, this.creador)  {
     consultor = Consultas();
+    id = -1;
   }
 
   Future<void> CrearGrupo() async {
     id = await consultor.addGrupoAmigos(name, creador);
   }
-  void addAmigo(user.User nuevo) {
+  Future<void> ObtenerId() async{
+    id = await consultor.obtenerIdGrupo(name);
+  }
+  Future<void> addAmigo(user.User nuevo) async {
+    if(id == -1){
+      id = await consultor.obtenerIdGrupo(name);
+    }
     amigos.add(nuevo);
     consultor.addAmigoAGrupoAmigos(id, nuevo);
 
   }
 
-  void removeAmigo(user.User eliminado) {
+  Future<void> removeAmigo(user.User eliminado) async {
+    if(id == -1){
+      id = await consultor.obtenerIdGrupo(name);
+    }
     amigos.remove(eliminado);
     consultor.rmAmigoDeGrupoAmigos(id, eliminado);
   }
