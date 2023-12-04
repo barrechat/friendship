@@ -7,6 +7,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'evento.dart';
 import 'package:friendship/Class/filtro.dart';
 import 'type.dart';
+import 'package:friendship/Class/user.dart' as user;
 
 class Consultas{
   final supabase = SupabaseClient(
@@ -160,4 +161,73 @@ class Consultas{
 
     return eventosSinDuplicados;
   }
+  Future<int> generarNumeroAleatorioUnico(String tabla) async {
+    final Random random = Random();
+    int numeroAleatorio;
+    do {
+      // Genera un número aleatorio entre 0 y 9999999
+      numeroAleatorio = random.nextInt(10000000);
+      // Verifica si el número ya existe en la base de datos
+      final response = await supabase.from(tabla).select().eq('id', numeroAleatorio);
+      if (response.toString() != '[]') {
+        // Si el número ya existe, vuelve a intentarlo
+        numeroAleatorio = -1; // Puedes establecer cualquier valor que no sea un número válido
+      }
+    } while (numeroAleatorio == -1);
+    return numeroAleatorio;
+  }
+
+  Future<int> addGrupoAmigos(String nombre, user.User creador) async {
+    int id = await generarNumeroAleatorioUnico("grupos_amigos");
+
+    supabase.from("grupo_amigos").insert({
+      "id":id,
+      "nombre": nombre,
+      "participantes":"[${creador.username}]"
+    });
+    return id;
+  }
+  Future<void> addAmigoAGrupoAmigos(int id, user.User nuevo) async {
+    var group = await supabase.from("grupos_amigos").select("*").eq("id", id);
+    var participantes ;
+    if (group.isNotEmpty) {
+      var grupo = group[0];
+      if (grupo != null) {
+        participantes= grupo['participantes'];
+
+        participantes ??= [];
+
+        if (!participantes.contains(nuevo.username)) {
+          participantes.add(nuevo.username);
+        }
+
+    }
+      await supabase
+          .from('grupos_amigos')
+          .update({ 'participantes': participantes })
+          .match({ 'id': id });
+      }
+    }
+  Future<void> rmAmigoDeGrupoAmigos(int id, user.User eliminado) async {
+    var group = await supabase.from("grupos_amigos").select("*").eq("id", id);
+    var participantes ;
+    if (group.isNotEmpty) {
+      var grupo = group[0];
+      if (grupo != null) {
+        participantes= grupo['participantes'];
+
+        participantes ??= [];
+
+        if (participantes.contains(eliminado.username)) {
+          participantes.remove(eliminado.username);
+        }
+
+      }
+      await supabase
+          .from('grupos_amigos')
+          .update({ 'participantes': participantes })
+          .match({ 'id': id });
+    }
+  }
 }
+
