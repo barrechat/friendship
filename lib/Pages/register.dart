@@ -27,6 +27,8 @@ class _RegisterState extends State<Register> {
 
   bool _isredirecting = false;
 
+  get supabase => supabase;
+
   @override
   void dispose() {
     usernameController.dispose();
@@ -79,6 +81,7 @@ class _RegisterState extends State<Register> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: Key("register"),
       backgroundColor: Colors.grey[310],
       appBar: AppBar(
         title: Text("Registro"),

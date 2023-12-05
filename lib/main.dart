@@ -20,20 +20,14 @@ import 'Widgets/listEventosPendientes.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
-  await Supabase.initialize(
-    url: 'https://peaoifidogwgoxzrpjft.supabase.co',
-    anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBlYW9pZmlkb2d3Z294enJwamZ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTY2MDExNDcsImV4cCI6MjAxMjE3NzE0N30.xPOHo3wz93O9S0kWU9gbGofVWlFOZuA7JB9UMAMoBbA',
-    authFlowType: AuthFlowType.pkce,
-  );
   runApp(MyApp(navigatorKey));
 }
 
-final supabase = Supabase.instance.client;
-
 class MyApp extends StatelessWidget {
   final GlobalKey<NavigatorState> navigatorKey;
+  SupabaseClient supabase = SupabaseClient('https://peaoifidogwgoxzrpjft.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBlYW9pZmlkb2d3Z294enJwamZ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTY2MDExNDcsImV4cCI6MjAxMjE3NzE0N30.xPOHo3wz93O9S0kWU9gbGofVWlFOZuA7JB9UMAMoBbA') as SupabaseClient;
 
-  const MyApp(this.navigatorKey, {Key? key}) : super(key: key);
+   MyApp(this.navigatorKey, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

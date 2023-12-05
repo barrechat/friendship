@@ -55,6 +55,7 @@ class HomeState extends State<Home> {
     return CalendarControllerProvider(
       controller: controller,
       child: MaterialApp(
+        key: Key("home"),
           title: "friend.ship",
           theme: ThemeData(primarySwatch: Colors.indigo),
           scrollBehavior: ScrollBehavior().copyWith(
@@ -100,39 +101,11 @@ class HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
-    initUniLinks();
     sleep(Duration(milliseconds: 1000));
 
     obtenerEventos();
   }
 
-  void initUniLinks() async {
-    // Maneja los enlaces profundos cuando la aplicación se inicia
-    final initialLink = await getInitialLink();
-    if (initialLink != null) {
-      handleDeepLink(initialLink); // Convierte la cadena a un objeto Uri
-    }
-
-    // Escucha enlaces profundos en tiempo real
-    linkStream.listen((String? link) {
-      handleDeepLink(link); // Pasa la cadena directamente
-    });
-  }
-
-  void handleDeepLink(String? link) {
-    if (link != null) {
-      final uri = Uri.parse(link);
-      if (link.contains('miapp://pantalla_confirmacion')) {
-        final username = uri.queryParameters['username'];
-        if (username != null) {
-          UserData.username = username;
-          Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => Confirmacion(),
-          ));
-        }
-      }
-    }
-  }
 
   Future<void> obtenerEventos() async {
     //print(UserData.usuarioLog?.username);

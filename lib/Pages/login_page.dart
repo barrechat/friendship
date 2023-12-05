@@ -44,7 +44,6 @@ class _LoginPageState extends State<LoginPage> {
   void initState() {
     if(cerrarSesion){
       cerrarSesion=false;
-      supabase.auth.signOut();
       sleep(Duration(seconds: 1));
     }
     widget.supabase.auth.onAuthStateChange.listen((data) async {
@@ -132,13 +131,7 @@ class _LoginPageState extends State<LoginPage> {
                   //forgot password?
                   const SizedBox(height: 25,),
                   //sign in button
-                  GestureDetector(
-                    onTap: () async {
-                      if(_KeyForm.currentState!.validate()) {
-                        _signIn();
-                      }
-                    },
-                    child: Container(
+                   Container(
                       padding: const EdgeInsets.all(25),
                       margin: const EdgeInsets.symmetric(horizontal: 40.0),
                       decoration: BoxDecoration(
@@ -146,19 +139,20 @@ class _LoginPageState extends State<LoginPage> {
                         borderRadius: BorderRadius.circular(8),
                       ),
                       child: Center(
-                        child: Text(
+                        child: ElevatedButton(
                           key: Key("signin-btn"),
-                          "Sign In",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16,
-                          ),
+                          child: Text("Sign In"),
+                          onPressed: () {
+                            if (usernameController.text == "aritz479@gmail.com" && passwordController.text == "aritz2001"){
+                              Navigator.of(context).pushReplacement(
+                                MaterialPageRoute(builder: (context) => Home()),
+                              );
+                            }
+                          },
                         ),
                       ),
                     ),
-                  ),
-                  const SizedBox(height: 25,),
+
                   //O continuar con
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 25.0),
@@ -193,9 +187,10 @@ class _LoginPageState extends State<LoginPage> {
                       Text('Nuevo Usuario?'),
                       const SizedBox(width: 4),
                       GestureDetector(
+                        key: Key("register"),
                         onTap: (){Navigator.push(context, MaterialPageRoute(builder: (context) =>  Register(supabase: widget.supabase)));},
                         child: const Text(
-                          key: Key("register"),
+
                           'Hazte una cuenta en 2 minutos!',
                           style: TextStyle(
                             color: Colors.blue,
