@@ -1,3 +1,5 @@
+import 'package:friendship/Class/consultas.dart';
+
 class User{
 
   late String username;
@@ -5,4 +7,5 @@ class User{
   late int numberphone;
   late int eventosCreados;
   User(this.username, this.email , this.numberphone, this.eventosCreados);
+
 }

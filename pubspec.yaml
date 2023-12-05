@@ -73,6 +73,10 @@ flutter:
      - assets/logoFS.jpg
      - assets/google.png
      - assets/apple.png
+     - assets/SistemaSolarAmarillo.png
+     - assets/SistemaSolarAzul.png
+     - assets/sistemaSolarVerde.png
+     - assets/SistemaSolarMorado.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

@@ -46,7 +46,7 @@ class HomeState extends State<Home> {
     List<Widget> pages = [
       Day(),
       Planes(),
-      CompEnlace(),
+      FriendList(),
       createEvent(),
       Search(),
       Perfil()
