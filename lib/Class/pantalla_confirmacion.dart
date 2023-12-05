@@ -17,6 +17,8 @@ class ConfirmacionState extends State<Confirmacion> {
     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBlYW9pZmlkb2d3Z294enJwamZ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTY2MDExNDcsImV4cCI6MjAxMjE3NzE0N30.xPOHo3wz93O9S0kWU9gbGofVWlFOZuA7JB9UMAMoBbA',
   );
 
+  bool added = false;
+
   Future<void> addAmigo({required BuildContext context}) async {
 
     var amigo = UserData.username;
@@ -42,8 +44,9 @@ class ConfirmacionState extends State<Confirmacion> {
 
         if (!amigos.contains(amigo)) {
           amigos.add(amigo);
+          added = true;
         } else {
-          _showPopup(context);
+          _showPopup(context, 'Error', 'El usuario y tú ya erais amigos');
         }
 
         await supabase
@@ -71,7 +74,7 @@ class ConfirmacionState extends State<Confirmacion> {
         if (!amigos.contains(usuarioActual)) {
           amigos.add(usuarioActual);
         } else {
-          _showPopup(context);
+          _showPopup(context, 'Error', 'El usuario y tú ya erais amigos');
         }
 
         await supabase
@@ -94,7 +97,10 @@ class ConfirmacionState extends State<Confirmacion> {
           child: ElevatedButton(
             onPressed: () async {
               await addAmigo(context:context);
-              Navigator.of(context).pop();
+              if(added){
+                added = false;
+                _showPopup(context, 'Amigo añadido', 'El usuario y tú ahora sois amigos');
+              }
             },
             child: Text('Aceptar'),
           ),
@@ -103,13 +109,13 @@ class ConfirmacionState extends State<Confirmacion> {
     );
   }
 
-  void _showPopup(BuildContext context) {
+  void _showPopup(BuildContext context,String titulo, String texto) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Añadir Amigo'),
-          content: Text('Este usuario ya es tu amigo'),
+          title: Text(titulo),
+          content: Text(texto),
           actions: [
             TextButton(
               onPressed: () {
