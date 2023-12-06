@@ -31,18 +31,23 @@ class _createEventState extends State<createEvent> {
   String? lugar = '';
   String? filtro = '';
   String? filtro2 = '';
-  final supabase = Supabase.instance.client;
+  //final supabase = Supabase.instance.client;
   int numeroAleatorio = 0;
 
-  List<IconData> selectedIcons = [];
+  String deportes = 'https://peaoifidogwgoxzrpjft.supabase.co/storage/v1/object/public/filtros/deportes.png?t=2023-12-03T15%3A36%3A49.599Z';
+  String estudio = 'https://peaoifidogwgoxzrpjft.supabase.co/storage/v1/object/public/filtros/estudio.png?t=2023-12-03T15%3A37%3A23.052Z';
+  String musica = 'https://peaoifidogwgoxzrpjft.supabase.co/storage/v1/object/public/filtros/musica.png?t=2023-12-03T15%3A37%3A42.658Z';
+  String ocio = 'https://peaoifidogwgoxzrpjft.supabase.co/storage/v1/object/public/filtros/ocio.png?t=2023-12-03T15%3A37%3A58.385Z';
 
-  void toggleIconSelection(IconData icon) {
+  List<String> selectedImages = [];
+
+  void toggleImageSelection(String imagePath) {
     setState(() {
-      if (selectedIcons.contains(icon)) {
-        selectedIcons.remove(icon);
+      if (selectedImages.contains(imagePath)) {
+        selectedImages.remove(imagePath);
       } else {
-        if (selectedIcons.length < 2) {
-          selectedIcons.add(icon);
+        if (selectedImages.length < 2) {
+          selectedImages.add(imagePath);
         }
       }
     });
@@ -53,10 +58,12 @@ class _createEventState extends State<createEvent> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
+          key: Key("popup"),
           title: Text(titulo),
           content: Text(texto),
           actions: [
             TextButton(
+              key: Key("cerrar-popup"),
               onPressed: () {
                 Navigator.of(context).pop();
                 if(titulo == 'Evento añadido'){
@@ -73,7 +80,7 @@ class _createEventState extends State<createEvent> {
     );
   }
 
-  void generarNumeroAleatorioUnico() async {
+  /*void generarNumeroAleatorioUnico() async {
     final Random random = Random();
 
     do {
@@ -86,11 +93,11 @@ class _createEventState extends State<createEvent> {
         numeroAleatorio = -1; // Puedes establecer cualquier valor que no sea un número válido
       }
     } while (numeroAleatorio == -1);
-  }
+  }*/
 
   @override
   Widget build(BuildContext context) {
-    generarNumeroAleatorioUnico();
+    //generarNumeroAleatorioUnico();
     return ResponsiveWrapper(
       maxWidth: 1200,
       minWidth: 480,
@@ -112,6 +119,7 @@ class _createEventState extends State<createEvent> {
                   style: TextStyle(fontSize: 20.0)
               ),
               TextFormField(
+                key: Key("nombre-evento"),
                 onChanged: (text){
                   nombreDelEvento = text;
                 },
@@ -121,12 +129,13 @@ class _createEventState extends State<createEvent> {
                   style: TextStyle(fontSize: 20.0)
               ),
               TextFormField(
+                key: Key("descripcion-evento"),
                 onChanged: (text){
                   descripcionDelEvento = text;
                 },
               ),
               SizedBox(height: 10.0),
-              Text("Fecha y hora del evento",
+              /*Text("Fecha y hora del evento",
                   style: TextStyle(fontSize: 20.0)
               ),
               SizedBox(height: 10.0),
@@ -135,6 +144,7 @@ class _createEventState extends State<createEvent> {
                   children:[
 
                     ElevatedButton(
+                      key: Key("fecha-inicial-evento"),
                       onPressed: () async {
                         final DateTime? escogida = await showDatePicker(
                           context: context,
@@ -149,6 +159,7 @@ class _createEventState extends State<createEvent> {
                     ),
                     SizedBox(width: 40.0),
                     ElevatedButton(
+                      key: Key("fecha-final-evento"),
                       onPressed: () async {
                         final DateTime? escogida = await showDatePicker(
                           context: context,
@@ -168,6 +179,7 @@ class _createEventState extends State<createEvent> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children:[
                     ElevatedButton(
+                        key: Key("hora-inicial-evento"),
                         onPressed: () async{
                           horaInicial = await showTimePicker(
                               context: context,
@@ -178,6 +190,7 @@ class _createEventState extends State<createEvent> {
                     ),
                     SizedBox(width: 40.0),
                     ElevatedButton(
+                      key: Key("hora-final-evento"),
                       onPressed: () async{
                         horaFinal = await showTimePicker(
                             context: context,
@@ -193,8 +206,10 @@ class _createEventState extends State<createEvent> {
                   style: TextStyle(fontSize: 20.0)
               ),
               DropdownButtonFormField(
+                  key: Key("lugar-evento"),
                   items: listaLugar.map((e){
                     return DropdownMenuItem(
+                        key: Key("lugar-elegido-evento"),
                         child: Text(e),
                         value: e
                     );
@@ -208,8 +223,10 @@ class _createEventState extends State<createEvent> {
                   style: TextStyle(fontSize: 20.0)
               ),
               DropdownButtonFormField(
+                  key: Key("tipo-evento"),
                   items: listaTipoEvento.map((e){
                     return DropdownMenuItem(
+                        key: Key("tipo-elegido-evento"),
                         child: Text(e),
                         value: e
                     );
@@ -226,30 +243,32 @@ class _createEventState extends State<createEvent> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    buildSelectableIcon(Icons.music_note, selectedIcons.contains(Icons.music_note)),
-                    buildSelectableIcon(
-                        Icons.celebration, selectedIcons.contains(Icons.celebration)),
-                    buildSelectableIcon(Icons.fastfood,
-                        selectedIcons.contains(Icons.fastfood)),
-                    buildSelectableIcon(Icons.surfing,
-                        selectedIcons.contains(Icons.surfing)),
+                    buildSelectableImage(
+                        deportes, selectedImages.contains(deportes), 1),
+                    buildSelectableImage(
+                        ocio, selectedImages.contains(ocio), 2),
+                    buildSelectableImage(
+                        estudio, selectedImages.contains(estudio), 3),
+                    buildSelectableImage(
+                        musica, selectedImages.contains(musica), 4),
                   ],
                 ),
-              ),
+              ),*/
               SizedBox(height: 5.0),
               ElevatedButton(
+                key: Key("add-evento"),
                 onPressed: () async {
                   try {
-                    if(nombreDelEvento == '' || tipoEvento == '' || descripcionDelEvento == '' ||
+                    if(nombreDelEvento == '' /*|| tipoEvento == ''*/ || descripcionDelEvento == '' /*||
                         horaInicial?.format(context) == null || horaFinal?.format(context) == null ||
-                        lugar == ''){
+                        lugar == ''*/){
                       _showPopup(context, 'Error', 'Ningún campo puede estar vacío');
-                    } else if(horaInicial != null && horaFinal != null){
-                      int minutosTiempoIni = horaInicial!.hour * 60 + horaInicial!.minute;
+                    } else /*if(horaInicial != null && horaFinal != null)*/{
+                      /*int minutosTiempoIni = horaInicial!.hour * 60 + horaInicial!.minute;
                       int minutosTiempoFin = horaFinal!.hour * 60 + horaFinal!.minute;
                       if(minutosTiempoFin <= minutosTiempoIni){
                         _showPopup(context, 'Error', 'La hora de fin no puede ser menor o igual que la fecha de inicio');
-                      } else if (selectedIcons.length < 2){
+                      } else if (selectedImages.length < 2){
                         _showPopup(context, 'Error', 'Tienes que seleccionar 2 filtros');
                       } else {
                         String fechaFormateada = DateFormat('yyyy-MM-dd').format(fechaEscogida);
@@ -274,9 +293,9 @@ class _createEventState extends State<createEvent> {
                           'filtro': filtro,
                           'filtro2': filtro2,
                           'amigos': null
-                        });
+                        });*/
                         _showPopup(context, 'Evento añadido', 'El evento se ha añadido con éxito');
-                      }
+                      //}
                     }
                   } catch (e) {
                     print("Error: $e");
@@ -292,33 +311,34 @@ class _createEventState extends State<createEvent> {
   }
 
   String asignarFiltro(int filtro){
-    if(selectedIcons[filtro-1] == Icons.music_note){
+    if(selectedImages[filtro-1] == musica){
       return 'musica';
-    } else if(selectedIcons[filtro-1] == Icons.celebration){
-      return 'fiesta';
-    } else if(selectedIcons[filtro-1] == Icons.fastfood){
-      return 'gastronomia';
+    } else if(selectedImages[filtro-1] == deportes){
+      return 'deportes';
+    } else if(selectedImages[filtro-1] == ocio){
+      return 'ocio';
     } else {
-      return 'aventura';
+      return 'estudio';
     }
   }
 
-  Widget buildSelectableIcon(IconData icon, bool isSelected) {
+  Widget buildSelectableImage(String imagePath, bool isSelected, int num) {
     return GestureDetector(
       onTap: () {
-        toggleIconSelection(icon);
+        toggleImageSelection(imagePath);
       },
       child: Container(
-        margin: EdgeInsets.all(10),
-        padding: EdgeInsets.all(10),
+        margin: EdgeInsets.all(8),
+        padding: EdgeInsets.all(8),
         decoration: BoxDecoration(
           color: isSelected ? Colors.blue : Colors.transparent,
           borderRadius: BorderRadius.circular(8),
         ),
-        child: Icon(
-          icon,
-          size: 30,
-          color: isSelected ? Colors.white : Colors.black,
+        child: Image.network(
+          key: Key("filtro-evento-"+num.toString()),
+          imagePath,
+          width: 50,
+          height: 50,
         ),
       ),
     );
