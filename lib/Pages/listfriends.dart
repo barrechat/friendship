@@ -4,6 +4,9 @@ import 'package:friendship/Class/user.dart';
 import 'package:friendship/Class/usernameAuxiliar.dart';
 import 'package:friendship/Widgets/groupsWidget.dart';
 
+import '../Class/consultas.dart';
+import '../Widgets/listfriendsWidget.dart';
+
 class FriendList extends StatefulWidget {
   const FriendList({super.key});
   @override
@@ -14,8 +17,23 @@ class _FriendListState extends State<FriendList> {
   GrupoAmigos grupo = GrupoAmigos("friend.ship", UserData.usuarioLog!);
   @override
   Widget build(BuildContext context) {
-    
-    return Scaffold(
-        body: groupsWidget(grupo: grupo));
+    return FutureBuilder<List<GrupoAmigos>>(
+        future: Consultas().ObtenerGrupos(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return CircularProgressIndicator();
+          } else if (snapshot.hasError) {
+            return Text('Error: ${snapshot.error}');
+          } else {
+            List<GrupoAmigos> eventos = snapshot.data ?? [];
+            return SingleChildScrollView(
+                child: Column(
+              children: [
+                ListGroupsWidget(groups: eventos),
+                ListGroupsWidget(groups: eventos)
+              ],
+            ));
+          }
+        });
   }
 }
