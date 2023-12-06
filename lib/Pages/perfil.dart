@@ -93,6 +93,7 @@ class _PerfilState extends State<Perfil> {
                   ),
                 ),
                 ListTile(
+                  key:Key("cerrar-sesion"),
                   title: Text('Cerrar sesión'),
                   onTap: () async {
                       try {
@@ -129,6 +130,7 @@ class _PerfilState extends State<Perfil> {
         centerTitle: true,
         actions: [
           IconButton(
+            key:Key("ajustes"),
             icon: Icon(Icons.settings),
             onPressed: () {
               mostrarOpciones(); // Mostrar el diálogo de configuración
