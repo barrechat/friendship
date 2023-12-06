@@ -18,9 +18,10 @@ class _SearchState extends State<Search> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Padding(
+        Expanded(child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: TextField(
+            key: Key("barra-busqueda"),
             controller: _searchController,
             onSubmitted: onSearchSubmitted,
             decoration: InputDecoration(
@@ -29,7 +30,7 @@ class _SearchState extends State<Search> {
               prefixIcon: Icon(Icons.search),
             ),
           ),
-        ),
+        ),),
         Expanded(
         child: resultado)
 

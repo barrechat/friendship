@@ -69,6 +69,7 @@ class HomeState extends State<Home> {
               appBar: AppBar(title: const Text("friend.ship")),
               body: pages[actualPage],
               bottomNavigationBar: BottomNavigationBar(
+                key: Key("nav"),
                   fixedColor: Colors.black,
                   backgroundColor: Colors.indigo,
                   unselectedItemColor: Colors.grey,
@@ -80,18 +81,18 @@ class HomeState extends State<Home> {
                   currentIndex: actualPage,
                   items: const [
                     BottomNavigationBarItem(
-                        icon: Icon(Icons.home), label: "Home"),
+                        icon: Icon(key: Key("Home-btn"),Icons.home), label: "Home"),
                     BottomNavigationBarItem(
-                        icon: Icon(Icons.airplane_ticket), label: "Planes"),
+                        icon: Icon(key: Key("Planes-btn"),Icons.airplane_ticket), label: "Planes"),
                     BottomNavigationBarItem(
-                        icon: Icon(Icons.workspaces_sharp),
+                        icon: Icon(key: Key("FriendList-btn"),Icons.workspaces_sharp),
                         label: "Friend List"),
                     BottomNavigationBarItem(
-                        icon: Icon(Icons.add), label: "AddEvent"),
+                        icon: Icon(key: Key("AddEvent-btn"),Icons.add), label: "AddEvent"),
                     BottomNavigationBarItem(
-                        icon: Icon(Icons.search), label: "search"),
+                        icon: Icon(key: Key("Search-btn"),Icons.search), label: "search"),
                     BottomNavigationBarItem(
-                        icon: Icon(Icons.account_circle), label: "Account"),
+                        icon: Icon(key: Key("Account-btn"),Icons.account_circle), label: "Account"),
                   ]))),
     );
   }
@@ -110,8 +111,11 @@ class HomeState extends State<Home> {
   Future<void> obtenerEventos() async {
     //print(UserData.usuarioLog?.username);
     List<Evento> eventosObtenidos = await Consultas().EventosPropios();
+
+
     setState(() {
-      eventos = eventosObtenidos;
+      if(mounted){
+      eventos = eventosObtenidos;}
     });
   }
 }

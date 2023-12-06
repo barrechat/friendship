@@ -29,7 +29,7 @@ void main() {
     Day calendario = new Day();
     List<CalendarEventData<Object?>>? eventosResult = null; // userData.GetEventos();
 
-
+    print(eventosExpected);
     // assert
     expect(eventosResult, eventosExpected);
   });

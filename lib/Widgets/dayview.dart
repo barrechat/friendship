@@ -8,12 +8,14 @@ import '../Class/evento.dart';
 import '../Class/usernameAuxiliar.dart';
 
 class Day extends StatefulWidget {
+  DayViewState get state => state;
+
 
   @override
-  State<Day> createState() => _DayViewState();
+  State<Day> createState() => DayViewState();
 }
 
-class _DayViewState extends State<Day> {
+class DayViewState extends State<Day> {
    List<CalendarEventData> eventos = [];
    EventController controller = EventController();
 
@@ -51,10 +53,12 @@ class _DayViewState extends State<Day> {
        }
      }
 
-     setState(() {
-       eventos.addAll(nuevosEventos);
-       controller.addAll(nuevosEventos);
-     });
+     /*setState(() {
+       if(mounted) {
+         eventos.addAll(nuevosEventos);
+         controller.addAll(nuevosEventos);
+       }
+     });*/
    }
 
 

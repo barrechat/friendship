@@ -98,7 +98,6 @@ class _PerfilState extends State<Perfil> {
                       try {
                         LoginPage loginPageInstance = new LoginPage(supabase: supabase);
                         loginPageInstance.setCerrarSesion();
-                        await supabase.auth.signOut();
                         Navigator.of(context).pushReplacement(
                           MaterialPageRoute(builder: (context) => loginPageInstance),
                         );
@@ -145,6 +144,7 @@ class _PerfilState extends State<Perfil> {
               children: [
                 SizedBox(width: 150),
                 Image.network(
+                  key:Key("avatar"),
                   avatar,
                   height: 100,
                   width: 100,

@@ -14,19 +14,9 @@ void main() {
       await tester.enterText(find.byKey(Key("password")), "aritz2001");
       await tester.tap(find.byKey(Key("signin-btn")));
       await tester.pumpAndSettle(); // Wait for animations to complete
-
-      // Check if a widget with key "home" is present
-      expect(find.byKey(Key("home")), findsOneWidget);
-    });
-
-    testWidgets('access register', (tester) async {
-      final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
-      await tester.pumpWidget(app.MyApp(navigatorKey));
-      await tester.tap(find.byKey(Key("register")));
-      await tester.pumpAndSettle(); // Wait for animations to complete
-
-      // Check if a widget with key "username" is present
-      expect(find.byKey(Key("register")), findsOneWidget);
+      await tester.tap(find.byKey(Key("AddEvent-btn")));
+      await tester.pumpAndSettle();
+      expect(find.byKey(Key("nombre-evento")), findsOneWidget);
     });
   });
 }

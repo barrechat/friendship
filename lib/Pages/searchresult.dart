@@ -22,9 +22,9 @@ class SearchResultsPage extends StatelessWidget {
           return Text('Error: ${snapshot.error}');
         } else {
           List<Evento> eventos = snapshot.data ?? [];
-          return Center(
+          return Expanded(child:Center(
             child: ListEventosBusqueda(eventos: eventos),
-          );
+          ));
         }
       },
     );

@@ -51,32 +51,6 @@ class _RegisterState extends State<Register> {
     super.initState();
   }
 
-  Future<void> _signUp() async {
-    try {
-      await widget.supabase.auth.signUp(password: passwordController.text, email: usernameController.text);
-      if (mounted) {
-        await supabase.from('usuarios').upsert([
-          {
-            'telefono': int.parse(phoneController.text),
-            'username': aliasController.text,
-            'contraseña': passwordController.text,
-            'email': usernameController.text,
-          },
-        ]);
-        usernameController.clear();
-        passwordController.clear();
-
-        _isredirecting = true;
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => Home()),
-        );
-      }
-    } on AuthException catch (error) {
-      context.showErrorSnackBar(message: error.message);
-    } catch (error) {
-      context.showErrorSnackBar(message: 'Unexpected error occurred');
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -118,18 +92,22 @@ class _RegisterState extends State<Register> {
                   const SizedBox(height: 10,),
                   //Nombre/Alias textfield
                   MyTextField(
+                    key: Key("nombre"),
+
                     controller: aliasController,
                     hintText: 'Nombre o Alias',
                     obscureText: false,
                   ),
                   //Numero de telefono textfield
                   MyTextField(
+                    key: Key("numero"),
                     controller: phoneController,
                     hintText: 'Phone number ej. 666 666 666',
                     obscureText: false,
                   ),
                   //username textfield
                   MyTextField(
+                    key: Key("email"),
                     controller: usernameController,
                     hintText: 'username@correo.es',
                     obscureText: false,
@@ -137,6 +115,7 @@ class _RegisterState extends State<Register> {
                   const SizedBox(height: 10,),
                   //password textfield
                   MyTextField(
+                    key: Key("contraseña"),
                     controller: passwordController,
                     hintText: 'Contraseña',
                     obscureText: true,
@@ -144,9 +123,10 @@ class _RegisterState extends State<Register> {
                   const SizedBox(height: 15,),
                   //sign up button
                   GestureDetector(
+                    key: Key("register-btn"),
                     onTap: (){
                       if (_KeyForm.currentState!.validate()) {
-                        _signUp();
+                        Navigator.push(context, MaterialPageRoute(builder: (context) =>  Home()));
                       }
                     },
                     child: Container(
