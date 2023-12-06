@@ -154,27 +154,45 @@ class _PerfilState extends State<Perfil> {
             Column(
               children: [
                 GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      extended = !extended;
-                      size = extended ? 200.0 : 50.0;
-                    });
-                  },
-                  child: AnimatedContainer(
-                    duration: Duration(milliseconds: 300),
-                    curve: Curves.easeInOut,
-                    width: extended ? 200.0 : 100.0, // Cambia el ancho al hacer clic
-                    height: extended ? 200.0 : 100.0, // Cambia la altura al hacer clic
-                    child: Center(
-                      child: QRImage(size),
-                    ),
-                  ),
+                    key : Key("opcion-qr"),
+                    onTap: () {
+                      _mostrarPopup(context);
+                    },
+                    child: QRImage(50)
                 ),
               ],
             ),
           ],
         ),
       ),
+    );
+  }
+
+  void _mostrarPopup(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          key : Key("popup-qr"),
+          content: Container(
+            width: 300.0, // Establecer un ancho específico para el AlertDialog
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                QRImage(200),
+                SizedBox(height: 16.0),
+                ElevatedButton(
+                  onPressed: () {
+                    // Acción a realizar cuando se hace clic en el botón
+                    Navigator.of(context).pop(); // Cierra el popup
+                  },
+                  child: Text('Cerrar'),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }
