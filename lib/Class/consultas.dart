@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'dart:ui';
 
+import 'package:friendship/Class/grupo-amigos.dart';
 import 'package:friendship/Class/usernameAuxiliar.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -181,6 +182,49 @@ class Consultas{
     var response = await supabase.from("grupos_amigos").select("*").eq("nombre", nombre);
     return response[0]["id"];
   }
+  Future<List<GrupoAmigos>> ObtenerGrupos() async {
+    print("inicio");
+    var response = await supabase.from("grupos_amigos").select("*").contains("participantes", [UserData.usuarioLog?.username]);
+    List<GrupoAmigos> grupos = [];
+
+    if (response.isNotEmpty) {
+      for (final group in response) {
+        var responsecreador = await supabase.from("usuarios").select("*").eq("username", group["creador"].toString().replaceAll('"', ""));
+        print(responsecreador);
+        user.User creador = user.User(
+          responsecreador[0]["username"],
+          responsecreador[0]["email"],
+          responsecreador[0]["telefono"],
+          responsecreador[0]["num_eventos"],
+        );
+
+        GrupoAmigos grupo = GrupoAmigos(group["nombre"], creador);
+        grupo.amigos = [];
+
+        // Utilizar group["participantes"] en lugar de response["participantes"]
+        if (group["participantes"] != null) {
+          for (var amigo in group["participantes"]) {
+            var userresponse = await supabase.from("usuarios").select("*").eq("username", amigo.toString());
+
+            if (userresponse.isNotEmpty) {
+              grupo.amigos.add(user.User(
+                userresponse[0]["username"],
+                userresponse[0]["email"],
+                userresponse[0]["telefono"],
+                userresponse[0]["num_eventos"],
+              ));
+            }
+          }
+        }
+        grupos.add(grupo);
+      }
+      return grupos;
+    } else {
+      return grupos;
+    }
+  }
+
+
   Future<int> addGrupoAmigos(String nombre, user.User creador) async {
     int id = await generarNumeroAleatorioUnico("grupos_amigos");
 
