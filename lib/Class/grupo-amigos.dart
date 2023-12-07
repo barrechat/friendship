@@ -13,10 +13,6 @@ class GrupoAmigos {
     consultor = Consultas();
     id = -1;
   }
-
-  Future<void> CrearGrupo() async {
-    id = await consultor.addGrupoAmigos(name, creador);
-  }
   Future<int> ObtenerId() async{
      return await consultor.obtenerIdGrupo(name);
   }
