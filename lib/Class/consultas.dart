@@ -190,6 +190,13 @@ class Consultas{
     print(response[0]["id"]);
     return response[0]["id"];
   }
+
+  Future<Evento> obtenerEventoNombre(String nombre) async {
+    var response = await supabase.from("eventos").select("*").eq("nombre", nombre);
+    print(response[0].toString() + "monopene");
+    print(response[0]["id"]);
+    return response[0];
+  }
   Future<List<GrupoAmigos>> ObtenerGrupos() async {
     print("inicio");
     var response = await supabase.from("gruposamigos").select("*").contains("participantes", [UserData.usuarioLog?.username]);

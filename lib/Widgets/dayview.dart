@@ -7,6 +7,7 @@ import 'package:intl/intl.dart';
 import '../Class/consultas.dart';
 import '../Class/evento.dart';
 import '../Class/usernameAuxiliar.dart';
+import '../Pages/EditEventPage.dart';
 
 class Day extends StatefulWidget {
 
@@ -33,6 +34,14 @@ class _DayViewState extends State<Day> {
     return DayView(
       controller: controller,
       dateStringBuilder: myDateStringBuilder,
+      onEventTap: (event, date) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => CreateEventPage(eventName: event.first.title),
+          ),
+        );
+      },
     );
   }
    Future<void> obtenerEventos() async {
