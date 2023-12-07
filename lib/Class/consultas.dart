@@ -227,14 +227,17 @@ class Consultas{
   }
 
 
-  Future<int> addGrupoAmigos(String nombre, user.User creador) async {
+  Future<int> addGrupoAmigos(String nombre, String descripcion,user.User creador) async {
     int id = await generarNumeroAleatorioUnico("grupos_amigos");
-
+    print("crear");
     supabase.from("grupos_amigos").insert({
       "id":id,
       "nombre": nombre,
-      "participantes":"[${creador.username}]"
+      "participantes":"[${creador.username}]",
+      "creador" : creador.username,
+      "descripcion": descripcion,
     });
+    //supabase.from("usuarios").insert(values)
     return id;
   }
   Future<void> addAmigoAGrupoAmigos(int id, user.User nuevo) async {
@@ -244,9 +247,6 @@ class Consultas{
       var grupo = group[0];
       if (grupo != null) {
         participantes= grupo['participantes'];
-
-        participantes ??= [];
-
         if (!participantes.contains(nuevo.username)) {
           participantes.add(nuevo.username);
         }
@@ -299,6 +299,26 @@ class Consultas{
       await supabase.from("grupos_amigos").update({'descripcion' : descripcion}).match({'id':id});
 
     }
+
+  }
+  Future<List<user.User>> ObtenerAmigos() async{
+    List<user.User> amigos =[];
+    print([UserData.usuarioLog?.username]);
+    var response = await supabase.from("usuarios").select("*").eq("username", UserData.usuarioLog?.username);
+    for (var amigo in response[0]["lista_amigos"]) {
+      var userresponse = await supabase.from("usuarios").select("*").eq("username", amigo.toString());
+      if (userresponse.isNotEmpty) {
+        print("entro");
+
+        amigos.add(user.User(
+          userresponse[0]["username"],
+          userresponse[0]["email"],
+          userresponse[0]["telefono"],
+          userresponse[0]["num_eventos"],
+        ));
+      }
+    }
+    return amigos;
 
   }
 }
