@@ -254,7 +254,7 @@ class _PerfilState extends State<Perfil> {
                     Center(
                       child: GestureDetector(
                         onTap: () {
-                          mostrarOpcionesDeAvatar();
+
                         },
                         child: Image.network(
                           avatar,
@@ -294,13 +294,12 @@ class _PerfilState extends State<Perfil> {
                 ),
               ),
                    child: Column(
-
                       children: [
-                        SizedBox(height: 24),
+                        SizedBox(height: 25),
                         Align(
                           alignment: Alignment.topLeft,
                           child: Padding(
-                            padding: const EdgeInsets.all(8.0),
+                            padding: const EdgeInsets.all(14),
                             child: Text(
                               UserData.usuarioLog!.username,
                               style: TextStyle(
