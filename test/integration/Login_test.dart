@@ -18,5 +18,16 @@ void main() {
       // Check if a widget with key "home" is present
       expect(find.byKey(Key("nav")), findsOneWidget);
     });
+    testWidgets('incorrect login', (tester) async {
+      final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+      await tester.pumpWidget(app.MyApp(navigatorKey));
+      await tester.enterText(find.byKey(Key("username")), "aritz479");
+      await tester.enterText(find.byKey(Key("password")), "aritz20");
+      await tester.tap(find.byKey(Key("signin-btn")));
+      await tester.pumpAndSettle(); // Wait for animations to complete
+
+      // Check if a widget with key "home" is present
+      expect(find.byKey(Key("username")), findsOneWidget);
+    });
   });
 }

@@ -18,5 +18,41 @@ void main() {
       await tester.pumpAndSettle();
       expect(find.byKey(Key("nombre-evento")), findsOneWidget);
     });
+    testWidgets('Add event correct', (tester) async {
+      final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+      await tester.pumpWidget(app.MyApp(navigatorKey));
+      await tester.enterText(find.byKey(Key("username")), "aritz479@gmail.com");
+      await tester.enterText(find.byKey(Key("password")), "aritz2001");
+      await tester.tap(find.byKey(Key("signin-btn")));
+      await tester.pumpAndSettle(); // Wait for animations to complete
+      await tester.tap(find.byKey(Key("AddEvent-btn")));
+      await tester.pumpAndSettle();
+      await tester.enterText(find.byKey(Key("nombre-evento")), "prueba");
+      await tester.enterText(find.byKey(Key("descripcion-evento")), "descripcion de la prueba");
+      await tester.tap(find.byKey(Key("add-evento")));
+      await tester.pumpAndSettle();
+      await tester.tap(find.byKey(Key("cerrar-popup")));
+      await tester.pumpAndSettle();
+      // Check if a widget with key "home" is present
+      expect(find.byKey(Key("home")), findsOneWidget);
+    });
+    testWidgets('Add event incorrect', (tester) async {
+      final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+      await tester.pumpWidget(app.MyApp(navigatorKey));
+      await tester.enterText(find.byKey(Key("username")), "aritz479@gmail.com");
+      await tester.enterText(find.byKey(Key("password")), "aritz2001");
+      await tester.tap(find.byKey(Key("signin-btn")));
+      await tester.pumpAndSettle(); // Wait for animations to complete
+      await tester.tap(find.byKey(Key("AddEvent-btn")));
+      await tester.pumpAndSettle();
+      await tester.enterText(find.byKey(Key("nombre-evento")), "");
+      await tester.enterText(find.byKey(Key("descripcion-evento")), "");
+      await tester.tap(find.byKey(Key("add-evento")));
+      await tester.pumpAndSettle();
+      await tester.tap(find.byKey(Key("cerrar-popup")));
+      await tester.pumpAndSettle();
+      // Check if a widget with key "nombre-evento" is present
+      expect(find.byKey(Key("nombre-evento")), findsOneWidget);
+    });
   });
 }
