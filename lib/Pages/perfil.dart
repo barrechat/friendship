@@ -296,7 +296,7 @@ class _PerfilState extends State<Perfil> {
                    child: Column(
 
                       children: [
-                        SizedBox(height: 25),
+                        SizedBox(height: 24),
                         Align(
                           alignment: Alignment.topLeft,
                           child: Padding(
