@@ -244,9 +244,6 @@ class Consultas{
       var grupo = group[0];
       if (grupo != null) {
         participantes= grupo['participantes'];
-
-        participantes ??= [];
-
         if (!participantes.contains(nuevo.username)) {
           participantes.add(nuevo.username);
         }
@@ -299,6 +296,26 @@ class Consultas{
       await supabase.from("grupos_amigos").update({'descripcion' : descripcion}).match({'id':id});
 
     }
+
+  }
+  Future<List<user.User>> ObtenerAmigos() async{
+    List<user.User> amigos =[];
+    print([UserData.usuarioLog?.username]);
+    var response = await supabase.from("usuarios").select("*").eq("username", UserData.usuarioLog?.username);
+    for (var amigo in response[0]["lista_amigos"]) {
+      var userresponse = await supabase.from("usuarios").select("*").eq("username", amigo.toString());
+      if (userresponse.isNotEmpty) {
+        print("entro");
+
+        amigos.add(user.User(
+          userresponse[0]["username"],
+          userresponse[0]["email"],
+          userresponse[0]["telefono"],
+          userresponse[0]["num_eventos"],
+        ));
+      }
+    }
+    return amigos;
 
   }
 }
