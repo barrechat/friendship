@@ -33,6 +33,49 @@ class _DayViewState extends State<Day> {
     return DayView(
       controller: controller,
       dateStringBuilder: myDateStringBuilder,
+      onEventTap: (event, date) =>
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: Text('Editar Evento'),
+                content: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    TextFormField(
+                      initialValue: event.first.description,
+                      decoration: InputDecoration(
+                        labelText: 'Título',
+                      ),
+                      onChanged: (newValue) {
+                        // Actualiza el título del evento
+                        // selectedEvent.title = newValue;
+                      },
+                    ),
+                    TextFormField(
+                      initialValue: event.first.description,
+                      decoration: InputDecoration(
+                        labelText: 'Descripción',
+                      ),
+                      onChanged: (newValue) {
+                        // Actualiza la descripción del evento
+                        // selectedEvent.description = newValue;
+                      },
+                    ),
+                    // Agrega más TextFormField según sea necesario para editar otros campos
+                  ],
+                ),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop(); // Cierra el AlertDialog
+                    },
+                    child: Text('Guardar'),
+                  ),
+                ],
+              );
+            },
+          )
     );
   }
    Future<void> obtenerEventos() async {
