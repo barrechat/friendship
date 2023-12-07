@@ -237,6 +237,7 @@ class Consultas{
       "creador" : creador.username,
       "descripcion": descripcion,
     });
+    //supabase.from("usuarios").insert(values)
     return id;
   }
   Future<void> addAmigoAGrupoAmigos(int id, user.User nuevo) async {
