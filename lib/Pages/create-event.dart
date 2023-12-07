@@ -65,7 +65,7 @@ class _createEventState extends State<createEvent> {
                 Navigator.of(context).pop();
                 if(titulo == 'Evento añadido'){
                   Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(builder: (context) => Home()),
+                    MaterialPageRoute(builder: (context) => Home(indiceInicial: 1,)),
                   );
                 }
               },

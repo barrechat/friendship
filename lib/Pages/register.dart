@@ -42,7 +42,7 @@ class _RegisterState extends State<Register> {
       if (session != null) {
         _isredirecting = true;
         Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => Home()),
+          MaterialPageRoute(builder: (context) => Home(indiceInicial: 0,)),
         );
       }
     });
@@ -66,7 +66,7 @@ class _RegisterState extends State<Register> {
 
         _isredirecting = true;
         Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => Home()),
+          MaterialPageRoute(builder: (context) => Home(indiceInicial: 0,)),
         );
       }
     } on AuthException catch (error) {

@@ -180,6 +180,8 @@ class Consultas{
 
   Future<int> obtenerIdGrupo(String nombre) async {
     var response = await supabase.from("grupos_amigos").select("*").eq("nombre", nombre);
+    print(response);
+    print(response[0]["id"]);
     return response[0]["id"];
   }
   Future<List<GrupoAmigos>> ObtenerGrupos() async {
@@ -198,7 +200,7 @@ class Consultas{
           responsecreador[0]["num_eventos"],
         );
 
-        GrupoAmigos grupo = GrupoAmigos(group["nombre"], creador);
+        GrupoAmigos grupo = GrupoAmigos(group["nombre"], creador, group["descripcion"]);
         grupo.amigos = [];
 
         // Utilizar group["participantes"] en lugar de response["participantes"]
@@ -276,6 +278,28 @@ class Consultas{
           .update({ 'participantes': participantes })
           .match({ 'id': id });
     }
+  }
+
+  Future<List<Evento>> EventosGrupo(String nombre) async {
+    var response = await supabase.from("eventos").select("*").eq("usuario", nombre);
+    List<Evento> eventos = [];
+    for (var item in response) {
+      List<Filtro> filtros = [Filtro(1, item["filtro"]), Filtro(2, item["filtro2"])];
+      Type tipo = Type(1, item["tipo"]);
+      eventos.add(Evento(item["id"], item["nombre"], tipo , item["descripcion"], "0", filtros, item["fechainicio"]+" "+ item["horainicio"],item["fechafin"]+" "+ item["horafin"],item["lugar"],item["usuario"] ));
+      //print(eventos[0].name + eventos[0].fechaHoraFin+"llamada");
+    }
+    return eventos;
+  }
+
+  Future<void> EditGrupo(int id, String descripcion)async{
+    var group = await supabase.from("grupos_amigos").select("*").eq("id", id);
+    if(group.isNotEmpty){
+      print("entro");
+      await supabase.from("grupos_amigos").update({'descripcion' : descripcion}).match({'id':id});
+
+    }
+
   }
 }
 

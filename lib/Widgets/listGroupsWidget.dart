@@ -17,7 +17,7 @@ class ListGroupsWidget extends StatelessWidget {
       scrollDirection: Axis.vertical,
       itemCount: groups.length,
       itemBuilder: (context, index) {
-        return groupsWidget(grupo: groups[index]);
+        return GroupsWidget(grupo: groups[index]);
       },
     );
   }

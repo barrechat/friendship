@@ -19,7 +19,8 @@ import 'package:friendship/Pages/perfil.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class Home extends StatefulWidget {
-  const Home({super.key});
+  late int indiceInicial;
+   Home({super.key, required this.indiceInicial});
 
   @override
   HomeState createState() => HomeState();
@@ -111,7 +112,7 @@ class HomeState extends State<Home> {
     super.initState();
     initUniLinks();
     sleep(Duration(milliseconds: 1000));
-
+    actualPage = widget.indiceInicial;
     obtenerEventos();
   }
 
