@@ -222,7 +222,7 @@ class _PerfilState extends State<Perfil> {
     );
   }
 
-  bool verTrofeos = false;
+  bool verTrofeos = true;
   bool mostrarQR = false;
   bool mostrarEnlace = false;
 
@@ -242,6 +242,7 @@ class _PerfilState extends State<Perfil> {
         ],
       ),
       body: Container(
+        color: Color(0xFFECC8FD),
         child: Column(
           children: [
             Expanded(
@@ -285,10 +286,34 @@ class _PerfilState extends State<Perfil> {
             ),
             Expanded(
             child: Container(
+              decoration: const BoxDecoration(
                 color: Colors.white,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(25),
+                  topRight: Radius.circular(25),
+                ),
+              ),
                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
+
                       children: [
+                        SizedBox(height: 25),
+                        Align(
+                          alignment: Alignment.topLeft,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              UserData.usuarioLog!.username,
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 32,
+                                fontFamily: 'Google Sans',
+                                fontWeight: FontWeight.w700,
+                                height: 0.03,
+                              ),
+                          ),
+                        ),
+                        ),
+            SizedBox(height: 20),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -302,9 +327,16 @@ class _PerfilState extends State<Perfil> {
                   },
                   child: Column(
                     children: [
-                      Icon(Icons.emoji_events), // Cambia por el icono deseado
+                      Icon(
+                          Icons.emoji_events,
+                          color: verTrofeos ? Color(0xFFECC8FD) : Colors.black
+                      ), // Cambia por el icono deseado
                       SizedBox(height: 8),
-                      Text('Trofeos'), // Texto para el botón
+                      Text(
+                          'Trofeos',
+                        style: TextStyle(
+                          color: verTrofeos ? Color(0xFFECC8FD) : Colors.black,
+                        ),), // Texto para el botón
                     ],
                   ),
                 ),
@@ -318,9 +350,17 @@ class _PerfilState extends State<Perfil> {
                   },
                   child: Column(
                     children: [
-                      Icon(Icons.qr_code), // Cambia por el icono deseado
+                      Icon(
+                          Icons.qr_code,
+                          color: mostrarQR ? Color(0xFFECC8FD) : Colors.black
+                      ), // Cambia por el icono deseado
                       SizedBox(height: 8),
-                      Text('QR'), // Texto para el botón
+                      Text(
+                          'QR',
+                        style: TextStyle(
+                          color: mostrarQR ? Color(0xFFECC8FD) : Colors.black,
+                        ),
+                      ), // Texto para el botón
                     ],
                   ),
                 ),
@@ -334,9 +374,17 @@ class _PerfilState extends State<Perfil> {
                   },
                   child: Column(
                     children: [
-                      Icon(Icons.link), // Cambia por el icono deseado
+                      Icon(
+                          Icons.link,
+                          color: mostrarEnlace ? Color(0xFFECC8FD) : Colors.black
+                      ), // Cambia por el icono deseado
                       SizedBox(height: 8),
-                      Text('Enlace'), // Texto para el botón
+                      Text(
+                          'Enlace',
+                          style: TextStyle(
+                            color: mostrarEnlace ? Color(0xFFECC8FD) : Colors.black,
+                          ),
+                      ), // Texto para el botón
                     ],
                   ),
                 ),
