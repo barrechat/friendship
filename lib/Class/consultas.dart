@@ -164,12 +164,18 @@ class Consultas{
   }
   Future<int> generarNumeroAleatorioUnico(String tabla) async {
     final Random random = Random();
+    final String columna;
+    if(tabla=='usuarios'){
+      columna = 'telefono';
+    } else {
+      columna = 'id';
+    }
     int numeroAleatorio;
     do {
       // Genera un número aleatorio entre 0 y 9999999
       numeroAleatorio = random.nextInt(10000000);
       // Verifica si el número ya existe en la base de datos
-      final response = await supabase.from(tabla).select().eq('id', numeroAleatorio);
+      final response = await supabase.from(tabla).select().eq(columna, numeroAleatorio);
       if (response.toString() != '[]') {
         // Si el número ya existe, vuelve a intentarlo
         numeroAleatorio = -1; // Puedes establecer cualquier valor que no sea un número válido
@@ -227,10 +233,11 @@ class Consultas{
   }
 
 
-  /*Future<int>*/ void addGrupoAmigos(String nombre, String descripcion,user.User creador) async {
+  void addGrupoAmigos(String nombre, String descripcion,user.User creador) async {
     int id = await generarNumeroAleatorioUnico("gruposamigos");
+    int id2 = await generarNumeroAleatorioUnico("usuarios");
     print("crear");
-    var response = await supabase
+    await supabase
         .from("gruposamigos")
         .upsert([
       {
@@ -242,9 +249,16 @@ class Consultas{
       }
     ]);
     addAmigoAGrupoAmigos(id,creador);
-    print(response);
+
+    await supabase
+        .from("usuarios")
+        .upsert([
+      {
+        "telefono": id2,
+        "username": nombre,
+      }
+    ]);
     //supabase.from("usuarios").insert(values)
-    //return id;
   }
   Future<void> addAmigoAGrupoAmigos(int id, user.User nuevo) async {
     var group = await supabase.from("gruposamigos").select("*").eq("id", id);

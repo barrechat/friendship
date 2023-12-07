@@ -21,7 +21,8 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 class Home extends StatefulWidget {
   late int indiceInicial;
   late bool isFriendGroup;
-   Home({super.key, required this.indiceInicial, required this.isFriendGroup});
+  late String? grupoAmigos;
+   Home({super.key, required this.indiceInicial, required this.isFriendGroup, this.grupoAmigos});
 
   @override
   HomeState createState() => HomeState();
@@ -49,7 +50,7 @@ class HomeState extends State<Home> {
       Day(),
       Planes(),
       FriendList(),
-      createEvent(isFriendGroup: widget.isFriendGroup,),
+      createEvent(isFriendGroup: widget.isFriendGroup,grupoAmigos: widget.grupoAmigos),
       Search(),
       Perfil()
     ];

@@ -232,7 +232,7 @@ class GroupPageState extends State<GroupPage> {
                                   child: ElevatedButton(
                                     onPressed: () {
                                       Navigator.of(context).pushReplacement(
-                                        MaterialPageRoute(builder: (context) => Home(indiceInicial: 4,isFriendGroup: true,)),
+                                        MaterialPageRoute(builder: (context) => Home(indiceInicial: 3,isFriendGroup: true,grupoAmigos: widget.group.name,)),
                                       );
                                     },
                                     child: const Icon(Icons.add),

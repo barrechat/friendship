@@ -12,7 +12,8 @@ import 'package:friendship/Pages/home.dart';
 
 class createEvent extends StatefulWidget {
   final bool isFriendGroup;
-  const createEvent({Key? key, required this.isFriendGroup}) : super(key: key);
+  final String? grupoAmigos;
+  const createEvent({Key? key, required this.isFriendGroup, this.grupoAmigos}) : super(key: key);
 
   @override
   State<createEvent> createState() => _createEventState();
@@ -66,7 +67,7 @@ class _createEventState extends State<createEvent> {
                 Navigator.of(context).pop();
                 if(titulo == 'Evento añadido'){
                   Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(builder: (context) => Home(indiceInicial: 1,isFriendGroup: false,)),
+                    MaterialPageRoute(builder: (context) => Home(indiceInicial: 1,isFriendGroup: false,grupoAmigos: '',)),
                   );
                 }
               },
@@ -264,6 +265,12 @@ class _createEventState extends State<createEvent> {
                         String horaFinalFormateada = "${horaFinal?.format(context)}:00";
                         filtro = asignarFiltro(1);
                         filtro2 = asignarFiltro(2);
+                        String usuario = '';
+                        if(widget.isFriendGroup && widget.grupoAmigos != ''){
+                          usuario = widget.grupoAmigos!;
+                        } else {
+                          usuario = UserData.usuarioLog!.username;
+                        }
                         await supabase
                             .from('eventos')
                             .insert({
@@ -271,7 +278,7 @@ class _createEventState extends State<createEvent> {
                           'nombre': nombreDelEvento,
                           'tipo': tipoEvento,
                           'descripcion': descripcionDelEvento,
-                          'usuario': UserData.usuarioLog?.username,
+                          'usuario': usuario,
                           'fechainicio': fechaFormateada,
                           'horainicio': horaFormateada,
                           'lugar': lugar,
