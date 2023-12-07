@@ -121,7 +121,7 @@ class GroupPageState extends State<GroupPage> {
           icon: Icon(Icons.arrow_back),
           onPressed: () {
             Navigator.of(context).pushReplacement(
-              MaterialPageRoute(builder: (context) => Home(indiceInicial: 2,)),
+              MaterialPageRoute(builder: (context) => Home(indiceInicial: 2,isFriendGroup: false,)),
             );
           },
         ),
@@ -230,7 +230,11 @@ class GroupPageState extends State<GroupPage> {
                                 Container(
                                   alignment: Alignment.centerRight,
                                   child: ElevatedButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      Navigator.of(context).pushReplacement(
+                                        MaterialPageRoute(builder: (context) => Home(indiceInicial: 4,isFriendGroup: true,)),
+                                      );
+                                    },
                                     child: const Icon(Icons.add),
                                   ),
                                 )

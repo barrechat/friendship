@@ -11,7 +11,8 @@ import 'package:friendship/Class/usernameAuxiliar.dart';
 import 'package:friendship/Pages/home.dart';
 
 class createEvent extends StatefulWidget {
-  const createEvent({super.key});
+  final bool isFriendGroup;
+  const createEvent({Key? key, required this.isFriendGroup}) : super(key: key);
 
   @override
   State<createEvent> createState() => _createEventState();
@@ -65,7 +66,7 @@ class _createEventState extends State<createEvent> {
                 Navigator.of(context).pop();
                 if(titulo == 'Evento añadido'){
                   Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(builder: (context) => Home(indiceInicial: 1,)),
+                    MaterialPageRoute(builder: (context) => Home(indiceInicial: 1,isFriendGroup: false,)),
                   );
                 }
               },

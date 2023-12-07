@@ -20,7 +20,8 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 class Home extends StatefulWidget {
   late int indiceInicial;
-   Home({super.key, required this.indiceInicial});
+  late bool isFriendGroup;
+   Home({super.key, required this.indiceInicial, required this.isFriendGroup});
 
   @override
   HomeState createState() => HomeState();
@@ -48,7 +49,7 @@ class HomeState extends State<Home> {
       Day(),
       Planes(),
       FriendList(),
-      createEvent(),
+      createEvent(isFriendGroup: widget.isFriendGroup,),
       Search(),
       Perfil()
     ];
@@ -83,6 +84,7 @@ class HomeState extends State<Home> {
                   unselectedItemColor: Colors.grey,
                   onTap: (index) {
                     setState(() {
+                      widget.isFriendGroup = false;
                       actualPage = index;
                     });
                   },

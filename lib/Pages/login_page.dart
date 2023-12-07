@@ -58,7 +58,7 @@ class _LoginPageState extends State<LoginPage> {
         userData.construirUsuarioPorEmail(UserData.emailActual);
 
         Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => Home(indiceInicial: 0,)),
+          MaterialPageRoute(builder: (context) => Home(indiceInicial: 0,isFriendGroup: false,)),
         );
       }
     });
@@ -78,7 +78,7 @@ class _LoginPageState extends State<LoginPage> {
 
         _isRedirecting = true;
         Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => Home(indiceInicial: 0,)),
+          MaterialPageRoute(builder: (context) => Home(indiceInicial: 0,isFriendGroup: false,)),
         );
       }
     } on AuthException catch (error) {

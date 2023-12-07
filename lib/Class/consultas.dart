@@ -179,14 +179,14 @@ class Consultas{
   }
 
   Future<int> obtenerIdGrupo(String nombre) async {
-    var response = await supabase.from("grupos_amigos").select("*").eq("nombre", nombre);
+    var response = await supabase.from("gruposamigos").select("*").eq("nombre", nombre);
     print(response);
     print(response[0]["id"]);
     return response[0]["id"];
   }
   Future<List<GrupoAmigos>> ObtenerGrupos() async {
     print("inicio");
-    var response = await supabase.from("grupos_amigos").select("*").contains("participantes", [UserData.usuarioLog?.username]);
+    var response = await supabase.from("gruposamigos").select("*").contains("participantes", [UserData.usuarioLog?.username]);
     List<GrupoAmigos> grupos = [];
 
     if (response.isNotEmpty) {
@@ -227,21 +227,27 @@ class Consultas{
   }
 
 
-  Future<int> addGrupoAmigos(String nombre, String descripcion,user.User creador) async {
-    int id = await generarNumeroAleatorioUnico("grupos_amigos");
+  /*Future<int>*/ void addGrupoAmigos(String nombre, String descripcion,user.User creador) async {
+    int id = await generarNumeroAleatorioUnico("gruposamigos");
     print("crear");
-    supabase.from("grupos_amigos").insert({
-      "id":id,
-      "nombre": nombre,
-      "participantes":"[${creador.username}]",
-      "creador" : creador.username,
-      "descripcion": descripcion,
-    });
+    var response = await supabase
+        .from("gruposamigos")
+        .upsert([
+      {
+        "id": id,
+        "nombre": nombre,
+        "participantes": [],
+        "creador": creador.username,
+        "descripcion": descripcion,
+      }
+    ]);
+    addAmigoAGrupoAmigos(id,creador);
+    print(response);
     //supabase.from("usuarios").insert(values)
-    return id;
+    //return id;
   }
   Future<void> addAmigoAGrupoAmigos(int id, user.User nuevo) async {
-    var group = await supabase.from("grupos_amigos").select("*").eq("id", id);
+    var group = await supabase.from("gruposamigos").select("*").eq("id", id);
     var participantes ;
     if (group.isNotEmpty) {
       var grupo = group[0];
@@ -253,13 +259,13 @@ class Consultas{
 
     }
       await supabase
-          .from('grupos_amigos')
+          .from('gruposamigos')
           .update({ 'participantes': participantes })
           .match({ 'id': id });
       }
     }
   Future<void> rmAmigoDeGrupoAmigos(int id, user.User eliminado) async {
-    var group = await supabase.from("grupos_amigos").select("*").eq("id", id);
+    var group = await supabase.from("gruposamigos").select("*").eq("id", id);
     var participantes ;
     if (group.isNotEmpty) {
       var grupo = group[0];
@@ -274,7 +280,7 @@ class Consultas{
 
       }
       await supabase
-          .from('grupos_amigos')
+          .from('gruposamigos')
           .update({ 'participantes': participantes })
           .match({ 'id': id });
     }
@@ -293,10 +299,10 @@ class Consultas{
   }
 
   Future<void> EditGrupo(int id, String descripcion)async{
-    var group = await supabase.from("grupos_amigos").select("*").eq("id", id);
+    var group = await supabase.from("gruposamigos").select("*").eq("id", id);
     if(group.isNotEmpty){
       print("entro");
-      await supabase.from("grupos_amigos").update({'descripcion' : descripcion}).match({'id':id});
+      await supabase.from("gruposamigos").update({'descripcion' : descripcion}).match({'id':id});
 
     }
 
