@@ -30,12 +30,8 @@ class _PerfilState extends State<Perfil> {
       "https://peaoifidogwgoxzrpjft.supabase.co/storage/v1/object/public/avatares/avatar.png";
   bool notificationEnabled = true;
   String selectedLanguage = 'Español';
-  final String trofeo1Imagen =
-      "https://peaoifidogwgoxzrpjft.supabase.co/storage/v1/object/public/avatares/trofeo.png?t=2023-11-26T17%3A45%3A04.380Z";
-  final String trofeo25Imagen =
-      "https://peaoifidogwgoxzrpjft.supabase.co/storage/v1/object/public/avatares/trofeo25.png?t=2023-11-26T19%3A01%3A34.675Z";
-  final String trofeo50Imagen =
-      "https://peaoifidogwgoxzrpjft.supabase.co/storage/v1/object/public/avatares/trofeo50.png?t=2023-11-26T19%3A05%3A48.647Z";
+  final String trofeoImagen =
+      "https://peaoifidogwgoxzrpjft.supabase.co/storage/v1/object/public/avatares/trofeo.png?t=2023-12-10T18%3A29%3A10.900Z";
   final String noTrofeoImagen =
       "https://peaoifidogwgoxzrpjft.supabase.co/storage/v1/object/public/avatares/noTrofeo.png?t=2023-11-26T18%3A17%3A57.454Z";
 
@@ -53,17 +49,17 @@ class _PerfilState extends State<Perfil> {
 
   void mostrarTrofeos(int eventosCreados) {
     if (eventosCreados >= 1) {
-      trofeo1 = trofeo1Imagen;
+      trofeo1 = trofeoImagen;
     } else {
       trofeo1 = noTrofeoImagen;
     }
     if (eventosCreados >= 25) {
-      trofeo2 = trofeo25Imagen;
+      trofeo2 = trofeoImagen;
     } else {
       trofeo2 = noTrofeoImagen;
     }
     if (eventosCreados >= 50) {
-      trofeo3 = trofeo50Imagen;
+      trofeo3 = trofeoImagen;
     } else {
       trofeo3 = noTrofeoImagen;
     }

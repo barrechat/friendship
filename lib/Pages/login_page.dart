@@ -88,6 +88,14 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
+  TextStyle commonTextStyle = TextStyle(
+    color: Color(0xFF555555),
+    fontSize: 12,
+    fontFamily: 'Google Sans',
+    fontWeight: FontWeight.w400,
+    height: 0.09,
+  );
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -98,38 +106,60 @@ class _LoginPageState extends State<LoginPage> {
             child: Form(
               key: _KeyForm,
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  //logo
-                  const SizedBox(height: 35,),
-                  const Icon(Icons.lock, size: 100 ),
-                  const SizedBox(height: 30,),
-                  //bienvenido de nuevo, te hemos extrañado
-                  Text(
-                    'Bienvenido de nuevo, te hemos extrañado',
-                    style: TextStyle(
-                      color: Colors.grey[800],
-                      fontSize: 16,
+                Image.network(
+                'https://peaoifidogwgoxzrpjft.supabase.co/storage/v1/object/public/avatares/monigote.png?t=2023-12-10T18%3A51%3A09.428Z',
+                height: 230,
+                width: 230,
+                ),
+                  SizedBox(
+                    width: 255,
+                    child: Text(
+                      '¡Bienvenido a Friend.ship!',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 36,
+                        fontFamily: 'Google Sans',
+                        fontWeight: FontWeight.w700,
+                      ),
                     ),
                   ),
-                  const SizedBox(height: 30,),
-                  //username textfield
-                  MyTextField(
-                      controller: usernameController,
-                      hintText: 'username@correo.es',
-                      obscureText: false,
+                  const SizedBox(height: 50,),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(left: 35.0), // Ajusta el valor según sea necesario
+                        child: Text(
+                          'Correo electrónico',
+                          textAlign: TextAlign.left,
+                          style: commonTextStyle,
+                        ),
+                      ),
+                      const SizedBox(height: 10,),
+                      MyTextField(
+                        controller: usernameController,
+                        hintText: 'username@correo.es',
+                        obscureText: false,
+                      ),
+                      const SizedBox(height: 20,),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 35.0), // Ajusta el valor según sea necesario
+                        child: Text(
+                          'Contraseña',
+                          style: commonTextStyle,
+                        ),
+                      ),
+                      const SizedBox(height: 10,),
+                      MyTextField(
+                        controller: passwordController,
+                        hintText: '********',
+                        obscureText: true,
+                      ),
+                    ],
                   ),
-                  const SizedBox(height: 20,),
-                  //password textfield
-                  MyTextField(
-                      controller: passwordController,
-                      hintText: '********',
-                      obscureText: true,
-                  ),
-                  const SizedBox(height: 20,),
-                  //forgot password?
-                  const SizedBox(height: 25,),
-                  //sign in button
+                  const SizedBox(height: 50,),
                   GestureDetector(
                     onTap: () async {
                       if(_KeyForm.currentState!.validate()) {
@@ -137,23 +167,31 @@ class _LoginPageState extends State<LoginPage> {
                       }
                     },
                     child: Container(
-                      padding: const EdgeInsets.all(25),
-                      margin: const EdgeInsets.symmetric(horizontal: 40.0),
-                      decoration: BoxDecoration(
-                        color: Colors.black,
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: Center(
-                        child: Text(
-                          "Sign In",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16,
-                          ),
+                      width: 170,
+                      height: 50,
+                      padding: const EdgeInsets.symmetric(horizontal: 34, vertical: 17),
+                      clipBehavior: Clip.antiAlias,
+                      decoration: ShapeDecoration(
+                        color: Color(0xFFD287F6),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(71),
                         ),
                       ),
-                    ),
+                      child: Center(
+                        child:
+                          Text(
+                            'Iniciar Sesión',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: Color(0xFF530577),
+                              fontSize: 14,
+                              fontFamily: 'Google Sans',
+                              fontWeight: FontWeight.w500,
+                              height: 0.08,
+                            ),
+                          ),
+                      ),
+                    )
                   ),
                   const SizedBox(height: 25,),
                   //O continuar con
@@ -194,7 +232,7 @@ class _LoginPageState extends State<LoginPage> {
                         child: const Text(
                           'Hazte una cuenta en 2 minutos!',
                           style: TextStyle(
-                            color: Colors.blue,
+                            color: Color(0xFFD287F6),
                             fontWeight: FontWeight.bold,
                           ),
                         ),
