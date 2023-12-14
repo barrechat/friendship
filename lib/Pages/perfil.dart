@@ -27,7 +27,8 @@ class _PerfilState extends State<Perfil> {
     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBlYW9pZmlkb2d3Z294enJwamZ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTY2MDExNDcsImV4cCI6MjAxMjE3NzE0N30.xPOHo3wz93O9S0kWU9gbGofVWlFOZuA7JB9UMAMoBbA',
   );
   String avatar =
-      "https://peaoifidogwgoxzrpjft.supabase.co/storage/v1/object/public/avatares/avatar.png";
+      'https://peaoifidogwgoxzrpjft.supabase.co/storage/v1/object/public/avatares/monigote.png?t=2023-12-10T18%3A51%3A09.428Z'
+  ;
   bool notificationEnabled = true;
   String selectedLanguage = 'Español';
   final String trofeoImagen =
@@ -101,18 +102,19 @@ class _PerfilState extends State<Perfil> {
             mainAxisSize: MainAxisSize.min,
             children: [
               ListTile(
-                title: Text('Hombre'),
+                title: Text('Astronauta'),
                 onTap: () {
                   cambiarAvatar(
-                      'https://peaoifidogwgoxzrpjft.supabase.co/storage/v1/object/public/avatares/avatar.png');
+                    'https://peaoifidogwgoxzrpjft.supabase.co/storage/v1/object/public/avatares/monigote.png?t=2023-12-10T18%3A51%3A09.428Z',
+                  );
                   Navigator.pop(context);
                 },
               ),
               ListTile(
-                title: Text('Mujer'),
+                title: Text('Astronauta con gorro'),
                 onTap: () {
                   cambiarAvatar(
-                      'https://peaoifidogwgoxzrpjft.supabase.co/storage/v1/object/public/avatares/avatarmujer.png?t=2023-11-28T10%3A25%3A42.756Z');
+                      "https://peaoifidogwgoxzrpjft.supabase.co/storage/v1/object/public/avatares/ASTRONAUTAGORRO%201.png");
                   Navigator.pop(context);
                 },
               ),
@@ -254,8 +256,8 @@ class _PerfilState extends State<Perfil> {
                         },
                         child: Image.network(
                           avatar,
-                          height: 100,
-                          width: 100,
+                          height: 250,
+                          width: 250,
                         ),
                       ),
                     ),
