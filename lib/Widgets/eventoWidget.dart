@@ -61,6 +61,7 @@ class EventoWidget extends StatelessWidget {
                     softWrap: true,
                   ),
                 ),
+                SizedBox(height: 22),
                 Container(
                   color: makeColorLighter(colorSeleccionado),
                   child : Row(
@@ -87,7 +88,6 @@ class EventoWidget extends StatelessWidget {
                     ],
                   ),
                 ),
-                SizedBox(height: 15,)
               ],
             ),
           ),
