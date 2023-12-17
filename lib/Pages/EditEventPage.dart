@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:friendship/Class/filtro.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -29,6 +30,7 @@ class _CreateEventPageState extends State<CreateEventPage> {
   String musicaImagen = 'https://peaoifidogwgoxzrpjft.supabase.co/storage/v1/object/public/filtros/musica.png?t=2023-12-03T15%3A37%3A42.658Z';
   String ocioImagen = 'https://peaoifidogwgoxzrpjft.supabase.co/storage/v1/object/public/filtros/ocio.png?t=2023-12-03T15%3A37%3A58.385Z';
 
+  bool isExpanded = false;
 
   final supabase = SupabaseClient(
     'https://peaoifidogwgoxzrpjft.supabase.co',
@@ -39,6 +41,66 @@ class _CreateEventPageState extends State<CreateEventPage> {
     setState(() {
       backgroundColor = color;  // Puedes cambiar esto a cualquier color que desees
     });
+  }
+
+  String capitalize(String input) {
+    if (input.isEmpty) return input;
+    return input[0].toUpperCase() + input.substring(1);
+  }
+
+  void _showDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Filtros'),
+          content: IntrinsicHeight(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Column(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(height: 20),
+                    Image.network(
+                      obtenerImagenFiltro(widget.event.filtros.first.nombre),
+                      width: 60,
+                      height: 60,
+                    ),
+                    SizedBox(height: 10),
+                    Text(capitalize(widget.event.filtros.first.nombre)),
+                  ],
+                ),
+                SizedBox(width: 50),
+                Column(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(height: 20),
+                    Image.network(
+                      obtenerImagenFiltro(widget.event.filtros.last.nombre),
+                      width: 60,
+                      height: 60,
+                    ),
+                    SizedBox(height: 10),
+                    Text(capitalize(widget.event.filtros.last.nombre)),
+                  ],
+                ),
+              ],
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('Ok'),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   void changeCirculoColor(Color color) {
@@ -191,78 +253,97 @@ class _CreateEventPageState extends State<CreateEventPage> {
                             ),
                           ),
                           SizedBox(height: 20.0),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Column(
+                              Row(
                                 children: [
-                                  Container(
-                                    width: 60,
-                                    height: 60,
-                                    padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 3),
-                                    decoration: ShapeDecoration(
-                                      color: backgroundColor,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(31),
+                                  Column(
+                                    children: [
+                                      Container(
+                                        width: 60,
+                                        height: 60,
+                                        padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 3),
+                                        decoration: ShapeDecoration(
+                                          color: backgroundColor,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(31),
+                                          ),
+                                        ),
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                          children: [
+                                            Icon(Icons.calendar_month, size: 40, color: circuloColor,),
+                                          ],
+                                        ),
                                       ),
-                                    ),
-                                    child: Column(
-                                      mainAxisSize: MainAxisSize.min,
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      crossAxisAlignment: CrossAxisAlignment.center,
-                                      children: [
-                                        Icon(Icons.calendar_month, size: 40, color: circuloColor,),
                                       ],
-                                    ),
                                   ),
-                                  SizedBox(height: 10,),
-                                  Container(
-                                    width: 60,
-                                    height: 60,
-                                    padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 3),
-                                    decoration: ShapeDecoration(
-                                      color: backgroundColor,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(31),
+                                  SizedBox(width: 20.0),
+                                  Row(
+                                    children: [
+                                      Text(widget.event.fechaInicio,
+                                          style: TextStyle(fontSize: 20.0)
                                       ),
-                                    ),
-                                    child: Column(
-                                      mainAxisSize: MainAxisSize.min,
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      crossAxisAlignment: CrossAxisAlignment.center,
-                                      children: [
-                                        Icon(Icons.timer_sharp, size: 40, color: circuloColor,),
-                                      ],
-                                    ),
+                                      SizedBox(width: 10.0),
+                                      Text('-',
+                                          style: TextStyle(fontSize: 20.0)
+                                      ),
+                                      SizedBox(width: 10.0),
+                                      Text(widget.event.fechaFin,
+                                          style: TextStyle(fontSize: 20.0)
+                                      ),
+                                    ],
                                   ),
                                 ],
                               ),
-                              SizedBox(width: 40.0),
-                              Column(
+                          SizedBox(height: 20,),
+                              Row(
                                 children: [
-                                  Text(widget.event.fechaInicio,
+                                  Column(
+                                    children: [
+                                      Container(
+                                        width: 60,
+                                        height: 60,
+                                        padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 3),
+                                        decoration: ShapeDecoration(
+                                          color: backgroundColor,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(31),
+                                          ),
+                                        ),
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                          children: [
+                                            Icon(Icons.timer_sharp, size: 40, color: circuloColor,),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(width: 30.0),
+                                  Column(
+                                    children: [
+                                      Text(widget.event.horaInicio,
+                                          style: TextStyle(fontSize: 20.0)
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(width: 25.0),
+                                  Text('-',
                                       style: TextStyle(fontSize: 20.0)
                                   ),
-                                  SizedBox(height: 40,),
-                                  Text(widget.event.horaInicio,
-                                      style: TextStyle(fontSize: 20.0)
+                                  SizedBox(width: 22.0),
+                                  Column(
+                                    children: [
+                                      Text(widget.event.horaFin,
+                                          style: TextStyle(fontSize: 20.0)
+                                      ),
+                                    ],
                                   ),
                                 ],
                               ),
-                              SizedBox(width: 40.0),
-                              Column(
-                                children: [
-                                  Text(widget.event.fechaFin,
-                                      style: TextStyle(fontSize: 20.0)
-                                  ),
-                                  SizedBox(height: 40,),
-                                  Text(widget.event.horaFin,
-                                      style: TextStyle(fontSize: 20.0)
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
                           SizedBox(height: 10,),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.start,
@@ -286,25 +367,49 @@ class _CreateEventPageState extends State<CreateEventPage> {
                                   ],
                                 ),
                               ),
-                              SizedBox(width: 50.0),
+                              SizedBox(width: 26.0),
                               Text(widget.event.lugar,
                                   style: TextStyle(fontSize: 20.0)
                               ),
-                              SizedBox(width: 33,),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
+                              SizedBox(width: 37,),
+                              Column(
                                 children: [
-                                  Image.network(
-                                    obtenerImagenFiltro(widget.event.filtros.first.nombre),
-                                    width: 60,
-                                    height: 60,
-                                  ),
-                                  SizedBox(width: 10,),
-                                  Image.network(
-                                    obtenerImagenFiltro(widget.event.filtros.last.nombre),
-                                    width: 60,
-                                    height: 60,
-                                  ),
+                                  GestureDetector(
+                                    onTap: () {
+                                      _showDialog(context);
+                                    },
+                                    child: Container(
+                                      width: 150,
+                                      height: 80,
+                                      padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 3),
+                                      decoration: ShapeDecoration(
+                                        color: backgroundColor,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(15),
+                                          side: BorderSide(
+                                            color: circuloColor, // Color del borde
+                                            width: 2.0, // Ancho del borde
+                                          ),
+                                        ),
+                                      ),
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Image.network(
+                                            obtenerImagenFiltro(widget.event.filtros.first.nombre),
+                                            width: 60,
+                                            height: 60,
+                                          ),
+                                          SizedBox(width: 10,),
+                                          Image.network(
+                                            obtenerImagenFiltro(widget.event.filtros.last.nombre),
+                                            width: 60,
+                                            height: 60,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  )
                                 ],
                               ),
                             ],
