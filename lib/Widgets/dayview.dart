@@ -40,7 +40,7 @@ class _DayViewState extends State<Day> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => CreateEventPage(event: eventoActual),
+            builder: (context) => CreateEventPage(event: eventoActual, esCalendario: true,),
           ),
         );
       },

@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:friendship/Class/evento.dart';
 import 'package:friendship/Widgets/filtroWidget.dart';
 
+import '../Class/consultas.dart';
+import '../Pages/EditEventPage.dart';
+
 class EventoWidget extends StatelessWidget {
   final Evento evento;
 
@@ -39,7 +42,15 @@ class EventoWidget extends StatelessWidget {
     }
     Color colorSeleccionado = getColor();
     return GestureDetector(
-      onLongPress: () {},
+      onTap: () async {
+        Evento eventoActual = await Consultas().obtenerEventoNombre(evento.name);
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => CreateEventPage(event: eventoActual, esCalendario: false,),
+          ),
+        );
+      },
       child: Container(
         width: width,
         height: (width / 1.618),

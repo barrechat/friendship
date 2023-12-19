@@ -3,10 +3,12 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:friendship/Class/consultas.dart';
 import 'package:friendship/Class/grupo-amigos.dart';
+import '../Class/appbar.dart';
 import '../Class/evento.dart';
 import '../Class/user.dart';
 import '../Widgets/listEventos.dart';
 import 'home.dart';
+import 'package:provider/provider.dart' as provider;
 
 class GroupPage extends StatefulWidget {
   final GrupoAmigos group;
@@ -231,6 +233,20 @@ class GroupPageState extends State<GroupPage> {
                                   alignment: Alignment.centerRight,
                                   child: ElevatedButton(
                                     onPressed: () {
+                                      provider.Provider.of<AppBarProvider>(context, listen: false).updateAppBar(
+                                        AppBar(title: Text("Crear Evento"), centerTitle: true,
+                                          flexibleSpace: Container(
+                                            decoration: BoxDecoration(
+                                              border: Border(
+                                                bottom: BorderSide(
+                                                  color: Colors.grey[300]!, // Color del borde sombreado
+                                                  width: 3.0, // Ancho del borde
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      );
                                       Navigator.of(context).pushReplacement(
                                         MaterialPageRoute(builder: (context) => Home(indiceInicial: 3,isFriendGroup: true,grupoAmigos: widget.group.name,)),
                                       );

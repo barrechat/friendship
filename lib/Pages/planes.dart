@@ -21,7 +21,7 @@ class PlanesState extends State<Planes> {
       children: [
         const SizedBox(
           height: 50,
-          child: Text("recomendados",  style: TextStyle(
+          child: Text("Recomendados",  style: TextStyle(
             fontSize: 25,
             fontWeight: FontWeight.bold,
           ),
@@ -44,6 +44,7 @@ class PlanesState extends State<Planes> {
             }
           },
         ),
+        const SizedBox(height: 40,),
         const SizedBox(
           height: 50,
           child: Text("Pendientes",  style: TextStyle(

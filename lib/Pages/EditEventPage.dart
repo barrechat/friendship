@@ -6,12 +6,14 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../Class/consultas.dart';
 import '../Class/evento.dart';
+import '../Class/usernameAuxiliar.dart';
 import '../Pages/home.dart';
 
 class CreateEventPage extends StatefulWidget {
   final Evento event;
+  final bool esCalendario;
 
-  const CreateEventPage({Key? key, required this.event}) : super(key: key);
+  const CreateEventPage({Key? key, required this.event, required this.esCalendario}) : super(key: key);
 
   @override
   _CreateEventPageState createState() => _CreateEventPageState();
@@ -161,6 +163,26 @@ class _CreateEventPageState extends State<CreateEventPage> {
     );
   }
 
+  void _dialogoEventoAjeno(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Aviso'),
+          content: Text('No eres el creador de este evento, no puedes modificarlo'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Cierra el diálogo
+              },
+              child: Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -168,16 +190,24 @@ class _CreateEventPageState extends State<CreateEventPage> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
-            Navigator.of(context).pushReplacement(
-              MaterialPageRoute(builder: (context) => Home(indiceInicial: 0,isFriendGroup: false,)),
-            );
+            if(widget.esCalendario == true){
+              Navigator.of(context).pushReplacement(
+                MaterialPageRoute(builder: (context) => Home(indiceInicial: 0,isFriendGroup: false,)),
+              );
+            } else {
+              Navigator.of(context).pop();
+            }
           },
         ),
         actions: [
           IconButton(
             icon: Icon(Icons.delete, color: Color(0xFFC62828),),
             onPressed: () {
-              mostrarDialogo(context);
+              if(widget.event.userName == UserData.usuarioLog!.username){
+                mostrarDialogo(context);
+              } else {
+                _dialogoEventoAjeno(context);
+              }
             },
           ),
         ],
@@ -229,7 +259,11 @@ class _CreateEventPageState extends State<CreateEventPage> {
                                     )),
                                 ElevatedButton(
                                   onPressed: () {
-                                    _saveChanges();
+                                    if(widget.event.userName == UserData.usuarioLog!.username){
+                                      _saveChanges();
+                                    } else {
+                                      _dialogoEventoAjeno(context);
+                                    }
                                   },
                                   child: Icon(isEditingDescription
                                       ? Icons.save_alt

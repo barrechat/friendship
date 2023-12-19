@@ -43,7 +43,7 @@ class GroupsWidget extends StatelessWidget {
           borderRadius: BorderRadius.circular(25),
         ),
         child: GestureDetector(
-          onDoubleTap: () {
+          onTap: () {
             Navigator.of(context).pushReplacement(
               MaterialPageRoute(builder: (context) => GroupPage(group: grupo)),
             );

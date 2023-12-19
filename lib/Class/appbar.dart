@@ -5,7 +5,20 @@ class AppBarProvider extends ChangeNotifier {
 
   AppBarProvider() {
     // Asigna un valor predeterminado la primera vez que se inicia
-    _appBar = AppBar(title: Text("Eventos"), centerTitle: true,);
+    _appBar = AppBar(title:
+      Text("Eventos"),
+        centerTitle: true,
+        flexibleSpace: Container(
+        decoration: BoxDecoration(
+          border: Border(
+            bottom: BorderSide(
+              color: Colors.grey[300]!, // Color del borde sombreado
+              width: 3.0, // Ancho del borde
+            ),
+          ),
+        ),
+      ),
+    );
   }
 
   AppBar? get appBar => _appBar;

@@ -60,34 +60,7 @@ class RecomendacionPage extends StatelessWidget {
                       }
                     },
                   ),
-                  const SizedBox(
-                    height: 50,
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 20),
-                      child: Text("Segun tus preferencias",
-                        style: TextStyle(
-                          fontSize: 25,
-                          fontWeight: FontWeight.bold,
-                          fontFamily: 'Google Sans',
-                        ),
-                      ),
-                    ),
-                  ),
-                  FutureBuilder<List<Evento>>(
-                    future: Consultas().EventosFiltro1(filtro1: "fiesta"),
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return CircularProgressIndicator();
-                      } else if (snapshot.hasError) {
-                        return Text('Error: ${snapshot.error}');
-                      } else {
-                        List<Evento> eventos = snapshot.data ?? [];
-                        return Center(
-                          child: EventosWidget(eventos: eventos),
-                        );
-                      }
-                    },
-                  ),
+                  const SizedBox(height: 80,),
                   const SizedBox(
                     height: 50,
                     child: Padding(

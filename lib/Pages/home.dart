@@ -92,27 +92,82 @@ class HomeState extends State<Home> {
                       switch (index) {
                         case 0:
                           provider.Provider.of<AppBarProvider>(context, listen: false).updateAppBar(
-                            AppBar(title: Text("Eventos"), centerTitle: true,),
+                            AppBar(title: Text("Eventos"), centerTitle: true,
+                              flexibleSpace: Container(
+                              decoration: BoxDecoration(
+                                border: Border(
+                                  bottom: BorderSide(
+                                    color: Colors.grey[300]!, // Color del borde sombreado
+                                    width: 3.0, // Ancho del borde
+                                  ),
+                                ),
+                              ),
+                            ),
+                            ),
                           );
                           break;
                         case 1:
                           provider.Provider.of<AppBarProvider>(context, listen: false).updateAppBar(
-                            AppBar(title: Text("Sugerencias"), centerTitle: true,),
+                            AppBar(title: Text("Sugerencias"), centerTitle: true,
+                              flexibleSpace: Container(
+                                decoration: BoxDecoration(
+                                  border: Border(
+                                    bottom: BorderSide(
+                                      color: Colors.grey[300]!, // Color del borde sombreado
+                                      width: 3.0, // Ancho del borde
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
                           );
                           break;
                         case 2:
                           provider.Provider.of<AppBarProvider>(context, listen: false).updateAppBar(
-                            AppBar(title: Text("Grupos de amigos"), centerTitle: true,),
+                            AppBar(title: Text("Grupos de amigos"), centerTitle: true,
+                              flexibleSpace: Container(
+                                decoration: BoxDecoration(
+                                  border: Border(
+                                    bottom: BorderSide(
+                                      color: Colors.grey[300]!, // Color del borde sombreado
+                                      width: 3.0, // Ancho del borde
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
                           );
                           break;
                         case 3:
                           provider.Provider.of<AppBarProvider>(context, listen: false).updateAppBar(
-                            AppBar(title: Text("Crear Evento"), centerTitle: true,),
+                            AppBar(title: Text("Crear Evento"), centerTitle: true,
+                              flexibleSpace: Container(
+                                decoration: BoxDecoration(
+                                  border: Border(
+                                    bottom: BorderSide(
+                                      color: Colors.grey[300]!, // Color del borde sombreado
+                                      width: 3.0, // Ancho del borde
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
                           );
                           break;
                         case 4:
                           provider.Provider.of<AppBarProvider>(context, listen: false).updateAppBar(
-                            AppBar(title: Text("Buscar Eventos"), centerTitle: true,),
+                            AppBar(title: Text("Buscar Eventos"), centerTitle: true,
+                              flexibleSpace: Container(
+                                decoration: BoxDecoration(
+                                  border: Border(
+                                    bottom: BorderSide(
+                                      color: Colors.grey[300]!, // Color del borde sombreado
+                                      width: 3.0, // Ancho del borde
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
                           );
                           break;
                         case 5:
@@ -120,7 +175,18 @@ class HomeState extends State<Home> {
                           break;
                         default:
                           provider.Provider.of<AppBarProvider>(context, listen: false).updateAppBar(
-                            AppBar(title: Text("Eventos"), centerTitle: true,),
+                            AppBar(title: Text("Eventos"), centerTitle: true,
+                              flexibleSpace: Container(
+                                decoration: BoxDecoration(
+                                  border: Border(
+                                    bottom: BorderSide(
+                                      color: Colors.grey[300]!, // Color del borde sombreado
+                                      width: 3.0, // Ancho del borde
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
                           );
                       }
 

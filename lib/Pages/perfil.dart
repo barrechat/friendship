@@ -230,6 +230,16 @@ class _PerfilState extends State<Perfil> {
       appBar: AppBar(
         title: Text("Perfil"),
         centerTitle: true,
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            border: Border(
+              bottom: BorderSide(
+                color: Colors.grey[300]!, // Color del borde sombreado
+                width: 3.0, // Ancho del borde
+              ),
+            ),
+          ),
+        ),
         actions: [
           IconButton(
             icon: Icon(Icons.settings),
