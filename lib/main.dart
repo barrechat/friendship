@@ -11,11 +11,8 @@ import 'package:uni_links/uni_links.dart';
 
 import 'Class/evento.dart';
 import 'Class/filtro.dart';
-import 'Class/type.dart';
-import 'Widgets/eventoWidget.dart';
-import 'Widgets/eventoWidgetBusqueda.dart';
-import 'Widgets/listEventos.dart';
-import 'Widgets/listEventosPendientes.dart';
+import 'Class/appbar.dart';
+import 'package:provider/provider.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,7 +22,10 @@ Future<void> main() async {
     anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBlYW9pZmlkb2d3Z294enJwamZ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTY2MDExNDcsImV4cCI6MjAxMjE3NzE0N30.xPOHo3wz93O9S0kWU9gbGofVWlFOZuA7JB9UMAMoBbA',
     authFlowType: AuthFlowType.pkce,
   );
-  runApp(MyApp(navigatorKey));
+  runApp(ChangeNotifierProvider(
+    create: (context) => AppBarProvider(),
+    child: MyApp(navigatorKey),
+  ),);
 }
 
 final supabase = Supabase.instance.client;

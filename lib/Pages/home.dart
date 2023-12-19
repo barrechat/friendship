@@ -9,6 +9,7 @@ import 'package:friendship/Pages/perfil.dart';
 import 'package:friendship/Pages//create-event.dart';
 import 'package:friendship/Class//compartir_enlace.dart';
 import 'package:friendship/Pages/searching.dart';
+import 'package:friendship/Pages/perfil.dart';
 import 'package:friendship/Widgets/dayview.dart';
 import 'package:uni_links/uni_links.dart';
 import 'package:friendship/Class/pantalla_confirmacion.dart';
@@ -17,6 +18,9 @@ import 'package:friendship/Class/consultas.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:friendship/Pages/perfil.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:provider/provider.dart' as provider;
+
+import '../Class/appbar.dart';
 
 class Home extends StatefulWidget {
   late int indiceInicial;
@@ -39,7 +43,6 @@ class HomeState extends State<Home> {
     'https://peaoifidogwgoxzrpjft.supabase.co',
     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBlYW9pZmlkb2d3Z294enJwamZ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTY2MDExNDcsImV4cCI6MjAxMjE3NzE0N30.xPOHo3wz93O9S0kWU9gbGofVWlFOZuA7JB9UMAMoBbA',
   );
-
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +80,7 @@ class HomeState extends State<Home> {
             },
           ),
           home: Scaffold(
-              appBar: AppBar(title: const Text("friend.ship")),
+              appBar: provider.Provider.of<AppBarProvider>(context).appBar,
               body: pages[actualPage],
               bottomNavigationBar: BottomNavigationBar(
                   fixedColor: Colors.black,
@@ -85,6 +88,42 @@ class HomeState extends State<Home> {
                   unselectedItemColor: Colors.grey,
                   onTap: (index) {
                     setState(() {
+
+                      switch (index) {
+                        case 0:
+                          provider.Provider.of<AppBarProvider>(context, listen: false).updateAppBar(
+                            AppBar(title: Text("Eventos"), centerTitle: true,),
+                          );
+                          break;
+                        case 1:
+                          provider.Provider.of<AppBarProvider>(context, listen: false).updateAppBar(
+                            AppBar(title: Text("Sugerencias"), centerTitle: true,),
+                          );
+                          break;
+                        case 2:
+                          provider.Provider.of<AppBarProvider>(context, listen: false).updateAppBar(
+                            AppBar(title: Text("Grupos de amigos"), centerTitle: true,),
+                          );
+                          break;
+                        case 3:
+                          provider.Provider.of<AppBarProvider>(context, listen: false).updateAppBar(
+                            AppBar(title: Text("Crear Evento"), centerTitle: true,),
+                          );
+                          break;
+                        case 4:
+                          provider.Provider.of<AppBarProvider>(context, listen: false).updateAppBar(
+                            AppBar(title: Text("Buscar Eventos"), centerTitle: true,),
+                          );
+                          break;
+                        case 5:
+                          provider.Provider.of<AppBarProvider>(context, listen: false).clearAppBar();
+                          break;
+                        default:
+                          provider.Provider.of<AppBarProvider>(context, listen: false).updateAppBar(
+                            AppBar(title: Text("Eventos"), centerTitle: true,),
+                          );
+                      }
+
                       widget.isFriendGroup = false;
                       actualPage = index;
                     });
