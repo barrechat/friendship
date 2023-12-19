@@ -39,59 +39,91 @@ class EventoWidget extends StatelessWidget {
     }
     Color colorSeleccionado = getColor();
     return GestureDetector(
-        onLongPress: () {},
-        child: Container(
-          width: width,
-          height: (width / 1.618),
-          child: Card(
-            color: colorSeleccionado,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                ListTile(
-                  title: Text(
-                    evento.name,
-                    style: const TextStyle(fontSize: 25),
+      onLongPress: () {},
+      child: Container(
+        width: width,
+        height: (width / 1.618),
+        child: Card(
+          elevation: 5,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15.0),
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Expanded(
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: colorSeleccionado,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(15.0),
+                      topRight: Radius.circular(15.0),
+                    ),
                   ),
-                  subtitle: Text(
-                    evento.descripcion,
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 2,
-                    softWrap: true,
+                  child: SingleChildScrollView(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        ListTile(
+                          title: Text(
+                            evento.name,
+                            style: const TextStyle(fontSize: 25),
+                          ),
+                          subtitle: Text(
+                            evento.descripcion,
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 2,
+                            softWrap: true,
+                          ),
+                        ),
+                        SizedBox(height: 22),
+                      ],
+                    ),
                   ),
                 ),
-                SizedBox(height: 22),
-                Container(
-                  color: makeColorLighter(colorSeleccionado),
-                  child : Row(
+              ),
+              ClipRRect(
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(15.0),
+                  bottomRight: Radius.circular(15.0),
+                ),
+                child: Container(
+                  height: 40, // Altura de la franja
+                  color: makeColorLighter(colorSeleccionado), // Color de la franja
+                  child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: <Widget>[
-                      Row(children: <Widget>[
-                        FiltroWidget(filtro: evento.filtros[0]),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        FiltroWidget(filtro: evento.filtros[1])
-                      ]),
+                      Row(
+                        children: <Widget>[
+                          FiltroWidget(filtro: evento.filtros[0]),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          FiltroWidget(filtro: evento.filtros[1])
+                        ],
+                      ),
                       Container(
-                          padding: const EdgeInsets.only(left: 30),
-                          child: IconButton(
-                            style: const ButtonStyle(
-                              backgroundColor:
-                              MaterialStatePropertyAll(Colors.black12),
-                            ),
-                            onPressed: () => {},
-                            icon: const Center(child: Icon(Icons.share_rounded)),
-                          )),
-
+                        padding: const EdgeInsets.only(left: 30),
+                        child: IconButton(
+                          style: const ButtonStyle(
+                            backgroundColor:
+                            MaterialStatePropertyAll(Colors.black12),
+                          ),
+                          onPressed: () => {},
+                          icon: const Center(
+                              child: Icon(Icons.share_rounded)),
+                        ),
+                      ),
                     ],
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
-        )
+        ),
+      ),
     );
   }
 }
