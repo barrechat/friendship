@@ -253,7 +253,7 @@ class _CreateEventPageState extends State<CreateEventPage> {
                                     child: Text(
                                       widget.event.name,
                                       style: const TextStyle(
-                                        fontSize: 35,
+                                        fontSize: 28,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     )),

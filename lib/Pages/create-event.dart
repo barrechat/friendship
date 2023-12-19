@@ -9,6 +9,8 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:friendship/Widgets/dateTimePicker.dart';
 import 'package:friendship/Class/usernameAuxiliar.dart';
 import 'package:friendship/Pages/home.dart';
+import 'package:provider/provider.dart' as provider;
+import 'package:friendship/Class/appbar.dart';
 
 class createEvent extends StatefulWidget {
   final bool isFriendGroup;
@@ -40,6 +42,10 @@ class _createEventState extends State<createEvent> {
   String musica = 'https://peaoifidogwgoxzrpjft.supabase.co/storage/v1/object/public/filtros/musica.png?t=2023-12-03T15%3A37%3A42.658Z';
   String ocio = 'https://peaoifidogwgoxzrpjft.supabase.co/storage/v1/object/public/filtros/ocio.png?t=2023-12-03T15%3A37%3A58.385Z';
 
+  String textoNoEditable = 'YYYY-MM-DD';
+  String textoHoraInicio = 'HH:MM';
+  String textoHoraFin = 'HH:MM';
+
   List<String> selectedImages = [];
 
   void toggleImageSelection(String imagePath) {
@@ -51,6 +57,24 @@ class _createEventState extends State<createEvent> {
           selectedImages.add(imagePath);
         }
       }
+    });
+  }
+
+  void cambiarTexto(String texto) {
+    setState(() {
+      textoNoEditable = texto; // Cambia el texto cuando sea necesario
+    });
+  }
+
+  void cambiarHoraIni(String texto) {
+    setState(() {
+      textoHoraInicio = texto; // Cambia el texto cuando sea necesario
+    });
+  }
+
+  void cambiarHoraFin(String texto) {
+    setState(() {
+      textoHoraFin = texto; // Cambia el texto cuando sea necesario
     });
   }
 
@@ -66,8 +90,22 @@ class _createEventState extends State<createEvent> {
               onPressed: () {
                 Navigator.of(context).pop();
                 if(titulo == 'Evento añadido'){
+                  provider.Provider.of<AppBarProvider>(context, listen: false).updateAppBar(
+                    AppBar(title: Text("Eventos"), centerTitle: true,
+                      flexibleSpace: Container(
+                        decoration: BoxDecoration(
+                          border: Border(
+                            bottom: BorderSide(
+                              color: Colors.grey[300]!, // Color del borde sombreado
+                              width: 3.0, // Ancho del borde
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  );
                   Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(builder: (context) => Home(indiceInicial: 1,isFriendGroup: false,grupoAmigos: '',)),
+                    MaterialPageRoute(builder: (context) => Home(indiceInicial: 0,isFriendGroup: false,grupoAmigos: '',)),
                   );
                 }
               },
@@ -108,40 +146,61 @@ class _createEventState extends State<createEvent> {
         ResponsiveBreakpoint.autoScale(1700, name: 'XL'),
       ],
       child: Material(
-        child: SingleChildScrollView(
-          child: Column(
+        child: GestureDetector(
+          onTap: () {
+          // Oculta el teclado al tocar fuera de cualquier campo de texto
+          FocusScope.of(context).unfocus();
+          },
+          child:SingleChildScrollView(
+            child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               SizedBox(height: 10.0),
-              Text("Nombre del evento",
-                  style: TextStyle(fontSize: 20.0)
+              Column(
+                children: [
+                  Text("Nombre del evento",
+                      style: TextStyle(fontSize: 20.0)
+                  ),
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 20.0),
+                    child: TextFormField(
+                      decoration: InputDecoration(
+                        contentPadding: EdgeInsets.symmetric(horizontal: 10.0), // O ajusta según sea necesario
+                      ),
+                      maxLength: 20,
+                      onChanged: (text){
+                        nombreDelEvento = text;
+                      },
+                    ),
+                  ),
+                  Text("Descripción del evento",
+                      style: TextStyle(fontSize: 20.0)
+                  ),
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 20.0),
+                    child: TextFormField(
+                      decoration: InputDecoration(
+                        contentPadding: EdgeInsets.symmetric(horizontal: 10.0), // O ajusta según sea necesario
+                      ),
+                      onChanged: (text){
+                        descripcionDelEvento = text;
+                      },
+                    ),
+                  ),
+                ],
               ),
-              TextFormField(
-                onChanged: (text){
-                  nombreDelEvento = text;
-                },
-              ),
-              SizedBox(height: 10.0),
-              Text("Descripción del evento",
-                  style: TextStyle(fontSize: 20.0)
-              ),
-              TextFormField(
-                onChanged: (text){
-                  descripcionDelEvento = text;
-                },
-              ),
-              SizedBox(height: 10.0),
+              SizedBox(height: 20.0),
               Text("Fecha y hora del evento",
                   style: TextStyle(fontSize: 20.0)
               ),
               SizedBox(height: 10.0),
               Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.start,
                   children:[
-
-                    ElevatedButton(
-                      onPressed: () async {
+                    SizedBox(width: 10,),
+                    GestureDetector(
+                      onTap: () async {
                         final DateTime? escogida = await showDatePicker(
                           context: context,
                           initialDate: DateTime.now(), firstDate: DateTime.now(),
@@ -149,80 +208,160 @@ class _createEventState extends State<createEvent> {
                         );
                         if(escogida != null){
                           fechaEscogida = escogida;
-                        }
-                      },
-                      child: const Text('Fecha inicial'),
-                    ),
-                    SizedBox(width: 40.0),
-                    ElevatedButton(
-                      onPressed: () async {
-                        final DateTime? escogida = await showDatePicker(
-                          context: context,
-                          initialDate: DateTime.now(), firstDate: DateTime.now(),
-                          lastDate: DateTime.now().add(Duration(days: 365)),
-                        );
-                        if(escogida != null){
                           fechaEscogida_final = escogida;
+                          cambiarTexto(DateFormat('yyyy-MM-dd').format(escogida).toString());
                         }
                       },
-                      child: const Text('Fecha final'),
+                      child: Row(
+                        children: [
+                          Container(
+                            width: 50,
+                            height: 50,
+                            padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 3),
+                            decoration: ShapeDecoration(
+                              color: Color(0xFFECC8FD),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(31),
+                              ),
+                            ),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Icon(Icons.calendar_month, size: 40, color: Color(0xFF530577),),
+                              ],
+                            ),
+                          ),
+                          SizedBox(width: 10.0),
+                          Text(
+                            textoNoEditable,
+                            style: TextStyle(fontSize: 20.0),
+                          ),
+                        ],
+                      ),
                     ),
                   ]
               ),
-
+              SizedBox(height: 10,),
               Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children:[
-                    ElevatedButton(
-                        onPressed: () async{
-                          horaInicial = await showTimePicker(
-                              context: context,
-                              initialTime:horaInicial ?? TimeOfDay(hour: DateTime.now().hour, minute: DateTime.now().minute)
-                          );
-                        },
-                        child: const Text('Escoger hora inicial')
+                    SizedBox(width: 10,),
+                    GestureDetector(
+                      onTap: () async {
+                        horaInicial = await showTimePicker(
+                            context: context,
+                            initialTime:horaInicial ?? TimeOfDay(hour: DateTime.now().hour, minute: DateTime.now().minute)
+                        );
+                        cambiarHoraIni(horaInicial!.format(context).toString());
+                      },
+                      child: Row(
+                        children: [
+                          Container(
+                            width: 50,
+                            height: 50,
+                            padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 3),
+                            decoration: ShapeDecoration(
+                              color: Color(0xFFECC8FD),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(31),
+                              ),
+                            ),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Icon(Icons.access_time, size: 40, color: Color(0xFF530577),),
+                              ],
+                            ),
+                          ),
+                          SizedBox(width: 10.0),
+                          Text(
+                            'Inicio: ' + textoHoraInicio,
+                            style: TextStyle(fontSize: 20.0),
+                          ),
+                        ],
+                      ),
                     ),
-                    SizedBox(width: 40.0),
-                    ElevatedButton(
-                      onPressed: () async{
+                    SizedBox(width: 20.0),
+                    GestureDetector(
+                      onTap: () async {
                         horaFinal = await showTimePicker(
                             context: context,
                             initialTime:horaFinal ?? TimeOfDay(hour: DateTime.now().hour, minute: DateTime.now().minute)
                         );
+                        cambiarHoraFin(horaFinal!.format(context).toString());
                       },
-                      child: const Text('Escoger hora final '),
+                      child: Row(
+                        children: [
+                          Container(
+                            width: 50,
+                            height: 50,
+                            padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 3),
+                            decoration: ShapeDecoration(
+                              color: Color(0xFFECC8FD),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(31),
+                              ),
+                            ),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Icon(Icons.access_time, size: 40, color: Color(0xFF530577),),
+                              ],
+                            ),
+                          ),
+                          SizedBox(width: 10.0),
+                          Text(
+                            'Fin: ' + textoHoraFin,
+                            style: TextStyle(fontSize: 20.0),
+                          ),
+                        ],
+                      ),
                     ),
                   ]
               ),
-              SizedBox(height: 10.0),
-              Text("Seleccionar lugar del evento",
-                  style: TextStyle(fontSize: 20.0)
+              SizedBox(height: 20.0),
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 20.0),
+                child: DropdownButtonFormField<String>(
+                  decoration: InputDecoration(
+                    labelText: 'Seleccionar Lugar del Evento',
+                    contentPadding: EdgeInsets.symmetric(horizontal: 10.0), // O ajusta según sea necesario
+                  ),
+                    items: listaLugar.map((e){
+                      return DropdownMenuItem(
+                          child: Text(e),
+                          value: e
+                      );
+                    }).toList(),
+                    onChanged: (text){
+                      lugar = text;
+                    }
+                ),
               ),
-              DropdownButtonFormField(
-                  items: listaLugar.map((e){
-                    return DropdownMenuItem(
-                        child: Text(e),
-                        value: e
-                    );
-                  }).toList(),
-                  onChanged: (text){
-                    lugar = text;
-                  }
-              ),
-              SizedBox(height: 10.0),
-              Text("Seleccionar tipo de evento",
-                  style: TextStyle(fontSize: 20.0)
-              ),
-              DropdownButtonFormField(
-                  items: listaTipoEvento.map((e){
-                    return DropdownMenuItem(
-                        child: Text(e),
-                        value: e
-                    );
-                  }).toList(),
-                  onChanged: (text){
-                    tipoEvento = text;
-                  }
+              SizedBox(height: 20.0),
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 20.0),
+                child: DropdownButtonFormField<String>(
+                    decoration: InputDecoration(
+                      labelText: 'Seleccionar Tipo de Evento',
+                      contentPadding: EdgeInsets.symmetric(horizontal: 10.0), // O ajusta según sea necesario
+                    ),
+                    items: listaTipoEvento.map((e){
+                      return DropdownMenuItem(
+                          child: Text(e),
+                          value: e
+                      );
+                    }).toList(),
+                    onChanged: (text){
+                      tipoEvento = text;
+                    }
+                ),
               ),
               SizedBox(height: 10.0),
               Text("Seleccionar filtros",
@@ -243,7 +382,6 @@ class _createEventState extends State<createEvent> {
                   ],
                 ),
               ),
-              SizedBox(height: 5.0),
               ElevatedButton(
                 onPressed: () async {
                   try {
@@ -255,7 +393,7 @@ class _createEventState extends State<createEvent> {
                       int minutosTiempoIni = horaInicial!.hour * 60 + horaInicial!.minute;
                       int minutosTiempoFin = horaFinal!.hour * 60 + horaFinal!.minute;
                       if(minutosTiempoFin <= minutosTiempoIni){
-                        _showPopup(context, 'Error', 'La hora de fin no puede ser menor o igual que la fecha de inicio');
+                        _showPopup(context, 'Error', 'La hora de fin no puede ser menor o igual que la hora de inicio');
                       } else if (selectedImages.length < 2){
                         _showPopup(context, 'Error', 'Tienes que seleccionar 2 filtros');
                       } else {
@@ -300,6 +438,7 @@ class _createEventState extends State<createEvent> {
             ],
           ),
         ),
+      ),
       ),
     );
   }

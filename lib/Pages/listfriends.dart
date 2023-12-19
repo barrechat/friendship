@@ -4,6 +4,7 @@ import 'package:friendship/Class/consultas.dart';
 import '../Class/user.dart';
 import '../Class/usernameAuxiliar.dart';
 import '../Widgets/listGroupsWidget.dart';
+import 'package:friendship/Pages/home.dart';
 
 class FriendList extends StatefulWidget {
   const FriendList({super.key});
@@ -49,6 +50,7 @@ class _FriendListState extends State<FriendList> {
                               child: Column(
                                 children: [
                                   TextFormField(
+                                    maxLength: 20,
                                     controller: _titleController,
                                     decoration: InputDecoration(
                                       labelText: 'Título del Grupo',
@@ -69,7 +71,9 @@ class _FriendListState extends State<FriendList> {
                                 onPressed: () {
                                   print(UserData.usuarioLog!.username);
                                   Consultas().addGrupoAmigos(_titleController.text,_descriptionController.text, UserData.usuarioLog!);
-                                  Navigator.of(context).pop();
+                                  Navigator.of(context).pushReplacement(
+                                    MaterialPageRoute(builder: (context) => Home(indiceInicial: 2,isFriendGroup: false,)),
+                                  );
                                 },
                                 child: Text('Crear Grupo'),
                               ),

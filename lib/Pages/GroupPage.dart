@@ -163,7 +163,7 @@ class GroupPageState extends State<GroupPage> {
                                     child: Text(
                                       widget.group.name,
                                       style: const TextStyle(
-                                        fontSize: 35,
+                                        fontSize: 28,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     )),
